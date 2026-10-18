@@ -48,6 +48,7 @@
   .telecharger { display: inline-flex; align-items: center; gap: 12px; background: var(--scotch); color: var(--encre); font-weight: 700; font-size: 19px; padding: 16px 26px; border-radius: 6px; text-decoration: none; box-shadow: 0 2px 0 #B98A12; }
   .telecharger:hover { background: #F5C84D; }
   .telecharger svg { width: 22px; height: 22px; }
+  .compteur { margin: 14px 0 0; font: 700 24px/1.1 Caveat, cursive; color: var(--vert); }
   .precision { margin: 12px 0 0; font-size: 14px; color: var(--encre-douce); }
   .precision a { color: inherit; }
 
@@ -141,12 +142,17 @@
 <script>
   const LIENS = {
     // Page de téléchargement de la dernière version (GitHub Releases).
-    telechargement: 'sha256:8c4dc5994ca2f8d16df50a1b299156bc42df7aef76cc6c95363f44ff8d9021b0',
-    // Page de dons (HelloAsso, Ko-fi, PayPal…).
-    dons: 'paypal.me/amaurygiraud',
+    telechargement: 'https://github.com/VOTRE-COMPTE/cinelabs/releases/latest',
+    // Page de dons (PayPal).
+    dons: 'https://paypal.me/amaurygiraud',
     // Adresse de contact.
     contact: 'contact.astroboys@gmail.com',
+    // Statistiques de visites (GoatCounter, gratuit) : le nom choisi à l'inscription,
+    // par exemple 'cinelabs' pour cinelabs.goatcounter.com. Laisser '' pour ne rien compter.
+    goatcounter: '',
   };
+  // Le nombre de téléchargements s'affiche sous le bouton à partir de ce nombre.
+  const AFFICHER_TELECHARGEMENTS_A_PARTIR_DE = 10;
 </script>
 
 <div class="cadre">
@@ -168,6 +174,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16"/></svg>
           Télécharger pour Windows
         </a>
+        <p class="compteur" id="compteur" hidden></p>
         <p class="precision">Gratuit, pour Windows 10 et 11. Sur Mac ? <a href="#mac">Une version est en préparation.</a></p>
       </div>
 
@@ -296,6 +303,30 @@
     });
   });
   montrer(onglets[0]);
+
+  // Nombre de téléchargements : compté par GitHub pour chaque version de l'installateur.
+  (async () => {
+    const depot = /github\.com\/([^/]+)\/([^/]+)/.exec(LIENS.telechargement);
+    if (!depot || depot[1] === 'VOTRE-COMPTE') return;
+    try {
+      const r = await fetch(`https://api.github.com/repos/${depot[1]}/${depot[2]}/releases?per_page=100`);
+      if (!r.ok) return;
+      const total = (await r.json()).reduce((t, v) => t + v.assets.reduce((u, a) => u + a.download_count, 0), 0);
+      if (total < AFFICHER_TELECHARGEMENTS_A_PARTIR_DE) return;
+      const c = document.getElementById('compteur');
+      c.textContent = `Déjà téléchargé ${total.toLocaleString('fr-FR')} fois`;
+      c.hidden = false;
+    } catch { /* pas de réseau : on n'affiche rien */ }
+  })();
+
+  // Visites : GoatCounter (sans cookie, donc sans bandeau de consentement).
+  if (LIENS.goatcounter) {
+    const g = document.createElement('script');
+    g.async = true;
+    g.src = 'https://gc.zgo.at/count.js';
+    g.dataset.goatcounter = `https://${LIENS.goatcounter}.goatcounter.com/count`;
+    document.body.append(g);
+  }
   // Les images des autres étapes se chargent en avance, pour un changement immédiat.
   addEventListener('load', () => Object.values(ETAPES).forEach(e => { new Image().src = `images/${e.image}.webp`; }));
 </script>
