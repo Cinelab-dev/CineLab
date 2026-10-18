@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CinéLabs, le logiciel de production pour les courts-métrages</title>
+<meta name="description" content="Logiciel gratuit pour préparer et suivre un tournage : dépouillement, plan de travail, feuilles de service, rapports script, post-production. En français, sans abonnement, sans internet.">
+<meta property="og:title" content="CinéLabs, le logiciel de production pour les courts-métrages">
+<meta property="og:description" content="Du scénario aux festivals, en français, gratuit, et même sans internet.">
+<meta property="og:image" content="images/feuille-de-service.webp">
+<link rel="icon" href="images/icone.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --papier: #EEF1EE;
+    --encre: #1C2320;
+    --encre-douce: #4E5A55;
+    --ardoise: #2E3A36;
+    --craie: #EDEBE3;
+    --scotch: #F0B92B;
+    --vert: #3D6B5A;
+    --trait: #C9D1CC;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { margin: 0; background: var(--papier); color: var(--encre); font: 400 17px/1.6 Archivo, system-ui, sans-serif; font-variation-settings: "wdth" 100; }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: var(--vert); }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--scotch); outline-offset: 3px; }
+  .cadre { width: min(1120px, 100% - 32px); margin-inline: auto; }
+
+  /* ——— En-tête ——— */
+  .haut { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; }
+  .marque { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; text-decoration: none; color: var(--encre); font-variation-settings: "wdth" 112; }
+  .marque img { width: 34px; height: 34px; border-radius: 8px; }
+  .haut nav { display: flex; gap: 22px; font-size: 15px; }
+  .haut nav a { color: var(--encre-douce); text-decoration: none; }
+  .haut nav a:hover { color: var(--encre); text-decoration: underline; }
+
+  /* ——— Ouverture : le clap ——— */
+  .ouverture { display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; padding: 40px 0 72px; }
+  h1 { font-size: clamp(38px, 5.4vw, 64px); line-height: 1.02; margin: 0 0 20px; font-weight: 800; font-variation-settings: "wdth" 68; letter-spacing: -0.01em; }
+  .insecable { white-space: nowrap; }
+  .accroche { font-size: 19px; color: var(--encre-douce); max-width: 34em; margin: 0 0 28px; }
+  .telecharger { display: inline-flex; align-items: center; gap: 12px; background: var(--scotch); color: var(--encre); font-weight: 700; font-size: 19px; padding: 16px 26px; border-radius: 6px; text-decoration: none; box-shadow: 0 2px 0 #B98A12; }
+  .telecharger:hover { background: #F5C84D; }
+  .telecharger svg { width: 22px; height: 22px; }
+  .precision { margin: 12px 0 0; font-size: 14px; color: var(--encre-douce); }
+  .precision a { color: inherit; }
+
+  .clap { position: relative; transform: rotate(-2.5deg); filter: drop-shadow(0 18px 30px rgba(28, 35, 32, .28)); }
+  .clap-claquoir { height: 46px; border-radius: 6px 6px 0 0; transform-origin: 0 100%; transform: rotate(-9deg) translateY(-6px);
+    background: repeating-linear-gradient(115deg, var(--craie) 0 34px, var(--encre) 34px 68px); border: 3px solid var(--encre); }
+  .clap-bas { height: 22px; background: repeating-linear-gradient(115deg, var(--encre) 0 34px, var(--craie) 34px 68px); border: 3px solid var(--encre); border-top: 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    .clap-claquoir { animation: clap 1.1s cubic-bezier(.5, 0, .2, 1) .5s both; }
+    @keyframes clap { 0% { transform: rotate(-24deg) translateY(-6px); } 70% { transform: rotate(0deg) translateY(0); } 100% { transform: rotate(-9deg) translateY(-6px); } }
+  }
+  .ardoise { background: var(--ardoise); color: var(--craie); border: 3px solid var(--encre); border-top: 0; border-radius: 0 0 8px 8px; padding: 6px 0 0; }
+  .ardoise-titre { font: 700 46px/1 Caveat, cursive; padding: 10px 24px 14px; border-bottom: 2px solid rgba(237, 235, 227, .35); }
+  .ardoise dl { display: grid; grid-template-columns: 1fr 1fr; margin: 0; }
+  .ardoise div { padding: 10px 24px 12px; border-bottom: 2px solid rgba(237, 235, 227, .35); }
+  .ardoise div:nth-child(odd) { border-right: 2px solid rgba(237, 235, 227, .35); }
+  .ardoise div:nth-last-child(-n+2) { border-bottom: 0; }
+  .ardoise dt { font-size: 12px; font-weight: 600; letter-spacing: .04em; opacity: .7; font-variation-settings: "wdth" 120; }
+  .ardoise dd { margin: 0; font: 700 30px/1.15 Caveat, cursive; }
+
+  /* ——— Le parcours ——— */
+  section { padding: 72px 0; }
+  h2 { font-size: clamp(30px, 3.6vw, 42px); line-height: 1.1; margin: 0 0 14px; font-weight: 800; font-variation-settings: "wdth" 72; }
+  .intro { color: var(--encre-douce); max-width: 40em; margin: 0 0 32px; }
+  .parcours { border-top: 2px solid var(--encre); }
+  .etapes { display: grid; grid-template-columns: repeat(6, 1fr); list-style: none; margin: 0 0 24px; padding: 0; }
+  .etapes button { width: 100%; text-align: left; font: inherit; background: none; border: 0; border-bottom: 3px solid transparent; padding: 14px 12px 12px 0; cursor: pointer; color: var(--encre-douce); }
+  .etapes button span { display: block; font-size: 13px; font-weight: 700; font-variation-settings: "wdth" 120; }
+  .etapes button strong { display: block; font-size: 17px; line-height: 1.25; font-weight: 700; }
+  .etapes button[aria-selected="true"] { color: var(--encre); border-bottom-color: var(--scotch); }
+  .etapes button:hover { color: var(--encre); }
+  .ecran { display: grid; grid-template-columns: 2.1fr 1fr; gap: 36px; align-items: start; }
+  .ecran figure { margin: 0; border: 2px solid var(--encre); border-radius: 10px; overflow: hidden; background: #fff; }
+  .ecran h3 { margin: 4px 0 10px; font-size: 24px; line-height: 1.2; font-variation-settings: "wdth" 85; }
+  .ecran p { margin: 0 0 12px; color: var(--encre-douce); }
+
+  /* ——— Pourquoi ——— */
+  .atouts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0 40px; margin: 0; }
+  .atouts div { border-top: 1px solid var(--trait); padding: 18px 0 22px; }
+  .atouts dt { font-weight: 700; font-size: 19px; margin-bottom: 4px; }
+  .atouts dd { margin: 0; color: var(--encre-douce); }
+
+  /* ——— Installation ——— */
+  .installation { background: var(--ardoise); color: var(--craie); }
+  .installation h2 { color: var(--craie); }
+  .installation .intro { color: rgba(237, 235, 227, .8); }
+  .installation ol { margin: 0; padding: 0; list-style: none; counter-reset: pas; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .installation li { counter-increment: pas; }
+  .installation li::before { content: counter(pas); display: block; font: 700 54px/1 Caveat, cursive; color: var(--scotch); margin-bottom: 6px; }
+  .installation li strong { display: block; font-size: 19px; margin-bottom: 6px; }
+  .installation li p { margin: 0; color: rgba(237, 235, 227, .82); }
+  .smartscreen { margin-top: 40px; padding: 20px 24px; border: 2px dashed rgba(237, 235, 227, .45); border-radius: 8px; max-width: 760px; }
+  .smartscreen strong { color: var(--scotch); }
+  .installation a { color: var(--scotch); }
+
+  /* ——— Mac et dons ——— */
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+  .duo h2 { font-size: 32px; }
+  .duo p { color: var(--encre-douce); margin: 0 0 20px; }
+  .bouton-sobre { display: inline-block; font-weight: 700; padding: 12px 22px; border: 2px solid var(--encre); border-radius: 6px; color: var(--encre); text-decoration: none; }
+  .bouton-sobre:hover { background: var(--encre); color: var(--papier); }
+  .don { background: var(--scotch); border-color: var(--scotch); box-shadow: 0 2px 0 #B98A12; }
+  .don:hover { background: #F5C84D; color: var(--encre); }
+
+  footer { border-top: 2px solid var(--encre); padding: 28px 0 48px; font-size: 15px; color: var(--encre-douce); display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  footer p { margin: 0; }
+
+  @media (max-width: 900px) {
+    .ouverture { grid-template-columns: 1fr; gap: 48px; padding-top: 16px; }
+    .clap { max-width: 460px; }
+    .etapes { grid-template-columns: repeat(3, 1fr); }
+    .ecran { grid-template-columns: 1fr; gap: 20px; }
+    .installation ol, .duo { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .haut nav { display: none; }
+    .etapes { grid-template-columns: repeat(2, 1fr); }
+    .ardoise dd { font-size: 25px; }
+    .ardoise-titre { font-size: 38px; }
+    section { padding: 56px 0; }
+  }
+</style>
+</head>
+<body>
+
+<!--
+  ════════════════════════════════════════════════════════════════════
+  À MODIFIER : les trois liens de la page sont réglés ici, en un seul endroit.
+  ════════════════════════════════════════════════════════════════════
+-->
+<script>
+  const LIENS = {
+    // Page de téléchargement de la dernière version (GitHub Releases).
+    telechargement: 'https://github.com/VOTRE-COMPTE/cinelabs/releases/latest',
+    // Page de dons (HelloAsso, Ko-fi, PayPal…).
+    dons: 'https://www.helloasso.com/',
+    // Adresse de contact.
+    contact: 'contact.astroboys@gmail.com',
+  };
+</script>
+
+<div class="cadre">
+  <header class="haut">
+    <a class="marque" href="#"><img src="images/icone.png" alt="">CinéLabs</a>
+    <nav aria-label="Sur cette page">
+      <a href="#parcours">Le logiciel</a>
+      <a href="#installation">Installation</a>
+      <a href="#soutenir">Soutenir</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="ouverture">
+      <div>
+        <h1>Le logiciel de production pour les <span class="insecable">courts-métrages.</span></h1>
+        <p class="accroche">Du scénario aux festivals : dépouillement, plan de travail, feuilles de service, rapports script et post-production. En français, gratuit, et il marche même sans internet.</p>
+        <a class="telecharger" data-lien="telechargement" href="#">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16"/></svg>
+          Télécharger pour Windows
+        </a>
+        <p class="precision">Gratuit, pour Windows 10 et 11. Sur Mac ? <a href="#mac">Une version est en préparation.</a></p>
+      </div>
+
+      <div class="clap" aria-hidden="true">
+        <div class="clap-claquoir"></div>
+        <div class="clap-bas"></div>
+        <div class="ardoise">
+          <div class="ardoise-titre">CinéLabs</div>
+          <dl>
+            <div><dt>PROD.</dt><dd>la vôtre</dd></div>
+            <div><dt>RÉAL.</dt><dd>vous</dd></div>
+            <div><dt>SÉQ.</dt><dd>du scénario…</dd></div>
+            <div><dt>PRISE</dt><dd>…aux festivals</dd></div>
+            <div><dt>PRIX</dt><dd>0 €</dd></div>
+            <div><dt>INTERNET</dt><dd>facultatif</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <section id="parcours" class="parcours" aria-labelledby="titre-parcours">
+      <h2 id="titre-parcours">Tout le film, au même endroit</h2>
+      <p class="intro">Importez votre scénario (PDF, Final Draft ou Fountain) : CinéLabs le découpe en séquences, repère les personnages et vous accompagne à chaque étape.</p>
+
+      <ul class="etapes" role="tablist" aria-label="Les étapes d'une production">
+        <li><button role="tab" id="o-casting" aria-controls="ecran" aria-selected="true" data-etape="casting"><span>1</span><strong>Casting</strong></button></li>
+        <li><button role="tab" id="o-storyboard" aria-controls="ecran" aria-selected="false" tabindex="-1" data-etape="storyboard"><span>2</span><strong>Storyboard</strong></button></li>
+        <li><button role="tab" id="o-plan" aria-controls="ecran" aria-selected="false" tabindex="-1" data-etape="plan"><span>3</span><strong>Plan de travail</strong></button></li>
+        <li><button role="tab" id="o-feuille" aria-controls="ecran" aria-selected="false" tabindex="-1" data-etape="feuille"><span>4</span><strong>Feuilles de service</strong></button></li>
+        <li><button role="tab" id="o-plateau" aria-controls="ecran" aria-selected="false" tabindex="-1" data-etape="plateau"><span>5</span><strong>Au plateau</strong></button></li>
+        <li><button role="tab" id="o-post" aria-controls="ecran" aria-selected="false" tabindex="-1" data-etape="post"><span>6</span><strong>Post-production</strong></button></li>
+      </ul>
+
+      <div class="ecran" id="ecran" role="tabpanel" aria-labelledby="o-casting">
+        <figure><img id="ecran-image" src="images/casting.webp" width="1400" height="875" alt=""></figure>
+        <div>
+          <h3 id="ecran-titre"></h3>
+          <div id="ecran-texte"></div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="titre-atouts">
+      <h2 id="titre-atouts">Pensé pour les petites équipes</h2>
+      <p class="intro">CinéLabs est né sur des tournages associatifs, là où tout le monde fait trois métiers et où le budget tient dans une enveloppe.</p>
+      <dl class="atouts">
+        <div><dt>La langue du plateau</dt><dd>Feuilles de service, huitièmes de page, HMC, régie, rapports script : les documents que votre équipe connaît déjà.</dd></div>
+        <div><dt>Sans internet</dt><dd>Tout fonctionne hors connexion, même au fond d'une vallée. Les tablettes du plateau se branchent sur le wifi de l'ordinateur.</dd></div>
+        <div><dt>Vos données chez vous</dt><dd>Vos projets restent sur votre ordinateur, avec des sauvegardes automatiques. Pas de compte à créer.</dd></div>
+        <div><dt>Gratuit</dt><dd>Toutes les fonctions, sans limite de durée ni abonnement.</dd></div>
+      </dl>
+    </section>
+  </main>
+</div>
+
+<section id="installation" class="installation" aria-labelledby="titre-installation">
+  <div class="cadre">
+    <h2 id="titre-installation">Installer CinéLabs</h2>
+    <p class="intro">Une minute, sans rien d'autre à installer et sans droits d'administrateur.</p>
+    <ol>
+      <li><strong>Téléchargez l'installateur</strong><p>Le fichier <em>CineLabs-Installation-(version).exe</em>, sur la <a data-lien="telechargement" href="#">page de téléchargement</a>.</p></li>
+      <li><strong>Lancez-le</strong><p>Choisissez où ranger vos projets (par défaut, Documents\CinéLabs), puis cliquez sur Installer.</p></li>
+      <li><strong>Ouvrez CinéLabs</strong><p>Depuis le bureau ou le menu Démarrer. Le scénario d'exemple permet de tout essayer.</p></li>
+    </ol>
+    <p class="smartscreen"><strong>Windows affiche « Windows a protégé votre ordinateur » ?</strong> C'est normal pour un logiciel indépendant qui débute : cliquez sur <em>Informations complémentaires</em>, puis sur <em>Exécuter quand même</em>.</p>
+  </div>
+</section>
+
+<div class="cadre">
+  <section id="soutenir" class="duo" aria-label="Version Mac et soutien">
+    <div id="mac">
+      <h2>Une version Mac arrive</h2>
+      <p>CinéLabs fonctionne pour l'instant sur Windows. La version Mac est en préparation. Écrivez-nous pour être prévenu de sa sortie, ou pour nous aider à la tester.</p>
+      <a class="bouton-sobre" data-lien="contact-mac" href="#">Être prévenu</a>
+    </div>
+    <div>
+      <h2>Soutenir CinéLabs</h2>
+      <p>CinéLabs est gratuit et le restera. S'il vous rend service sur vos tournages, un don aide à le faire évoluer : nouvelles fonctions, version Mac, temps passé à répondre à vos questions.</p>
+      <a class="bouton-sobre don" data-lien="dons" href="#">Faire un don</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>CinéLabs est développé par Amaury Giraud et l'association MyAlienProduction.</p>
+    <p><a data-lien="contact" href="#">Nous écrire</a></p>
+  </footer>
+</div>
+
+<script>
+  // Les liens réglés en haut de la page.
+  const mail = (sujet) => `mailto:${LIENS.contact}?subject=${encodeURIComponent(sujet)}`;
+  const adresses = {
+    telechargement: LIENS.telechargement,
+    dons: LIENS.dons,
+    contact: mail('CinéLabs'),
+    'contact-mac': mail('CinéLabs pour Mac'),
+  };
+  document.querySelectorAll('[data-lien]').forEach(a => { a.href = adresses[a.dataset.lien]; });
+
+  // Les étapes : un clic (ou les flèches du clavier) change l'écran montré.
+  const ETAPES = {
+    casting: { image: 'casting', titre: 'Casting', texte: ["Les candidats, leurs photos et leurs essais, rôle par rôle.", "Convoquez-les par mail avec l'invitation pour leur agenda, puis retenez un comédien : il rejoint la distribution."] },
+    storyboard: { image: 'storyboard', titre: 'Storyboard', texte: ["Dessinez chaque plan du découpage au doigt ou au stylet, ou importez vos croquis et photos de repérage.", "Les cases prennent le format de votre film (1.85, 2.39, 16/9…) et les planches s'impriment."] },
+    plan: { image: 'plan-de-travail', titre: 'Plan de travail', texte: ["Glissez les séquences sur les jours de tournage.", "CinéLabs compte les pages, regroupe les décors et vous prévient quand un comédien ou un lieu n'est pas disponible."] },
+    feuille: { image: 'feuille-de-service', titre: 'Feuilles de service', texte: ["Remplies toutes seules à partir du plan de travail : horaires, comédiens, HMC, équipe, lieux, repas, hôpital le plus proche.", "Vous corrigez ce qu'il faut, puis vous l'envoyez à chacun par mail ou vous l'imprimez."] },
+    plateau: { image: 'tablette', titre: 'Au plateau, sur tablette', texte: ["La scripte remplit ses rapports sur tablette : prises, minutage, photos de raccord, même sans réseau.", "Le soir, le rapport de production part à la production en un clic."] },
+    post: { image: 'post-production', titre: 'Post-production', texte: ["Étapes et planning, versions de montage et retours, musiques et droits, générique, livrables et inscriptions en festival."] },
+  };
+  const onglets = [...document.querySelectorAll('[role="tab"]')];
+  function montrer(bouton, focus) {
+    const e = ETAPES[bouton.dataset.etape];
+    onglets.forEach(o => { const actif = o === bouton; o.setAttribute('aria-selected', actif); o.tabIndex = actif ? 0 : -1; });
+    document.getElementById('ecran').setAttribute('aria-labelledby', bouton.id);
+    const img = document.getElementById('ecran-image');
+    img.src = `images/${e.image}.webp`;
+    img.alt = `Capture d'écran de CinéLabs : ${e.titre.toLowerCase()}`;
+    document.getElementById('ecran-titre').textContent = e.titre;
+    document.getElementById('ecran-texte').replaceChildren(...e.texte.map(t => Object.assign(document.createElement('p'), { textContent: t })));
+    if (focus) bouton.focus();
+  }
+  onglets.forEach((o, i) => {
+    o.addEventListener('click', () => montrer(o));
+    o.addEventListener('keydown', ev => {
+      const sens = { ArrowRight: 1, ArrowLeft: -1 }[ev.key];
+      if (sens) { ev.preventDefault(); montrer(onglets[(i + sens + onglets.length) % onglets.length], true); }
+    });
+  });
+  montrer(onglets[0]);
+  // Les images des autres étapes se chargent en avance, pour un changement immédiat.
+  addEventListener('load', () => Object.values(ETAPES).forEach(e => { new Image().src = `images/${e.image}.webp`; }));
+</script>
+</body>
+</html>
