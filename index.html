@@ -115,6 +115,14 @@
   .don { background: var(--scotch); border-color: var(--scotch); box-shadow: 0 2px 0 #B98A12; }
   .don:hover { background: #F5C84D; color: var(--encre); }
 
+  .questions { border-top: 2px solid var(--encre); max-width: 820px; }
+  .questions details { border-bottom: 1px solid var(--trait); }
+  .questions summary { cursor: pointer; padding: 16px 0; font-weight: 700; font-size: 18px; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+  .questions summary::-webkit-details-marker { display: none; }
+  .questions summary::after { content: '+'; font-weight: 400; font-size: 24px; line-height: 1; color: var(--vert); }
+  .questions details[open] summary::after { content: '–'; }
+  .questions details p { margin: 0 0 18px; color: var(--encre-douce); max-width: 44em; }
+  .duo { border-top: 2px solid var(--encre); }
   footer { border-top: 2px solid var(--encre); padding: 28px 0 48px; font-size: 15px; color: var(--encre-douce); display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
   footer p { margin: 0; }
 
@@ -143,8 +151,8 @@
 -->
 <script>
   const LIENS = {
-    // Page de téléchargement de la dernière version (GitHub Releases).
-    telechargement: 'https://github.com/Cinelab-dev/CineLab/releases/download/CineLabs023/CineLabs-Installation-0.23.0.exe',
+    // Page des versions sur GitHub. Le bouton télécharge directement le dernier installateur (.exe) déposé.
+    telechargement: 'https://github.com/Cinelab-dev/CineLab/releases',
     // Page de dons (PayPal).
     dons: 'https://paypal.me/amaurygiraud',
     // Adresse de contact.
@@ -163,6 +171,7 @@
     <nav aria-label="Sur cette page">
       <a href="#parcours">Le logiciel</a>
       <a href="#installation">Installation</a>
+      <a href="#questions">Questions</a>
       <a href="#soutenir">Soutenir</a>
     </nav>
   </header>
@@ -246,6 +255,42 @@
 </section>
 
 <div class="cadre">
+  <section id="questions" class="questions" aria-labelledby="titre-questions">
+    <h2 id="titre-questions">Questions fréquentes</h2>
+    <details>
+      <summary>Pourquoi CinéLabs est-il gratuit ?</summary>
+      <p>Parce qu'il est né pour les tournages associatifs et les premiers films, là où chaque euro compte. Il est développé bénévolement ; si vous le pouvez, <a data-lien="dons" href="#">un don</a> aide à le faire évoluer.</p>
+    </details>
+    <details>
+      <summary>Où sont rangés mes projets ? Sont-ils envoyés quelque part ?</summary>
+      <p>Vos projets restent sur votre ordinateur, dans le dossier choisi à l'installation (par défaut Documents\CinéLabs). Rien n'est envoyé sur internet. CinéLabs fait une sauvegarde automatique chaque jour ; vous pouvez aussi en faire une à la main et la copier sur une clé USB.</p>
+    </details>
+    <details>
+      <summary>Faut-il internet pour s'en servir ?</summary>
+      <p>Non. Internet ne sert qu'à envoyer les feuilles de service par mail et à vérifier s'il existe une nouvelle version. Tout le reste marche hors connexion, même au plateau.</p>
+    </details>
+    <details>
+      <summary>Comment brancher les tablettes du plateau ?</summary>
+      <p>Sur l'ordinateur, ouvrez « Accès tablette », choisissez un mot de passe et activez l'accès. Les tablettes et téléphones connectés au même wifi que l'ordinateur scannent le QR code affiché : ils ouvrent CinéLabs dans leur navigateur, sans rien installer. Chaque membre de l'équipe peut avoir son compte, avec seulement les parties qui le concernent.</p>
+    </details>
+    <details>
+      <summary>Windows bloque l'installation, que faire ?</summary>
+      <p>Le message « Windows a protégé votre ordinateur » s'affiche pour les logiciels indépendants récents. Cliquez sur « Informations complémentaires », puis « Exécuter quand même ». L'installation ne demande pas de droits d'administrateur.</p>
+    </details>
+    <details>
+      <summary>Comment mettre CinéLabs à jour ?</summary>
+      <p>Depuis la version 0.24, CinéLabs vous prévient lui-même quand une nouvelle version sort. Téléchargez-la et lancez-la : elle remplace l'ancienne et garde tous vos projets.</p>
+    </details>
+    <details>
+      <summary>Quels scénarios peut-on importer ?</summary>
+      <p>Les PDF (exportés depuis Final Draft, Fade In, WriterDuet, Word…), les fichiers Final Draft (.fdx) et Fountain. Un PDF scanné (une photo de pages) ne peut pas être lu : il faut le fichier d'origine.</p>
+    </details>
+    <details>
+      <summary>J'ai trouvé un problème ou j'ai une idée.</summary>
+      <p>Dans CinéLabs, « Signaler un problème » (en bas de l'accueil) prépare un mail avec tout ce qu'il faut pour comprendre. Pour une idée, <a data-lien="contact" href="#">écrivez-nous</a> : les retours des équipes décident des prochaines fonctions.</p>
+    </details>
+  </section>
+
   <section id="soutenir" class="duo" aria-label="Version Mac et soutien">
     <div id="mac">
       <h2>Une version Mac arrive</h2>
@@ -260,8 +305,8 @@
   </section>
 
   <footer>
-    <p>CinéLabs est développé par Amaury Giraud.</p>
-    <p><a data-lien="contact" href="#">Nous écrire</a></p>
+    <p>CinéLabs est développé par Amaury Giraud et l'association MyAlienProduction.</p>
+    <p><a data-lien="contact" href="#">Nous écrire</a> <span aria-hidden="true">·</span> <a href="mentions-legales.html">Mentions légales</a></p>
   </footer>
 </div>
 
@@ -306,19 +351,23 @@
   });
   montrer(onglets[0]);
 
-  // Nombre de téléchargements : compté par GitHub pour chaque version de l'installateur.
+  // Le bouton télécharge directement l'installateur de la dernière version publiée,
+  // et la page affiche le nombre de téléchargements (comptés par GitHub).
   (async () => {
     const depot = /github\.com\/([^/]+)\/([^/]+)/.exec(LIENS.telechargement);
-    if (!depot || depot[1] === 'VOTRE-COMPTE') return;
+    if (!depot) return;
     try {
       const r = await fetch(`https://api.github.com/repos/${depot[1]}/${depot[2]}/releases?per_page=100`);
       if (!r.ok) return;
-      const total = (await r.json()).reduce((t, v) => t + v.assets.reduce((u, a) => u + a.download_count, 0), 0);
+      const versions = (await r.json()).filter(v => !v.draft);
+      const exe = versions.flatMap(v => v.assets).find(a => /\.exe$/i.test(a.name));
+      if (exe) document.querySelectorAll('[data-lien="telechargement"]').forEach(a => { a.href = exe.browser_download_url; });
+      const total = versions.reduce((t, v) => t + v.assets.filter(a => /\.exe$/i.test(a.name)).reduce((u, a) => u + a.download_count, 0), 0);
       if (total < AFFICHER_TELECHARGEMENTS_A_PARTIR_DE) return;
       const c = document.getElementById('compteur');
       c.textContent = `Déjà téléchargé ${total.toLocaleString('fr-FR')} fois`;
       c.hidden = false;
-    } catch { /* pas de réseau : on n'affiche rien */ }
+    } catch { /* pas de réseau : le bouton garde le lien vers la page des versions */ }
   })();
 
   // Visites : GoatCounter (sans cookie, donc sans bandeau de consentement).
