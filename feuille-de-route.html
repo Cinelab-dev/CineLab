@@ -57,6 +57,10 @@
   .idee p { margin: 0; color: rgba(237,235,227,.82); max-width: 34em; }
   .bouton { display: inline-block; font-weight: 700; padding: 12px 22px; border-radius: 6px; text-decoration: none; background: var(--scotch); color: var(--encre); box-shadow: 0 2px 0 #B98A12; }
 
+  .idee-boutons { display: flex; gap: 12px; flex-wrap: wrap; }
+  .bouton-clair { display: inline-block; font-weight: 700; padding: 10px 20px; border-radius: 6px; text-decoration: none; color: var(--craie); border: 2px solid rgba(237,235,227,.6); }
+  .bouton-clair:hover { border-color: var(--craie); }
+
   .sorties { border-top: 2px solid var(--encre); padding-top: 28px; margin-bottom: 56px; }
   .sorties .intro { color: var(--encre-douce); margin: 0 0 20px; }
   .version { padding: 18px 0; border-bottom: 1px solid var(--trait); }
@@ -80,6 +84,7 @@
     <nav aria-label="Navigation">
       <a href="./">Accueil</a>
       <a href="#sorties">Déjà sorti</a>
+      <a href="https://discord.gg/65NRAPjamv" target="_blank" rel="noopener">Discord</a>
       <a href="./#soutenir">Soutenir</a>
     </nav>
   </header>
@@ -135,9 +140,12 @@
     <section class="idee" aria-labelledby="titre-idee">
       <div>
         <h2 id="titre-idee">Une idée, un besoin ?</h2>
-        <p>Dites-nous ce qui vous manque sur vos tournages : ce sont vos retours qui décident des prochaines versions.</p>
+        <p>Dites-nous ce qui vous manque sur vos tournages : ce sont vos retours qui décident des prochaines versions. Venez en parler dans le salon #idées du Discord, ou écrivez-nous.</p>
       </div>
-      <a class="bouton" id="lien-idee" href="mailto:contact.astroboys@gmail.com?subject=CinéLabs%20:%20une%20idée">Proposer une idée</a>
+      <div class="idee-boutons">
+        <a class="bouton" href="https://discord.gg/65NRAPjamv" target="_blank" rel="noopener">Rejoindre le Discord</a>
+        <a class="bouton-clair" id="lien-idee" href="mailto:contact.astroboys@gmail.com?subject=CinéLabs%20:%20une%20idée">Écrire un mail</a>
+      </div>
     </section>
 
     <section class="sorties" id="sorties" aria-labelledby="titre-sorties">

@@ -125,6 +125,13 @@
   .questions details[open] summary::after { content: '–'; }
   .questions details p { margin: 0 0 18px; color: var(--encre-douce); max-width: 44em; }
   .duo { border-top: 2px solid var(--encre); }
+
+  /* ——— Communauté ——— */
+  .communaute { background: var(--ardoise); color: var(--craie); border-radius: 10px; padding: 40px 44px; margin: 0 0 72px; display: flex; gap: 32px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+  .communaute h2 { color: var(--craie); }
+  .communaute p { margin: 0; color: rgba(237, 235, 227, .82); max-width: 38em; }
+  .bouton-communaute { display: inline-block; font-weight: 700; font-size: 18px; padding: 14px 24px; border-radius: 6px; text-decoration: none; background: var(--scotch); color: var(--encre); box-shadow: 0 2px 0 #B98A12; white-space: nowrap; }
+  .bouton-communaute:hover { background: #F5C84D; }
   .partage { border-top: 2px solid var(--encre); }
   .partage p { color: var(--encre-douce); margin: 0 0 18px; }
   .partage-boutons { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -146,6 +153,7 @@
     .ardoise dd { font-size: 25px; }
     .ardoise-titre { font-size: 38px; }
     section { padding: 56px 0; }
+    .communaute { padding: 32px 24px; }
   }
 </style>
 </head>
@@ -162,6 +170,8 @@
     telechargement: 'https://github.com/Cinelab-dev/CineLab/releases',
     // Page de dons (PayPal).
     dons: 'https://paypal.me/amaurygiraud',
+    // Serveur Discord de la communauté (lien d'invitation qui n'expire jamais).
+    communaute: 'https://discord.gg/65NRAPjamv',
     // Adresse de contact.
     contact: 'contact.astroboys@gmail.com',
     // Statistiques de visites (GoatCounter, gratuit) : le nom choisi à l'inscription,
@@ -181,6 +191,7 @@
       <a href="#installation">Installation</a>
       <a href="#questions">Questions</a>
       <a href="feuille-de-route.html">Prochainement</a>
+      <a href="#communaute">Communauté</a>
       <a href="#soutenir">Soutenir</a>
     </nav>
   </header>
@@ -304,8 +315,16 @@
     </details>
     <details>
       <summary>J'ai trouvé un problème ou j'ai une idée.</summary>
-      <p>Dans CinéLabs, « Signaler un problème » (en bas de l'accueil) prépare un mail avec tout ce qu'il faut pour comprendre. Pour une idée, <a data-lien="contact" href="#">écrivez-nous</a> : les retours des équipes décident des prochaines fonctions.</p>
+      <p>Dans CinéLabs, « Signaler un problème » (en bas de l'accueil) prépare un mail avec tout ce qu'il faut pour comprendre. Pour une question ou une idée, venez en parler sur <a data-lien="communaute" href="#" target="_blank" rel="noopener">le Discord de CinéLabs</a> ou <a data-lien="contact" href="#">écrivez-nous</a> : les retours des équipes décident des prochaines fonctions.</p>
     </details>
+  </section>
+
+  <section id="communaute" class="communaute" aria-labelledby="titre-communaute">
+    <div>
+      <h2 id="titre-communaute">Rejoindre la communauté</h2>
+      <p>Un serveur Discord pour les équipes qui tournent avec CinéLabs : de l'aide pour l'installer, des réponses à vos questions, vos idées pour les prochaines versions, et vos tournages à montrer. Les nouvelles versions y sont annoncées dès leur sortie.</p>
+    </div>
+    <a class="bouton-communaute" data-lien="communaute" href="#" target="_blank" rel="noopener">Rejoindre le Discord</a>
   </section>
 
   <section id="soutenir" class="duo" aria-label="Version Mac et soutien">
@@ -337,7 +356,7 @@
 
   <footer>
     <p>CinéLabs est développé par Amaury Giraud.</p>
-    <p><a data-lien="contact" href="#">Nous écrire</a> <span aria-hidden="true">·</span> <a href="feuille-de-route.html">Prochainement</a> <span aria-hidden="true">·</span> <a href="mentions-legales.html">Mentions légales</a></p>
+    <p><a data-lien="contact" href="#">Nous écrire</a> <span aria-hidden="true">·</span> <a data-lien="communaute" href="#" target="_blank" rel="noopener">Discord</a> <span aria-hidden="true">·</span> <a href="feuille-de-route.html">Prochainement</a> <span aria-hidden="true">·</span> <a href="mentions-legales.html">Mentions légales</a></p>
   </footer>
 </div>
 
@@ -347,6 +366,7 @@
   const adresses = {
     telechargement: LIENS.telechargement,
     dons: LIENS.dons,
+    communaute: LIENS.communaute,
     contact: mail('CinéLabs'),
     'contact-mac': mail('CinéLabs pour Mac'),
   };
