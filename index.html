@@ -125,6 +125,11 @@
   .questions details[open] summary::after { content: '–'; }
   .questions details p { margin: 0 0 18px; color: var(--encre-douce); max-width: 44em; }
   .duo { border-top: 2px solid var(--encre); }
+  .partage { border-top: 2px solid var(--encre); }
+  .partage p { color: var(--encre-douce); margin: 0 0 18px; }
+  .partage-boutons { display: flex; flex-wrap: wrap; gap: 10px; }
+  .partage-boutons .bouton-sobre { font: inherit; font-weight: 700; padding: 10px 18px; background: none; cursor: pointer; }
+  #partage-natif { background: var(--scotch); border-color: var(--scotch); }
   footer { border-top: 2px solid var(--encre); padding: 28px 0 48px; font-size: 15px; color: var(--encre-douce); display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
   footer p { margin: 0; }
 
@@ -316,6 +321,20 @@
     </div>
   </section>
 
+  <section class="partage" aria-labelledby="titre-partage">
+    <h2 id="titre-partage">Faire connaître CinéLabs</h2>
+    <p>Vous connaissez une équipe qui prépare un tournage ? Envoyez-lui le lien.</p>
+    <div class="partage-boutons">
+      <button type="button" class="bouton-sobre" id="partage-natif" hidden>Partager…</button>
+      <a class="bouton-sobre" data-partage="facebook" href="#" target="_blank" rel="noopener">Facebook</a>
+      <a class="bouton-sobre" data-partage="whatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="bouton-sobre" data-partage="linkedin" href="#" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="bouton-sobre" data-partage="x" href="#" target="_blank" rel="noopener">X</a>
+      <a class="bouton-sobre" data-partage="mail" href="#">E-mail</a>
+      <button type="button" class="bouton-sobre" id="copier-lien">Copier le lien</button>
+    </div>
+  </section>
+
   <footer>
     <p>CinéLabs est développé par Amaury Giraud.</p>
     <p><a data-lien="contact" href="#">Nous écrire</a> <span aria-hidden="true">·</span> <a href="feuille-de-route.html">Prochainement</a> <span aria-hidden="true">·</span> <a href="mentions-legales.html">Mentions légales</a></p>
@@ -380,6 +399,33 @@
       c.textContent = `Déjà téléchargé ${total.toLocaleString('fr-FR')} fois`;
       c.hidden = false;
     } catch { /* pas de réseau : le bouton garde le lien vers la page des versions */ }
+  })();
+
+  // Partage : de simples liens vers chaque réseau (aucun script ni cookie de leur part).
+  (() => {
+    const url = 'https://cinelab-dev.github.io/CineLab/';
+    const texte = 'CinéLabs, un logiciel gratuit pour préparer ses courts-métrages : plan de travail, feuilles de service, storyboard…';
+    const u = encodeURIComponent(url), t = encodeURIComponent(texte);
+    const liens = {
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${u}`,
+      whatsapp: `https://wa.me/?text=${t}%20${u}`,
+      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${u}`,
+      x: `https://twitter.com/intent/tweet?text=${t}&url=${u}`,
+      mail: `mailto:?subject=${encodeURIComponent('Un logiciel pour tes tournages')}&body=${t}%0A%0A${u}`,
+    };
+    document.querySelectorAll('[data-partage]').forEach(a => { a.href = liens[a.dataset.partage]; });
+    // Sur téléphone : le menu de partage du téléphone (Instagram, Messenger, SMS…).
+    const natif = document.getElementById('partage-natif');
+    if (navigator.share) {
+      natif.hidden = false;
+      natif.addEventListener('click', () => navigator.share({ title: 'CinéLabs', text: texte, url }).catch(() => {}));
+    }
+    const copier = document.getElementById('copier-lien');
+    copier.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(url); copier.textContent = 'Lien copié'; }
+      catch { copier.textContent = url; }
+      setTimeout(() => { copier.textContent = 'Copier le lien'; }, 2500);
+    });
   })();
 
   // Visites : GoatCounter (sans cookie, donc sans bandeau de consentement).
