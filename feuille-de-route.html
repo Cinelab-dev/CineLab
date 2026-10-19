@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prochainement dans CinéLabs</title>
+<meta name="description" content="Ce qui arrive dans CinéLabs : les prochaines versions, ce qu'elles apportent, et les nouveautés déjà sorties.">
+<meta property="og:title" content="Prochainement dans CinéLabs">
+<meta property="og:description" content="Les prochaines versions du logiciel de production pour les courts-métrages.">
+<meta property="og:image" content="https://cinelab-dev.github.io/CineLab/images/apercu.jpg">
+<meta property="og:url" content="https://cinelab-dev.github.io/CineLab/feuille-de-route.html">
+<link rel="icon" href="images/icone.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --papier: #EEF1EE;
+    --encre: #1C2320;
+    --encre-douce: #4E5A55;
+    --ardoise: #2E3A36;
+    --craie: #EDEBE3;
+    --scotch: #F0B92B;
+    --vert: #3D6B5A;
+    --trait: #C9D1CC;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--papier); color: var(--encre); font: 400 17px/1.6 Archivo, system-ui, sans-serif; }
+  a { color: var(--vert); }
+  a:focus-visible { outline: 3px solid var(--scotch); outline-offset: 3px; }
+  .cadre { width: min(1000px, 100% - 32px); margin-inline: auto; }
+  .haut { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; gap: 16px; }
+  .marque { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; text-decoration: none; color: var(--encre); font-variation-settings: "wdth" 112; }
+  .marque img { width: 34px; height: 34px; border-radius: 8px; }
+  .haut nav a { color: var(--encre-douce); text-decoration: none; font-size: 15px; margin-left: 20px; }
+  .haut nav a:hover { color: var(--encre); text-decoration: underline; }
+
+  h1 { font-size: clamp(38px, 5.4vw, 60px); line-height: 1.02; margin: 32px 0 16px; font-weight: 800; font-variation-settings: "wdth" 68; }
+  .chapeau { font-size: 19px; color: var(--encre-douce); max-width: 36em; margin: 0 0 40px; }
+  h2 { font-size: 30px; line-height: 1.1; margin: 0 0 8px; font-weight: 800; font-variation-settings: "wdth" 72; }
+
+  /* La feuille de route : une colonne de « plans », du plus proche au plus lointain. */
+  .route { list-style: none; margin: 0 0 64px; padding: 0; border-top: 2px solid var(--encre); }
+  .etape { display: grid; grid-template-columns: 200px 1fr; gap: 32px; padding: 28px 0; border-bottom: 1px solid var(--trait); }
+  .quand { font: 700 30px/1.1 Caveat, cursive; color: var(--vert); }
+  .quand small { display: block; font: 600 13px/1.4 Archivo, sans-serif; letter-spacing: .04em; color: var(--encre-douce); margin-top: 6px; }
+  .etape.prochaine .quand { color: var(--encre); }
+  .etape.prochaine .quand::after { content: ""; display: block; width: 64px; height: 8px; background: var(--scotch); margin-top: 10px; border-radius: 2px; }
+  .etape p { margin: 0 0 12px; color: var(--encre-douce); max-width: 40em; }
+  .etape ul { margin: 0; padding-left: 20px; }
+  .etape li { margin: 4px 0; }
+  .etape li strong { color: var(--encre); }
+  .lointain { opacity: .85; }
+
+  .idee { background: var(--ardoise); color: var(--craie); border-radius: 10px; padding: 28px 32px; margin: 0 0 64px; display: flex; gap: 24px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+  .idee h2 { color: var(--craie); margin: 0 0 4px; }
+  .idee p { margin: 0; color: rgba(237,235,227,.82); max-width: 34em; }
+  .bouton { display: inline-block; font-weight: 700; padding: 12px 22px; border-radius: 6px; text-decoration: none; background: var(--scotch); color: var(--encre); box-shadow: 0 2px 0 #B98A12; }
+
+  .sorties { border-top: 2px solid var(--encre); padding-top: 28px; margin-bottom: 56px; }
+  .sorties .intro { color: var(--encre-douce); margin: 0 0 20px; }
+  .version { padding: 18px 0; border-bottom: 1px solid var(--trait); }
+  .version h3 { margin: 0 0 6px; font-size: 20px; }
+  .version h3 span { font-weight: 400; font-size: 15px; color: var(--encre-douce); margin-left: 8px; }
+  .version .notes { white-space: pre-line; color: var(--encre-douce); margin: 0; }
+
+  footer { border-top: 2px solid var(--encre); padding: 28px 0 48px; font-size: 15px; color: var(--encre-douce); display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  footer p { margin: 0; }
+
+  @media (max-width: 700px) {
+    .etape { grid-template-columns: 1fr; gap: 8px; }
+    .haut nav a:not(:first-child) { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="cadre">
+  <header class="haut">
+    <a class="marque" href="./"><img src="images/icone.png" alt="">CinéLabs</a>
+    <nav aria-label="Navigation">
+      <a href="./">Accueil</a>
+      <a href="#sorties">Déjà sorti</a>
+      <a href="./#soutenir">Soutenir</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Prochainement dans CinéLabs</h1>
+    <p class="chapeau">CinéLabs avance par petites versions, une nouveauté importante à la fois. L'ordre peut changer selon vos retours : ce qui bloque un tournage passe toujours en premier. CinéLabs vous prévient lui-même quand une nouvelle version sort.</p>
+
+    <ol class="route">
+      <li class="etape prochaine">
+        <div class="quand">En préparation<small>VERSION 0.25</small></div>
+        <div>
+          <h2>Bien démarrer</h2>
+          <p>Sortir sa première feuille de service en quelques minutes, et pouvoir se passer un projet.</p>
+          <ul>
+            <li><strong>Un premier lancement guidé</strong> : ouvrir le projet d'exemple ou importer son scénario, puis les trois premiers gestes.</li>
+            <li><strong>Partager un projet</strong> : l'exporter en un seul fichier, avec ses photos et ses dessins, et l'ouvrir sur un autre ordinateur.</li>
+          </ul>
+        </div>
+      </li>
+      <li class="etape">
+        <div class="quand">Ensuite<small>VERSION 0.26</small></div>
+        <div>
+          <h2>Préparer la sortie du film</h2>
+          <p>Tout ce qu'il faut pour le DCP et les festivals, sans imposer de logiciel.</p>
+          <ul>
+            <li><strong>Une fiche DCP</strong> : titre, durée, format d'image et de son, cadence, langue, sous-titres.</li>
+            <li><strong>Une liste de vérifications</strong> avant la projection en salle.</li>
+            <li><strong>Un lien facultatif avec DCP-o-matic</strong>, pour ceux qui l'utilisent.</li>
+            <li><strong>Vérifier un DCP terminé</strong>, quel que soit le logiciel qui l'a fabriqué.</li>
+          </ul>
+        </div>
+      </li>
+      <li class="etape">
+        <div class="quand">Puis<small>VERSION 0.27</small></div>
+        <div>
+          <h2>Vos retours</h2>
+          <p>Une version réservée aux corrections et aux demandes des équipes qui utilisent CinéLabs en tournage. Elle passe avant les autres si un problème bloque un tournage.</p>
+        </div>
+      </li>
+      <li class="etape lointain">
+        <div class="quand">Plus tard</div>
+        <div>
+          <h2>Les grands chantiers</h2>
+          <ul>
+            <li><strong>Une version pour Mac.</strong></li>
+            <li><strong>Travailler à plusieurs en même temps</strong> sur un projet, chacun depuis chez soi.</li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+
+    <section class="idee" aria-labelledby="titre-idee">
+      <div>
+        <h2 id="titre-idee">Une idée, un besoin ?</h2>
+        <p>Dites-nous ce qui vous manque sur vos tournages : ce sont vos retours qui décident des prochaines versions.</p>
+      </div>
+      <a class="bouton" id="lien-idee" href="mailto:contact.astroboys@gmail.com?subject=CinéLabs%20:%20une%20idée">Proposer une idée</a>
+    </section>
+
+    <section class="sorties" id="sorties" aria-labelledby="titre-sorties">
+      <h2 id="titre-sorties">Déjà sorti</h2>
+      <p class="intro">Chaque version, avec ce qu'elle a apporté. Pour mettre à jour, téléchargez la dernière depuis <a href="./">l'accueil</a> : vos projets sont conservés.</p>
+      <div id="versions">
+        <article class="version">
+          <h3>CinéLabs 0.24</h3>
+          <p class="notes">CinéLabs prévient quand une nouvelle version sort. Nouveau bouton « Signaler un problème ». Liens vers le site et la page de soutien.</p>
+        </article>
+        <article class="version">
+          <h3>CinéLabs 0.23</h3>
+          <p class="notes">Première version publique et gratuite. Format d'image et de son du film, storyboard au format du film.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>CinéLabs est développé par Amaury Giraud.</p>
+    <p><a href="./">Accueil</a> <span aria-hidden="true">·</span> <a href="mentions-legales.html">Mentions légales</a></p>
+  </footer>
+</div>
+
+<script>
+  // « Déjà sorti » se remplit tout seul avec les versions publiées sur GitHub (le texte ci-dessus sert si GitHub ne répond pas).
+  (async () => {
+    try {
+      const r = await fetch('https://api.github.com/repos/Cinelab-dev/CineLab/releases?per_page=30');
+      if (!r.ok) return;
+      const versions = (await r.json()).filter(v => !v.draft && !v.prerelease);
+      if (!versions.length) return;
+      const date = d => new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+      const liste = document.getElementById('versions');
+      liste.replaceChildren(...versions.map(v => {
+        const a = document.createElement('article');
+        a.className = 'version';
+        const h = document.createElement('h3');
+        h.textContent = v.name || v.tag_name;
+        const s = document.createElement('span');
+        s.textContent = date(v.published_at);
+        h.append(s);
+        const p = document.createElement('p');
+        p.className = 'notes';
+        p.textContent = (v.body || '').replace(/\r/g, '').replace(/^\s*-\s*/gm, '• ').trim();
+        a.append(h, p);
+        return a;
+      }));
+    } catch { /* pas de réseau : on garde le texte de la page */ }
+  })();
+</script>
+</body>
+</html>
