@@ -9,6 +9,8 @@
 <meta property="og:description" content="Du scénario aux festivals, en français, gratuit, et même sans internet.">
 <meta property="og:image" content="https://cinelab-dev.github.io/CineLab/images/apercu.jpg">
 <meta property="og:url" content="https://cinelab-dev.github.io/CineLab/">
+<link rel="alternate" hreflang="fr" href="https://cinelab-dev.github.io/CineLab/">
+<link rel="alternate" hreflang="en" href="https://cinelab-dev.github.io/CineLab/en/">
 <meta property="og:type" content="website">
 <link rel="icon" href="images/icone.png">
 <link rel="preload" href="polices/archivo.woff" as="font" type="font/woff" crossorigin>
@@ -689,6 +691,7 @@
     <a data-lien="communaute" href="#" target="_blank" rel="noopener">Discord</a>
     <a data-lien="contact" href="#">Nous écrire</a>
     <a href="https://github.com/Cinelab-dev/CineLab">GitHub</a>
+    <a href="en/index.html" hreflang="en" lang="en">English</a>
   </nav>
   <p>2026 · <a class="lien" href="mentions-legales.html">Mentions légales</a></p>
 </footer>
@@ -706,7 +709,9 @@
   document.querySelectorAll('[data-lien]').forEach(a => { a.href = adresses[a.dataset.lien]; });
 
   // ——— Le plan de travail de l'ouverture : CinéLabs lit un en-tête de séquence ———
-  const MOMENTS_NUIT = /\b(NUIT|SOIR|CR[ÉE]PUSCULE|AUBE)\b/;
+  const MOMENTS_NUIT = /\b(NUIT|SOIR|CR[ÉE]PUSCULE|AUBE|NIGHT|EVENING|DUSK|DAWN)\b/;
+  const MOMENTS_JOUR = /^(JOUR|MATIN|MIDI|APR[ÈE]S-MIDI|DAY|MORNING|AFTERNOON|NOON)\b/;
+  const SANS_MOMENT = /^(CONTINU|SUITE|PLUS TARD|CONTINUOUS|LATER|SAME)\b/;
   function lireEntete(texte) {
     let t = texte.normalize('NFC').toUpperCase().trim().replace(/\s+/g, ' ');
     t = t.replace(/^S[ÉE]QUENCE\s*\d+\s*[-–.:]?\s*/, '').replace(/^\d+[A-Z]?\s*[.)-]?\s*/, '');
@@ -714,10 +719,11 @@
     const m = /^(INT\.?\s*\/\s*EXT\.?|EXT\.?\s*\/\s*INT\.?|INT[ÉE]RIEUR|EXT[ÉE]RIEUR|INT\b\.?|EXT\b\.?)\s*/.exec(t);
     if (m) { ie = m[1].startsWith('E') ? 'EXT' : 'INT'; t = t.slice(m[0].length); }
     let jn = null;
-    const morceaux = t.split(/\s+[-–]\s+|\s*[-–]\s*(?=(?:JOUR|NUIT|SOIR|MATIN|AUBE|CR[ÉE]PUSCULE)\b)|\.\s+/).map(s => s.trim()).filter(Boolean);
+    const morceaux = t.split(/\s+[-–]\s+|\s*[-–]\s*(?=(?:JOUR|NUIT|SOIR|MATIN|AUBE|CR[ÉE]PUSCULE|DAY|NIGHT|EVENING|MORNING|DUSK|DAWN)\b)|\.\s+/).map(s => s.trim()).filter(Boolean);
     const decor = [];
     for (const p of morceaux) {
-      if (/^(JOUR|MATIN|MIDI|APR[ÈE]S-MIDI)\b/.test(p)) jn = 'J';
+      if (MOMENTS_JOUR.test(p)) jn = 'J';
+      else if (SANS_MOMENT.test(p)) continue;
       else if (MOMENTS_NUIT.test(p) && p.split(' ').length <= 2) jn = 'N';
       else if (/^(INT|EXT)/.test(p) && !ie) ie = p.startsWith('E') ? 'EXT' : 'INT';
       else decor.push(p);
