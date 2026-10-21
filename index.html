@@ -11,157 +11,372 @@
 <meta property="og:url" content="https://cinelab-dev.github.io/CineLab/">
 <meta property="og:type" content="website">
 <link rel="icon" href="images/icone.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<link rel="preload" href="polices/archivo.woff" as="font" type="font/woff" crossorigin>
+<script>document.documentElement.classList.add('js')</script>
 <style>
+  @font-face {
+    font-family: Archivo;
+    src: url("polices/archivo.woff") format("woff");
+    font-weight: 100 900;
+    font-stretch: 62% 125%;
+    font-display: swap;
+  }
+
+  /* ——— Les couleurs ———
+     La salle noire pour le fond, le blanc de la feuille de service au milieu,
+     le jaune du gaffer pour l'action. Les quatre couleurs des bandes du plan de travail
+     (extérieur jour, intérieur jour, intérieur nuit, extérieur nuit) servent de champs. */
   :root {
-    --papier: #EEF1EE;
-    --encre: #1C2320;
-    --encre-douce: #4E5A55;
-    --ardoise: #2E3A36;
-    --craie: #EDEBE3;
-    --scotch: #F0B92B;
-    --vert: #3D6B5A;
-    --trait: #C9D1CC;
+    --bg: #111110;
+    --surface: #1d1c1a;
+    --ink: #ffffff;
+    --muted: #b3aea6;
+    --accent: #f2b632;
+    --accent-ink: #14110c;
+    --papier: #ebeae6;
+    --papier-ink: #16140f;
+    --papier-muted: #5a554c;
+    --brique: #7a3510;
+    --brique-ink: #ffffff;
+    --bande-ext-jour: #f6e7a1;
+    --bande-int-jour: #ffffff;
+    --bande-int-nuit: #c9d8f0;
+    --bande-ext-nuit: #c6e3c4;
+    --bande-ink: #16140f;
+
+    --app-bg: #f6f4ef;
+    --app-panel: #ffffff;
+    --app-ink: #1f1d1a;
+    --app-muted: #6b665d;
+    --app-line: #e3dfd6;
+    --app-accent: #a8541c;
+    --app-noir: #1d1e21;
+
+    --font: Archivo, system-ui, sans-serif;
+    --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+    --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+    --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+    --step-head: clamp(2.25rem, 1.3rem + 3.4vw, 4.25rem);
+    --step-display: clamp(2.5rem, 0.6rem + 6vw, 6.5rem);
+
+    --margin: clamp(1rem, 3vw, 2.5rem);
+    --gutter: clamp(1rem, 2vw, 2rem);
+    --section: clamp(7.5rem, 14vw, 13rem);
+    --radius: 0px;
+
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+    --t-press: 140ms;
+    --t-hover: 180ms;
   }
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-  body { margin: 0; background: var(--papier); color: var(--encre); font: 400 17px/1.6 Archivo, system-ui, sans-serif; font-variation-settings: "wdth" 100; }
-  img { max-width: 100%; height: auto; display: block; }
-  a { color: var(--vert); }
-  a:focus-visible, button:focus-visible { outline: 3px solid var(--scotch); outline-offset: 3px; }
-  .cadre { width: min(1120px, 100% - 32px); margin-inline: auto; }
 
-  /* ——— En-tête ——— */
-  .haut { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; }
-  .marque { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; text-decoration: none; color: var(--encre); font-variation-settings: "wdth" 112; }
-  .marque img { width: 34px; height: 34px; border-radius: 8px; }
-  .haut nav { display: flex; gap: 22px; font-size: 15px; }
-  .haut nav a { color: var(--encre-douce); text-decoration: none; }
-  .haut nav a:hover { color: var(--encre); text-decoration: underline; }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: var(--step-body); line-height: 1.5; font-stretch: 100%; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3, p, figure, ul, ol, dl, dd { margin: 0; }
+  ul[class], ol[class] { padding: 0; list-style: none; }
+  img, video { display: block; max-width: 100%; height: auto; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { background: none; border: 0; padding: 0; cursor: pointer; }
+  a { color: inherit; }
+  :target { scroll-margin-top: 5rem; }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  h1, h2, h3 { font-weight: 500; text-wrap: balance; letter-spacing: -0.03em; }
+  p { max-width: 62ch; text-wrap: pretty; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .wrap { padding-inline: var(--margin); }
+  .head { font-size: var(--step-head); line-height: 1.0; font-stretch: 88%; }
 
-  /* ——— Ouverture : le clap ——— */
-  .ouverture { display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; padding: 40px 0 72px; }
-  h1 { font-size: clamp(38px, 5.4vw, 64px); line-height: 1.02; margin: 0 0 20px; font-weight: 800; font-variation-settings: "wdth" 68; letter-spacing: -0.01em; }
-  .insecable { white-space: nowrap; }
-  .accroche { font-size: 19px; color: var(--encre-douce); max-width: 34em; margin: 0 0 28px; }
-  .telecharger { display: inline-flex; align-items: center; gap: 12px; background: var(--scotch); color: var(--encre); font-weight: 700; font-size: 19px; padding: 16px 26px; border-radius: 6px; text-decoration: none; box-shadow: 0 2px 0 #B98A12; }
-  .telecharger:hover { background: #F5C84D; }
-  .telecharger svg { width: 22px; height: 22px; }
-  .compteur { margin: 14px 0 0; font: 700 24px/1.1 Caveat, cursive; color: var(--vert); }
-  .precision { margin: 12px 0 0; font-size: 14px; color: var(--encre-douce); }
-  .precision a { color: inherit; }
+  /* ——— Boutons : à angles droits, une seule couleur ——— */
+  .bouton { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 3.25rem; padding: 0 1.5rem; background: var(--accent); color: var(--accent-ink); font-weight: 600; text-decoration: none; white-space: nowrap; transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease; }
+  .bouton svg { width: 1.2em; height: 1.2em; }
+  .bouton:hover { background: #f7c654; }
+  .bouton:active { transform: scale(0.97); }
+  .lien { text-decoration: underline; text-underline-offset: 0.22em; text-decoration-thickness: 0.07em; transition: color var(--t-hover) ease; }
+  .lien:hover { color: var(--accent); }
 
-  .clap { position: relative; transform: rotate(-2.5deg); filter: drop-shadow(0 18px 30px rgba(28, 35, 32, .28)); }
-  .clap-claquoir { height: 46px; border-radius: 6px 6px 0 0; transform-origin: 0 100%; transform: rotate(-9deg) translateY(-6px);
-    background: repeating-linear-gradient(115deg, var(--craie) 0 34px, var(--encre) 34px 68px); border: 3px solid var(--encre); }
-  .clap-bas { height: 22px; background: repeating-linear-gradient(115deg, var(--encre) 0 34px, var(--craie) 34px 68px); border: 3px solid var(--encre); border-top: 0; }
-  @media (prefers-reduced-motion: no-preference) {
-    .clap-claquoir { animation: clap 1.1s cubic-bezier(.5, 0, .2, 1) .5s both; }
-    @keyframes clap { 0% { transform: rotate(-24deg) translateY(-6px); } 70% { transform: rotate(0deg) translateY(0); } 100% { transform: rotate(-9deg) translateY(-6px); } }
-  }
-  .ardoise { background: var(--ardoise); color: var(--craie); border: 3px solid var(--encre); border-top: 0; border-radius: 0 0 8px 8px; padding: 6px 0 0; }
-  .ardoise-titre { font: 700 46px/1 Caveat, cursive; padding: 10px 24px 14px; border-bottom: 2px solid rgba(237, 235, 227, .35); }
-  .ardoise dl { display: grid; grid-template-columns: 1fr 1fr; margin: 0; }
-  .ardoise div { padding: 10px 24px 12px; border-bottom: 2px solid rgba(237, 235, 227, .35); }
-  .ardoise div:nth-child(odd) { border-right: 2px solid rgba(237, 235, 227, .35); }
-  .ardoise div:nth-last-child(-n+2) { border-bottom: 0; }
-  .ardoise dt { font-size: 12px; font-weight: 600; letter-spacing: .04em; opacity: .7; font-variation-settings: "wdth" 120; }
-  .ardoise dd { margin: 0; font: 700 30px/1.15 Caveat, cursive; }
+  /* ——— Barre du haut ——— */
+  .barre { position: absolute; inset: 0 0 auto; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.25rem var(--margin); }
+  .marque { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; font-size: var(--step-body); text-decoration: none; }
+  .marque img { width: 30px; height: 30px; }
+  .barre nav { display: flex; align-items: center; gap: 1.75rem; font-size: var(--step-small); }
+  .barre nav a:not(.bouton) { text-decoration: none; color: var(--ink); }
+  .barre nav a:not(.bouton):hover { color: var(--accent); }
+  .barre .bouton { min-height: 2.75rem; padding: 0 1.1rem; font-size: var(--step-small); }
 
-  /* ——— Le parcours ——— */
-  section { padding: 72px 0; }
-  h2 { font-size: clamp(30px, 3.6vw, 42px); line-height: 1.1; margin: 0 0 14px; font-weight: 800; font-variation-settings: "wdth" 72; }
-  .intro { color: var(--encre-douce); max-width: 40em; margin: 0 0 32px; }
-  .video { border-top: 2px solid var(--encre); }
-  .video video { display: block; width: 100%; height: auto; max-width: 100%; border: 2px solid var(--encre); border-radius: 10px; background: var(--ardoise); }
-  .parcours { border-top: 2px solid var(--encre); }
-  .etapes { display: grid; grid-template-columns: repeat(6, 1fr); list-style: none; margin: 0 0 24px; padding: 0; }
-  .etapes button { width: 100%; text-align: left; font: inherit; background: none; border: 0; border-bottom: 3px solid transparent; padding: 14px 12px 12px 0; cursor: pointer; color: var(--encre-douce); }
-  .etapes button span { display: block; font-size: 13px; font-weight: 700; font-variation-settings: "wdth" 120; }
-  .etapes button strong { display: block; font-size: 17px; line-height: 1.25; font-weight: 700; }
-  .etapes button[aria-selected="true"] { color: var(--encre); border-bottom-color: var(--scotch); }
-  .etapes button:hover { color: var(--encre); }
-  .ecran { display: grid; grid-template-columns: 2.1fr 1fr; gap: 36px; align-items: start; }
-  .ecran figure { margin: 0; border: 2px solid var(--encre); border-radius: 10px; overflow: hidden; background: #fff; }
-  .ecran h3 { margin: 4px 0 10px; font-size: 24px; line-height: 1.2; font-variation-settings: "wdth" 85; }
-  .ecran p { margin: 0 0 12px; color: var(--encre-douce); }
+  /* ——— Ouverture ——— */
+  .ouverture { min-height: 100svh; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 3rem; align-content: center; padding: 7.5rem var(--margin) 4rem; }
+  .ouverture h1 { grid-column: 1 / span 11; }
+  .ouverture-texte { grid-column: 1 / span 5; align-self: start; }
+  .ouverture h1 { font-size: var(--step-display); line-height: 0.98; font-stretch: 82%; }
+  .lines .line { display: block; overflow: hidden; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+  .lines [data-line] { display: block; }
+  .ouverture .accroche { margin-top: 0; font-size: var(--step-lead); line-height: 1.4; max-width: 30ch; }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.75rem; margin-top: 2.5rem; }
+  .precision { margin-top: 1.5rem; color: var(--muted); font-size: var(--step-small); }
+  .compteur { margin-top: 0.4rem; color: var(--muted); font-size: var(--step-small); }
+  .ouverture-demo { grid-column: 7 / span 6; align-self: start; }
+  .demo-legende { margin-top: 1rem; color: var(--muted); font-size: var(--step-small); max-width: 52ch; }
 
-  /* ——— Pourquoi ——— */
-  .atouts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0 40px; margin: 0; }
-  .atouts div { border-top: 1px solid var(--trait); padding: 18px 0 22px; }
-  .atouts dt { font-weight: 700; font-size: 19px; margin-bottom: 4px; }
-  .atouts dd { margin: 0; color: var(--encre-douce); }
+  /* ——— Les morceaux du logiciel (data-ui) : ses propres conventions ——— */
+  [data-ui] { font-family: var(--font); font-stretch: 100%; color: var(--app-ink); background: var(--app-bg); font-size: 14px; line-height: 1.4; letter-spacing: 0; }
+  [data-ui] h3, [data-ui] h4 { letter-spacing: -0.01em; font-weight: 600; margin: 0; }
+  .app-entete { display: flex; align-items: center; gap: 0.75rem; padding: 14px 18px; background: var(--app-panel); border-bottom: 1px solid var(--app-line); } /* taste-skill-ignore : morceau du logiciel (data-ui) ou champ de formulaire */
+  .app-entete h3 { font-size: 18px; }
+  .app-entete span { color: var(--app-muted); font-size: 13px; }
+  .app-ajout { display: flex; gap: 8px; padding: 14px 18px; }
+  .app-ajout label { display: block; font-size: 13px; color: var(--app-muted); margin-bottom: 6px; }
+  .app-ajout input { width: 100%; min-height: 40px; padding: 8px 10px; border: 1px solid #cfc9bd; border-radius: 6px; background: #fff; font-size: 15px; }
+  .app-ajout input:focus { outline: 2px solid var(--app-accent); outline-offset: 0; border-color: var(--app-accent); }
+  .app-btn { min-height: 40px; padding: 0 14px; border-radius: 6px; background: var(--app-accent); color: #fff; font-size: 14px; font-weight: 600; white-space: nowrap; transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease; }
+  .app-btn:hover { background: #8f4616; }
+  .app-btn:active { transform: scale(0.97); }
+  .app-btn.discret { background: #fff; color: var(--app-ink); border: 1px solid #cfc9bd; } /* taste-skill-ignore : morceau du logiciel (data-ui) ou champ de formulaire */
+  .app-btn.discret:hover { background: #f1eee8; }
+  .jour { margin: 0 18px 18px; border: 1px solid var(--app-line); border-radius: 8px; overflow: hidden; background: var(--app-panel); } /* taste-skill-ignore : morceau du logiciel (data-ui) ou champ de formulaire */
+  .jour-tete { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--app-noir); color: #fff; font-size: 14px; }
+  .jour-tete strong { font-size: 16px; }
+  .jour-tete .total { margin-left: auto; font-variant-numeric: tabular-nums; }
+  .bandes { list-style: none; margin: 0; padding: 0; }
+  .bande { display: grid; grid-template-columns: 28px 64px 1fr auto auto; align-items: center; gap: 10px; padding: 9px 14px; border-top: 1px solid var(--app-line); font-variant-numeric: tabular-nums; } /* taste-skill-ignore : morceau du logiciel (data-ui) ou champ de formulaire */
+  .bande:first-child { border-top: 0; }
+  .bande .num { font-weight: 600; }
+  .bande .decor { font-weight: 600; }
+  .bande .resume { display: block; font-weight: 400; color: var(--app-muted); font-size: 13px; }
+  .bande .pages { color: var(--app-ink); }
+  .bande .ote { width: 28px; height: 28px; border-radius: 6px; color: var(--app-muted); font-size: 18px; line-height: 1; }
+  .bande .ote:hover { background: rgba(0,0,0,.06); color: var(--app-ink); }
+  .bande.ext-jour { background: #fbefb3; }
+  .bande.int-nuit { background: #d6e2f5; }
+  .bande.ext-nuit { background: #cfe8cd; }
+  .bande.nouvelle { animation: arrivee 600ms var(--ease-out); }
+  @keyframes arrivee { from { transform: translateY(-8px); opacity: 0; } }
+  .jetons { display: flex; gap: 3px; }
+  .jeton { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: #1f1d1a; color: #fff; font-size: 12px; font-weight: 600; }
+  .demo-message { min-height: 1.4em; padding: 0 18px 12px; color: var(--app-muted); font-size: 13px; }
 
-  /* ——— Installation ——— */
-  .installation { background: var(--ardoise); color: var(--craie); }
-  .installation h2 { color: var(--craie); }
-  .installation .intro { color: rgba(237, 235, 227, .8); }
-  .installation ol { margin: 0; padding: 0; list-style: none; counter-reset: pas; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-  .installation li { counter-increment: pas; }
-  .installation li::before { content: counter(pas); display: block; font: 700 54px/1 Caveat, cursive; color: var(--scotch); margin-bottom: 6px; }
-  .installation li strong { display: block; font-size: 19px; margin-bottom: 6px; }
-  .installation li p { margin: 0; color: rgba(237, 235, 227, .82); }
-  .smartscreen { margin-top: 40px; padding: 20px 24px; border: 2px dashed rgba(237, 235, 227, .45); border-radius: 8px; max-width: 760px; }
-  .smartscreen strong { color: var(--scotch); }
-  .installation a { color: var(--scotch); }
+  /* ——— Sections ——— */
+  .section { padding-block: calc(var(--section) / 2); }
 
-  /* ——— Mac et dons ——— */
-  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
-  .duo h2 { font-size: 32px; }
-  .duo p { color: var(--encre-douce); margin: 0 0 20px; }
-  .bouton-sobre { display: inline-block; font-weight: 700; padding: 12px 22px; border: 2px solid var(--encre); border-radius: 6px; color: var(--encre); text-decoration: none; }
-  .bouton-sobre:hover { background: var(--encre); color: var(--papier); }
-  .don { background: var(--scotch); border-color: var(--scotch); box-shadow: 0 2px 0 #B98A12; }
-  .don:hover { background: #F5C84D; color: var(--encre); }
+  /* Le tour du logiciel : une rangée qui défile, seul le panneau du centre est allumé */
+  .tour { min-height: 96svh; display: flex; flex-direction: column; justify-content: center; }
+  .tour-tete { display: flex; justify-content: space-between; align-items: end; gap: 2rem; padding-inline: var(--margin); margin-bottom: 3rem; }
+  .tour-tete p { color: var(--muted); max-width: 44ch; }
+  .tour-fleches { display: flex; gap: 0.5rem; }
+  .tour-fleches button { width: 3.25rem; height: 3.25rem; display: grid; place-items: center; background: var(--surface); transition: background-color var(--t-hover) ease, transform var(--t-press) var(--ease-out); }
+  .tour-fleches button:hover { background: #2c2a27; }
+  .tour-fleches button:active { transform: scale(0.94); }
+  .tour-fleches svg { width: 22px; height: 22px; }
+  .rangee { display: flex; gap: 6vw; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 calc(50vw - min(23rem, 40vw)); scrollbar-width: none; overscroll-behavior-x: contain; }
+  .rangee::-webkit-scrollbar { display: none; }
+  .panneau { flex: 0 0 min(46rem, 80vw); scroll-snap-align: center; display: grid; grid-template-columns: minmax(0, 1fr) 15rem; gap: 2rem; align-items: start; }
+  .panneau figure { opacity: 0.22; transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out); transform: scale(0.96); }
+  .panneau.allume figure { opacity: 1; transform: none; }
+  .panneau img, .panneau video { width: 100%; aspect-ratio: 16 / 10.5; object-fit: cover; object-position: left top; background: var(--surface); }
+  .panneau h3 { font-size: var(--step-lead); line-height: 1.1; font-weight: 500; }
+  .panneau p { margin-top: 0.75rem; color: var(--muted); font-size: var(--step-body); }
+  .panneau-texte { visibility: hidden; }
+  .panneau.allume .panneau-texte { visibility: visible; }
 
-  .questions { border-top: 2px solid var(--encre); max-width: 820px; }
-  .questions details { border-bottom: 1px solid var(--trait); }
-  .questions summary { cursor: pointer; padding: 16px 0; font-weight: 700; font-size: 18px; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+  /* La feuille de service : fixe à gauche, les réglages défilent à droite */
+  .feuille-section { background: var(--papier); color: var(--papier-ink); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); padding-inline: var(--margin); }
+  .feuille-fixe { grid-column: 1 / span 6; position: sticky; top: 0; height: 100svh; display: grid; place-items: center; }
+  .feuille-reglages { grid-column: 8 / span 5; padding-block: 18svh 30svh; }
+  .feuille-reglages h2 { margin-bottom: 1.25rem; }
+  .feuille-reglages > p { color: var(--papier-muted); }
+  .reglage { margin-top: 38vh; }
+  .reglage:first-of-type { margin-top: 22vh; }
+  .reglage h3 { font-size: var(--step-lead); line-height: 1.12; }
+  .reglage p { margin-top: 0.75rem; font-size: var(--step-body); color: var(--papier-ink); }
+  .controle { margin-top: 1.5rem; }
+  .controle label, .controle .etiquette { display: block; font-size: 0.875rem; color: var(--papier-muted); margin-bottom: 0.5rem; }
+  .controle input[type="text"] { width: 100%; min-height: 3rem; padding: 0.6rem 0.8rem; background: #fff; border: 0; font-size: 1.0625rem; }
+  .controle input[type="range"] { width: 100%; accent-color: var(--app-accent); height: 2.75rem; }
+  .segments { display: inline-flex; background: #e6e1d6; padding: 4px; gap: 4px; }
+  .segments button { min-height: 2.75rem; padding: 0 1.1rem; font-weight: 500; transition: background-color var(--t-hover) ease; }
+  .segments button[aria-pressed="true"] { background: var(--papier-ink); color: #fff; }
+  .segments button:not([aria-pressed="true"]):hover { background: #d9d3c6; }
+  .bascule { display: inline-flex; align-items: center; gap: 0.8rem; min-height: 2.75rem; font-weight: 500; }
+  .bascule .piste { width: 3.25rem; height: 1.85rem; background: #cfc9bd; border-radius: 1rem; position: relative; transition: background-color var(--t-hover) ease; }
+  .bascule .piste::after { content: ""; position: absolute; top: 3px; left: 3px; width: calc(1.85rem - 6px); height: calc(1.85rem - 6px); border-radius: 50%; background: #fff; transition: transform 240ms var(--ease-out); }
+  .bascule[aria-checked="true"] .piste { background: var(--app-accent); }
+  .bascule[aria-checked="true"] .piste::after { transform: translateX(1.4rem); }
+  .envoi { min-height: 3rem; padding: 0 1.4rem; background: var(--app-accent); color: #fff; font-weight: 600; transition: transform var(--t-press) var(--ease-out); }
+  .envoi:active { transform: scale(0.97); }
+
+  .fs { width: min(36rem, 100%); background: #fff; padding: 26px 28px 22px; font-size: 13px; } /* taste-skill-ignore : morceau du logiciel (data-ui) ou champ de formulaire */
+  .fs-haut { display: flex; justify-content: space-between; align-items: start; gap: 1rem; padding-bottom: 12px; border-bottom: 2px solid var(--app-ink); }
+  .fs-prod { color: var(--app-muted); font-size: 12px; }
+  .fs-titre { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin: 2px 0; }
+  .fs-jour { text-align: right; }
+  .fs-jour strong { font-size: 26px; font-weight: 700; }
+  .fs-heures { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 14px 0; }
+  .fs-heures div { border: 1px solid var(--app-ink); padding: 6px 8px; } /* taste-skill-ignore : morceau du logiciel (data-ui) ou champ de formulaire */
+  .fs-heures span { display: block; font-size: 11px; color: var(--app-muted); }
+  .fs-heures b { font-size: 19px; font-style: italic; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .fs-infos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 12px; }
+  .fs-infos h4 { font-size: 11px; font-weight: 700; letter-spacing: 0.02em; margin-bottom: 3px; }
+  .fs table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  .fs caption { text-align: left; font-size: 11px; font-weight: 700; padding: 8px 0 4px; }
+  .fs th { text-align: left; font-weight: 500; color: var(--app-muted); font-size: 11px; border-bottom: 1px solid var(--app-ink); padding: 3px 4px; }
+  .fs td { padding: 5px 4px; border-bottom: 1px solid var(--app-line); vertical-align: top; }
+  .fs .change { animation: surligne 900ms ease; }
+  @keyframes surligne { from { background: #fbe7a6; } }
+  .fs-pied { margin-top: 10px; color: var(--app-muted); font-size: 12px; min-height: 1.3em; }
+  .fs-pied.envoyee { color: #2f6b2c; font-weight: 600; }
+
+  /* Une séquence, du papier au plateau : quatre champs aux couleurs du plan de travail */
+  .parcours { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .champ { min-height: 84svh; padding: 2rem clamp(1rem, 2vw, 1.75rem) 1.75rem; color: var(--bande-ink); display: flex; flex-direction: column; }
+  .champ:nth-child(1) { background: var(--bande-ext-jour); }
+  .champ:nth-child(2) { background: var(--bande-int-jour); }
+  .champ:nth-child(3) { background: var(--bande-int-nuit); }
+  .champ:nth-child(4) { background: var(--bande-ext-nuit); }
+  .champ h2 { font-size: var(--step-lead); line-height: 1.05; font-weight: 700; min-height: 2.2em; }
+  .champ .carte-zone { flex: 1; display: flex; align-items: center; justify-content: center; padding-block: 2rem; }
+  .champ .phrase { font-size: var(--step-lead); line-height: 1.12; font-weight: 500; letter-spacing: -0.02em; }
+  .champ .note { margin-top: 0.6rem; font-size: var(--step-body); }
+  .carte { width: 16.5rem; background: #fff; border: 1px solid rgba(0,0,0,.14); border-radius: 8px; padding: 12px 14px; transition: transform 150ms var(--ease-out); } /* taste-skill-ignore : morceau du logiciel (data-ui) ou champ de formulaire */
+  .champ:hover .carte { transform: translateY(-6px); }
+  .carte-tete { display: flex; gap: 8px; align-items: baseline; font-weight: 600; }
+  .carte-tete .ie { color: var(--app-muted); font-weight: 500; font-size: 12px; margin-left: auto; }
+  .carte .resume { color: var(--app-muted); font-size: 12.5px; margin-top: 3px; }
+  .carte dl { margin-top: 10px; display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; font-size: 12.5px; }
+  .carte dt { color: var(--app-muted); }
+  .carte dd { margin: 0; }
+  .carte .etat { margin-top: 10px; display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #efe9dd; }
+  .carte .etat.fait { background: #d7ecd5; color: #22561f; }
+  .parcours-note { padding: 1.25rem var(--margin) 0; color: var(--muted); font-size: var(--step-small); }
+
+  /* Questions */
+  .questions { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); padding-inline: var(--margin); }
+  .questions-tete { grid-column: 1 / span 4; }
+  .questions-tete h2 { position: sticky; top: 6rem; font-size: var(--step-head); line-height: 1; font-stretch: 88%; }
+  .questions-liste { grid-column: 5 / span 8; display: grid; gap: 8px; }
+  .questions details { background: var(--surface); transition: background-color var(--t-hover) ease; }
+  .questions details:hover { background: #262421; }
+  .questions summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; min-height: 4.5rem; padding: 1rem 1.5rem; font-size: var(--step-lead); font-weight: 500; }
   .questions summary::-webkit-details-marker { display: none; }
-  .questions summary::after { content: '+'; font-weight: 400; font-size: 24px; line-height: 1; color: var(--vert); }
-  .questions details[open] summary::after { content: '–'; }
-  .questions details p { margin: 0 0 18px; color: var(--encre-douce); max-width: 44em; }
-  .duo { border-top: 2px solid var(--encre); }
+  .plus { position: relative; flex: 0 0 16px; height: 16px; }
+  .plus::before, .plus::after { content: ""; position: absolute; left: 0; top: 6.5px; width: 16px; height: 3px; background: currentColor; transition: transform 240ms var(--ease-out); }
+  .plus::after { transform: rotate(90deg); }
+  .questions details[open] { background: var(--accent); color: var(--accent-ink); }
+  .questions details[open] .plus::after { transform: rotate(0deg); }
+  .questions details p { padding: 0 1.5rem 1.5rem; max-width: 52ch; font-size: var(--step-body); }
+  .questions details a { color: inherit; }
 
-  /* ——— Communauté ——— */
-  .communaute { background: var(--ardoise); color: var(--craie); border-radius: 10px; padding: 40px 44px; margin: 0 0 72px; display: flex; gap: 32px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
-  .communaute h2 { color: var(--craie); }
-  .communaute p { margin: 0; color: rgba(237, 235, 227, .82); max-width: 38em; }
-  .bouton-communaute { display: inline-block; font-weight: 700; font-size: 18px; padding: 14px 24px; border-radius: 6px; text-decoration: none; background: var(--scotch); color: var(--encre); box-shadow: 0 2px 0 #B98A12; white-space: nowrap; }
-  .bouton-communaute:hover { background: #F5C84D; }
-  .partage { border-top: 2px solid var(--encre); }
-  .partage p { color: var(--encre-douce); margin: 0 0 18px; }
-  .partage-boutons { display: flex; flex-wrap: wrap; gap: 10px; }
-  .partage-boutons .bouton-sobre { font: inherit; font-weight: 700; padding: 10px 18px; background: none; cursor: pointer; }
-  #partage-natif { background: var(--scotch); border-color: var(--scotch); }
-  footer { border-top: 2px solid var(--encre); padding: 28px 0 48px; font-size: 15px; color: var(--encre-douce); display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-  footer p { margin: 0; }
+  /* Premier pas : le dialogue du logiciel déjà ouvert */
+  .depart { background: var(--brique); color: var(--brique-ink); min-height: 90svh; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); padding: var(--section) var(--margin) 2.5rem; align-items: end; }
+  .depart-texte { grid-column: 1 / span 5; }
+  .depart h2 { font-size: var(--step-display); line-height: 0.92; font-stretch: 80%; }
+  .depart-texte p { margin-top: 1.75rem; font-size: var(--step-body); max-width: 40ch; }
+  .depart-texte p + p { margin-top: 1rem; }
+  .depart-dialogue { grid-column: 7 / span 5; align-self: center; }
+  .dialogue { width: min(28rem, 100%); background: #fff; border-radius: 10px; padding: 22px 24px 20px; box-shadow: 0 24px 60px rgba(0,0,0,.35); } /* taste-skill-ignore : morceau du logiciel (data-ui) ou champ de formulaire */
+  .dialogue h3 { font-size: 20px; }
+  .dialogue > p { color: var(--app-muted); margin-top: 4px; font-size: 13.5px; }
+  .dialogue .champ-ui { margin-top: 16px; }
+  .dialogue label, .dialogue .etiquette { display: block; font-size: 13px; color: var(--app-muted); margin-bottom: 6px; }
+  .dialogue input { width: 100%; min-height: 40px; padding: 8px 10px; border: 1px solid #cfc9bd; border-radius: 6px; font-size: 15px; }
+  .dialogue input:focus { outline: 2px solid var(--app-accent); outline-offset: 0; border-color: var(--app-accent); }
+  .dialogue .segs { display: inline-flex; border: 1px solid #cfc9bd; border-radius: 6px; overflow: hidden; } /* taste-skill-ignore : morceau du logiciel (data-ui) ou champ de formulaire */
+  .dialogue .segs button { min-height: 38px; padding: 0 14px; font-size: 14px; }
+  .dialogue .segs button[aria-pressed="true"] { background: var(--app-noir); color: #fff; }
+  .dialogue .pied { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+  .dialogue .app-btn { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; }
 
-  @media (max-width: 900px) {
-    .ouverture { grid-template-columns: 1fr; gap: 48px; padding-top: 16px; }
-    .clap { max-width: 460px; }
-    .etapes { grid-template-columns: repeat(3, 1fr); }
-    .ecran { grid-template-columns: 1fr; gap: 20px; }
-    .installation ol, .duo { grid-template-columns: 1fr; }
+  /* La communauté : quatre rangées en grand */
+  .ensemble-tete { padding-inline: var(--margin); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); margin-bottom: 3rem; align-items: end; }
+  .ensemble-tete h2 { grid-column: 1 / span 6; }
+  .ensemble-tete p { grid-column: 8 / span 5; color: var(--muted); }
+  .rangees a, .rangees button { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem; width: 100%; min-height: 9.5rem; padding: 1.25rem var(--margin); text-align: left; text-decoration: none; transition: background-color var(--t-hover) ease, color var(--t-hover) ease; }
+  .rangees li:nth-child(odd) > * { background: var(--surface); }
+  .rangees li:nth-child(even) > * { background: var(--bg); }
+  .rangees li > *:hover { background: var(--accent); color: var(--accent-ink); }
+  .rangees .grand { font-size: var(--step-head); line-height: 1; letter-spacing: -0.035em; font-stretch: 85%; }
+  .rangees .detail { font-size: var(--step-body); max-width: 30ch; text-align: right; padding-bottom: 0.5rem; }
+
+  /* Le pied */
+  .pied-page { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1.5rem; align-items: baseline; padding: 30svh var(--margin) 1.9rem; font-size: var(--step-small); color: var(--muted); }
+  .pied-page nav { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .pied-page nav a { color: var(--ink); text-decoration: none; }
+  .pied-page nav a:hover { color: var(--accent); }
+  .pied-page p:last-child { text-align: right; justify-self: end; }
+
+  /* ——— Mouvement : rien ne reste caché si le script ne tourne pas ——— */
+  @media (prefers-reduced-motion: no-preference) {
+    .js .lines [data-line] { transform: translateY(105%); animation: ligne 900ms var(--ease-out) forwards; animation-delay: calc(var(--i, 0) * 110ms + 150ms); }
+    .js [data-rise] { opacity: 0; transform: translateY(18px); animation: monte 800ms var(--ease-out) forwards; animation-delay: calc(var(--i, 0) * 90ms + 420ms); }
+    .js [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 700ms var(--ease-out), transform 900ms var(--ease-out); transition-delay: calc(var(--i, 0) * 80ms); }
+    .js [data-reveal].is-in { opacity: 1; transform: none; }
   }
-  @media (max-width: 560px) {
-    .haut nav { display: none; }
-    .etapes { grid-template-columns: repeat(2, 1fr); }
-    .ardoise dd { font-size: 25px; }
-    .ardoise-titre { font-size: 38px; }
-    section { padding: 56px 0; }
-    .communaute { padding: 32px 24px; }
+  @keyframes ligne { to { transform: none; } }
+  @keyframes monte { to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .bande.nouvelle, .fs .change { animation: none; }
+    .panneau figure, .carte, .plus::before, .plus::after { transition: none; }
+  }
+
+  /* ——— Tablette ——— */
+  @media (max-width: 1100px) {
+    .barre nav a.secondaire { display: none; }
+    .ouverture-texte { grid-column: 1 / span 12; }
+    .ouverture-demo { grid-column: 1 / span 12; max-width: 44rem; }
+    .depart-texte { grid-column: 1 / span 12; }
+    .depart-dialogue { grid-column: 1 / span 12; margin-top: 3rem; }
+    .feuille-fixe { grid-column: 1 / span 7; }
+    .feuille-reglages { grid-column: 8 / span 5; }
+    .parcours { grid-template-columns: repeat(2, 1fr); }
+    .champ { min-height: 64svh; }
+  }
+
+  /* ——— Téléphone ——— */
+  @media (max-width: 720px) {
+    .barre nav a:not(.bouton) { display: none; }
+    .ouverture { display: block; padding-top: 6.5rem; min-height: 0; }
+    .ouverture h1 { font-size: clamp(2.5rem, 11vw, 3.25rem); }
+    .ouverture .accroche { margin-top: 1.5rem; }
+    .actions .bouton { width: 100%; justify-content: center; }
+    .ouverture-demo { margin-inline: calc(var(--margin) * -1); margin-top: 2.5rem; }
+    .demo-legende { padding-inline: var(--margin); }
+    .bande { grid-template-columns: 22px 54px 1fr auto; padding: 9px 10px; }
+    .bande .jetons { display: none; }
+    .app-ajout { flex-wrap: wrap; padding: 12px; }
+    .jour { margin: 0 12px 12px; }
+    .tour-tete { flex-direction: column; align-items: start; margin-bottom: 2rem; }
+    .rangee { gap: 4vw; padding: 0 7vw; }
+    .panneau { flex-basis: 86vw; grid-template-columns: 1fr; gap: 1.25rem; }
+    .feuille-section { display: block; padding: 0; }
+    .feuille-fixe { position: sticky; top: 0; z-index: 2; height: 46svh; overflow: hidden; place-items: start center; padding: 1rem var(--margin) 0; background: #e9e4d9; }
+    .fs { padding: 18px 18px 14px; }
+    .fs-infos, .fs table:last-of-type { display: none; }
+    .feuille-reglages { padding: 4rem var(--margin) 6rem; }
+    .reglage, .reglage:first-of-type { margin-top: 4.5rem; }
+    .parcours { grid-template-columns: 1fr; }
+    .champ { min-height: 0; padding: 2rem 1.25rem; }
+    .champ h2 { min-height: 0; margin-bottom: 1.25rem; }
+    .champ .carte-zone { order: 2; justify-content: flex-start; padding: 2rem 0 0; }
+    .questions { display: block; }
+    .questions-tete h2 { position: static; margin-bottom: 2rem; }
+    .questions summary { min-height: 4rem; padding: 0.9rem 1.25rem; }
+    .questions details p { padding: 0 1.25rem 1.25rem; }
+    .depart { display: block; padding-top: 10rem; }
+    .depart-dialogue { margin-top: 3rem; }
+    .dialogue .pied .app-btn { flex: 1; justify-content: center; min-height: 52px; }
+    .ensemble-tete { display: block; }
+    .ensemble-tete p { margin-top: 1rem; }
+    .rangees a, .rangees button { grid-template-columns: 1fr; min-height: 7rem; gap: 0.5rem; }
+    .rangees .detail { text-align: left; padding: 0; }
+    .pied-page { display: flex; flex-direction: column; gap: 0.5rem; padding-top: 20svh; }
+    .pied-page p:last-child { text-align: left; justify-self: start; }
   }
 </style>
 </head>
 <body>
-
 <!--
   ════════════════════════════════════════════════════════════════════
-  À MODIFIER : les trois liens de la page sont réglés ici, en un seul endroit.
+  À MODIFIER : les liens de la page sont réglés ici, en un seul endroit.
   ════════════════════════════════════════════════════════════════════
 -->
 <script>
@@ -182,187 +397,305 @@
   const AFFICHER_TELECHARGEMENTS_A_PARTIR_DE = 10;
 </script>
 
-<div class="cadre">
-  <header class="haut">
-    <a class="marque" href="#"><img src="images/icone.png" alt="">CinéLabs</a>
-    <nav aria-label="Sur cette page">
-      <a href="#video">Vidéo</a>
-      <a href="#parcours">Le logiciel</a>
-      <a href="#installation">Installation</a>
-      <a href="#questions">Questions</a>
-      <a href="feuille-de-route.html">Prochainement</a>
-      <a href="#communaute">Communauté</a>
-      <a href="#soutenir">Soutenir</a>
-    </nav>
-  </header>
+<header class="barre">
+  <a class="marque" href="#"><img src="images/icone.png" alt="" width="30" height="30">CinéLabs</a>
+  <nav aria-label="Sur cette page">
+    <a href="#logiciel">Le logiciel</a>
+    <a class="secondaire" href="#feuille">Feuilles de service</a>
+    <a href="#questions">Questions</a>
+    <a class="secondaire" href="feuille-de-route.html">Prochainement</a>
+    <a href="#ensemble">Communauté</a>
+    <a class="bouton" data-lien="telechargement" href="#">Télécharger</a>
+  </nav>
+</header>
 
-  <main>
-    <div class="ouverture">
-      <div>
-        <h1>Le logiciel de production pour les <span class="insecable">courts-métrages.</span></h1>
-        <p class="accroche">Du scénario aux festivals : dépouillement, plan de travail, feuilles de service, rapports script et post-production. En français, gratuit, et il marche même sans internet.</p>
-        <a class="telecharger" data-lien="telechargement" href="#">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16"/></svg>
+<main>
+  <section class="ouverture" aria-labelledby="titre-page">
+    <h1 id="titre-page" class="lines">
+      <span class="line"><span data-line style="--i:0">Votre court-métrage,</span></span>
+      <span class="line"><span data-line style="--i:1">du scénario au plateau</span></span>
+    </h1>
+    <div class="ouverture-texte">
+      <p class="accroche" data-rise style="--i:0">CinéLabs est un logiciel gratuit pour Windows. Il découpe votre scénario, construit le plan de travail et remplit les feuilles de service, en français et même sans internet.</p>
+      <div class="actions" data-rise style="--i:1">
+        <a class="bouton" data-lien="telechargement" href="#">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16"/></svg>
           Télécharger pour Windows
         </a>
-        <p class="compteur" id="compteur" hidden></p>
-        <p class="precision">Gratuit, pour Windows 10 et 11. Sur Mac ? <a href="#mac">Une version est en préparation.</a></p>
+        <a class="lien" href="#logiciel">Voir le logiciel</a>
       </div>
+      <p class="compteur" id="compteur" hidden></p>
+      <p class="precision" data-rise style="--i:2">Gratuit, pour Windows 10 et 11. La version Mac est en préparation.</p>
+    </div>
 
-      <div class="clap" aria-hidden="true">
-        <div class="clap-claquoir"></div>
-        <div class="clap-bas"></div>
-        <div class="ardoise">
-          <div class="ardoise-titre">CinéLabs</div>
-          <dl>
-            <div><dt>PROD.</dt><dd>la vôtre</dd></div>
-            <div><dt>RÉAL.</dt><dd>vous</dd></div>
-            <div><dt>SÉQ.</dt><dd>du scénario…</dd></div>
-            <div><dt>PRISE</dt><dd>…aux festivals</dd></div>
-            <div><dt>PRIX</dt><dd>0 €</dd></div>
-            <div><dt>INTERNET</dt><dd>facultatif</dd></div>
-          </dl>
+    <div class="ouverture-demo" data-rise style="--i:2">
+      <div data-ui class="demo">
+        <div class="app-entete"><h3>Plan de travail</h3><span>Le Dernier Été · court-métrage</span></div>
+        <form class="app-ajout" id="ajout">
+          <div style="flex:1;min-width:14rem">
+            <label for="entete">Écrivez un en-tête de séquence, comme dans un scénario</label>
+            <input id="entete" autocomplete="off" spellcheck="false" value="EXT. BORD DU LAC - NUIT">
+          </div>
+          <button class="app-btn" type="submit" style="align-self:end">Ajouter au jour</button>
+        </form>
+        <p class="demo-message" id="demo-message" aria-live="polite">CinéLabs lit l'en-tête : intérieur ou extérieur, le décor, le jour ou la nuit. La bande prend la couleur du plan de travail.</p>
+        <div class="jour">
+          <div class="jour-tete"><strong>J3</strong><span>mer. 4 nov.</span><span class="total" id="total"></span></div>
+          <ol class="bandes" id="bandes"></ol>
         </div>
       </div>
+      <p class="demo-legende">Essayez : « INT. CHAMBRE D'ENFANT - NUIT », « 12. EXT. JOUR - PLAGE », « SÉQUENCE 4 - INTÉRIEUR NUIT - CUISINE ».</p>
+    </div>
+  </section>
+
+  <section id="logiciel" class="section tour" aria-labelledby="titre-tour">
+    <div class="tour-tete">
+      <div>
+        <h2 id="titre-tour" class="head" data-reveal>Tout le film au même endroit</h2>
+        <p data-reveal style="--i:1; margin-top: 1.25rem">Importez votre scénario (PDF, Final Draft ou Fountain) : CinéLabs le découpe en séquences et vous suit jusqu'aux festivals.</p>
+      </div>
+      <div class="tour-fleches" data-reveal style="--i:2">
+        <button type="button" id="tour-prec" aria-label="Écran précédent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button type="button" id="tour-suiv" aria-label="Écran suivant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
+    <div class="rangee" id="rangee" tabindex="0" aria-label="Les écrans de CinéLabs, à faire défiler">
+      <article class="panneau">
+        <figure><video muted loop playsinline preload="none" poster="images/video-affiche.jpg" width="1280" height="720" aria-label="CinéLabs en 30 secondes, présentation animée"><source src="videos/cinelabs-presentation.mp4" type="video/mp4"></video></figure>
+        <div class="panneau-texte"><h3>En 30 secondes</h3><p>Le tour du logiciel, du scénario importé à la feuille de service envoyée.</p></div>
+      </article>
+      <article class="panneau">
+        <figure><img src="images/casting.webp" width="1400" height="875" alt="Capture de CinéLabs : le casting, les candidats d'un rôle avec leurs photos" loading="lazy"></figure>
+        <div class="panneau-texte"><h3>Casting</h3><p>Les candidats, leurs photos et leurs essais, rôle par rôle. Le comédien retenu rejoint la distribution.</p></div>
+      </article>
+      <article class="panneau">
+        <figure><img src="images/storyboard.webp" width="1400" height="875" alt="Capture de CinéLabs : le storyboard, des cases dessinées au format du film" loading="lazy"></figure>
+        <div class="panneau-texte"><h3>Storyboard</h3><p>Dessinez chaque plan au doigt ou au stylet. Les cases prennent le format de votre film.</p></div>
+      </article>
+      <article class="panneau">
+        <figure><img src="images/plan-de-travail.webp" width="1400" height="875" alt="Capture de CinéLabs : le plan de travail, les séquences en bandes de couleur par jour" loading="lazy"></figure>
+        <div class="panneau-texte"><h3>Plan de travail</h3><p>Glissez les séquences sur les jours. CinéLabs compte les pages et vous prévient des indisponibilités.</p></div>
+      </article>
+      <article class="panneau">
+        <figure><img src="images/feuille-de-service.webp" width="1400" height="875" alt="Capture de CinéLabs : une feuille de service avec horaires, lieu, météo et comédiens" loading="lazy"></figure>
+        <div class="panneau-texte"><h3>Feuilles de service</h3><p>Remplies à partir du plan de travail, puis envoyées à chacun par mail ou imprimées.</p></div>
+      </article>
+      <article class="panneau">
+        <figure><img src="images/tablette.webp" width="1400" height="978" alt="Capture de CinéLabs sur tablette : le rapport script au plateau" loading="lazy"></figure>
+        <div class="panneau-texte"><h3>Au plateau</h3><p>La scripte note prises et minutage sur tablette, même sans réseau. Le rapport part le soir.</p></div>
+      </article>
+      <article class="panneau">
+        <figure><img src="images/post-production.webp" width="1400" height="875" alt="Capture de CinéLabs : la post-production, étapes et versions de montage" loading="lazy"></figure>
+        <div class="panneau-texte"><h3>Post-production</h3><p>Versions de montage, musiques et droits, générique, livrables et inscriptions en festival.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="feuille" class="feuille-section" aria-labelledby="titre-feuille">
+    <div class="feuille-fixe">
+      <article data-ui class="fs" aria-label="Aperçu de la feuille de service">
+        <div class="fs-haut">
+          <div><div class="fs-prod">Les Films du Forez</div><div class="fs-titre" id="fs-titre">Le Dernier Été</div><div class="fs-prod">Réalisation : Camille Morel</div></div>
+          <div class="fs-jour"><strong id="fs-jour">J1</strong> <span class="fs-prod">/ 5</span><div id="fs-date">lundi 2 novembre</div></div>
+        </div>
+        <div class="fs-heures">
+          <div><span>Convocation</span><b id="fs-convoc">07:30</b></div>
+          <div><span>Prêt à tourner</span><b id="fs-pret">08:30</b></div>
+          <div><span>Repas</span><b id="fs-repas">13:00</b></div>
+          <div><span>Fin prévue</span><b id="fs-fin">17:30</b></div>
+        </div>
+        <div class="fs-infos">
+          <div><h4>Lieu</h4><div id="fs-lieu">Gare de Bonson, quai 1</div></div>
+          <div><h4>Météo</h4><div id="fs-meteo">Ciel voilé, 11 °C</div></div>
+          <div><h4>Sécurité</h4><div>Hôpital de Montbrison, 15 min</div></div>
+        </div>
+        <table>
+          <caption>Séquences du jour</caption>
+          <thead><tr><th>Séq.</th><th>Décor</th><th>I/E · J/N</th><th>Pages</th></tr></thead>
+          <tbody id="fs-sequences"></tbody>
+        </table>
+        <table>
+          <caption>Comédiens</caption>
+          <thead><tr><th>Rôle</th><th>Comédien·ne</th><th>Arrivée</th><th>HMC</th><th>Plateau</th></tr></thead>
+          <tbody id="fs-comediens"></tbody>
+        </table>
+        <p class="fs-pied" id="fs-pied" aria-live="polite">Brouillon, pas encore envoyée.</p>
+      </article>
     </div>
 
-    <section id="video" class="video" aria-labelledby="titre-video">
-      <h2 id="titre-video">CinéLabs en 30 secondes</h2>
-      <video controls muted playsinline preload="none" poster="images/video-affiche.jpg" width="1920" height="1080">
-        <source src="videos/cinelabs-presentation.mp4" type="video/mp4">
-        Votre navigateur ne peut pas lire cette vidéo : <a href="videos/cinelabs-presentation.mp4">la télécharger</a>.
-      </video>
-    </section>
+    <div class="feuille-reglages">
+      <h2 id="titre-feuille" class="head" data-reveal>La feuille se remplit seule</h2>
+      <p data-reveal style="--i:1">Horaires, lieu, séquences et comédiens viennent du plan de travail. Réglez-la ici comme dans le logiciel : la feuille change à côté.</p>
 
-    <section id="parcours" class="parcours" aria-labelledby="titre-parcours">
-      <h2 id="titre-parcours">Tout le film, au même endroit</h2>
-      <p class="intro">Importez votre scénario (PDF, Final Draft ou Fountain) : CinéLabs le découpe en séquences, repère les personnages et vous accompagne à chaque étape.</p>
+      <div class="reglage" data-reveal>
+        <h3>Elle porte le nom de votre film.</h3>
+        <p>Production, réalisation et titre en tête de chaque feuille, sans rien recopier.</p>
+        <div class="controle"><label for="r-titre">Titre du film</label><input type="text" id="r-titre" value="Le Dernier Été" maxlength="40"></div>
+      </div>
 
-      <ul class="etapes" role="tablist" aria-label="Les étapes d'une production">
-        <li><button role="tab" id="o-casting" aria-controls="ecran" aria-selected="true" data-etape="casting"><span>1</span><strong>Casting</strong></button></li>
-        <li><button role="tab" id="o-storyboard" aria-controls="ecran" aria-selected="false" tabindex="-1" data-etape="storyboard"><span>2</span><strong>Storyboard</strong></button></li>
-        <li><button role="tab" id="o-plan" aria-controls="ecran" aria-selected="false" tabindex="-1" data-etape="plan"><span>3</span><strong>Plan de travail</strong></button></li>
-        <li><button role="tab" id="o-feuille" aria-controls="ecran" aria-selected="false" tabindex="-1" data-etape="feuille"><span>4</span><strong>Feuilles de service</strong></button></li>
-        <li><button role="tab" id="o-plateau" aria-controls="ecran" aria-selected="false" tabindex="-1" data-etape="plateau"><span>5</span><strong>Au plateau</strong></button></li>
-        <li><button role="tab" id="o-post" aria-controls="ecran" aria-selected="false" tabindex="-1" data-etape="post"><span>6</span><strong>Post-production</strong></button></li>
-      </ul>
-
-      <div class="ecran" id="ecran" role="tabpanel" aria-labelledby="o-casting">
-        <figure><img id="ecran-image" src="images/casting.webp" width="1400" height="875" alt=""></figure>
-        <div>
-          <h3 id="ecran-titre"></h3>
-          <div id="ecran-texte"></div>
+      <div class="reglage" data-reveal>
+        <h3>Chaque jour a sa feuille.</h3>
+        <p>Les séquences, le décor et les comédiens convoqués suivent le plan de travail.</p>
+        <div class="controle"><span class="etiquette" id="e-jour">Jour de tournage</span>
+          <div class="segments" role="group" aria-labelledby="e-jour" id="r-jour">
+            <button type="button" aria-pressed="true" data-jour="0">J1</button><button type="button" aria-pressed="false" data-jour="1">J3</button><button type="button" aria-pressed="false" data-jour="2">J4</button>
+          </div>
         </div>
       </div>
-    </section>
 
-    <section aria-labelledby="titre-atouts">
-      <h2 id="titre-atouts">Pensé pour les petites équipes</h2>
-      <p class="intro">CinéLabs est né sur des tournages associatifs, là où tout le monde fait trois métiers et où le budget tient dans une enveloppe.</p>
-      <dl class="atouts">
-        <div><dt>La langue du plateau</dt><dd>Feuilles de service, huitièmes de page, HMC, régie, rapports script : les documents que votre équipe connaît déjà.</dd></div>
-        <div><dt>Sans internet</dt><dd>Tout fonctionne hors connexion, même au fond d'une vallée. Les tablettes du plateau se branchent sur le wifi de l'ordinateur.</dd></div>
-        <div><dt>Vos données chez vous</dt><dd>Vos projets restent sur votre ordinateur, avec des sauvegardes automatiques. Pas de compte à créer.</dd></div>
-        <div><dt>Gratuit</dt><dd>Toutes les fonctions, sans limite de durée ni abonnement.</dd></div>
-      </dl>
-    </section>
-  </main>
-</div>
+      <div class="reglage" data-reveal>
+        <h3>Changez l'heure, tout suit.</h3>
+        <p>Prêt à tourner, maquillage et arrivée de chaque comédien se recalculent.</p>
+        <div class="controle"><label for="r-heure">Convocation générale : <b id="r-heure-val">07:30</b></label><input type="range" id="r-heure" min="0" max="16" step="1" value="6"></div>
+      </div>
 
-<section id="installation" class="installation" aria-labelledby="titre-installation">
-  <div class="cadre">
-    <h2 id="titre-installation">Installer CinéLabs</h2>
-    <p class="intro">Une minute, sans rien d'autre à installer et sans droits d'administrateur.</p>
-    <ol>
-      <li><strong>Téléchargez l'installateur</strong><p>Le fichier <em>CineLabs-Installation-(version).exe</em>, sur la <a data-lien="telechargement" href="#">page de téléchargement</a>.</p></li>
-      <li><strong>Lancez-le</strong><p>Choisissez où ranger vos projets (par défaut, Documents\CinéLabs), puis cliquez sur Installer.</p></li>
-      <li><strong>Ouvrez CinéLabs</strong><p>Depuis le bureau ou le menu Démarrer. Le scénario d'exemple permet de tout essayer.</p></li>
-    </ol>
-    <p class="smartscreen"><strong>Windows affiche « Windows a protégé votre ordinateur » ?</strong> C'est normal pour un logiciel indépendant qui débute : cliquez sur <em>Informations complémentaires</em>, puis sur <em>Exécuter quand même</em>.</p>
-  </div>
-</section>
+      <div class="reglage" data-reveal>
+        <h3>La régie est sur la feuille.</h3>
+        <p>Repas sur place ou au restaurant, l'heure apparaît pour toute l'équipe.</p>
+        <div class="controle"><button type="button" class="bascule" role="switch" aria-checked="true" id="r-repas"><span class="piste" aria-hidden="true"></span>Repas prévu sur le tournage</button></div>
+      </div>
 
-<div class="cadre">
-  <section id="questions" class="questions" aria-labelledby="titre-questions">
-    <h2 id="titre-questions">Questions fréquentes</h2>
-    <details>
-      <summary>Pourquoi CinéLabs est-il gratuit ?</summary>
-      <p>Parce qu'il est né pour les tournages associatifs et les premiers films, là où chaque euro compte. Il est développé bénévolement ; si vous le pouvez, <a data-lien="dons" href="#">un don</a> aide à le faire évoluer.</p>
-    </details>
-    <details>
-      <summary>Où sont rangés mes projets ? Sont-ils envoyés quelque part ?</summary>
-      <p>Vos projets restent sur votre ordinateur, dans le dossier choisi à l'installation (par défaut Documents\CinéLabs). Rien n'est envoyé sur internet. CinéLabs fait une sauvegarde automatique chaque jour ; vous pouvez aussi en faire une à la main et la copier sur une clé USB.</p>
-    </details>
-    <details>
-      <summary>Comment envoyer un projet à un autre membre de l'équipe ?</summary>
-      <p>Depuis la version 0.25 : dans la fiche du projet, « Exporter le projet » crée un seul fichier .cinelabs avec tout le projet, photos et dessins compris. Sur l'autre ordinateur, « Ouvrir un projet reçu » l'ajoute à côté des autres projets, sans rien toucher. Les comptes et mots de passe ne sont jamais dans ce fichier.</p>
-    </details>
-    <details>
-      <summary>Faut-il internet pour s'en servir ?</summary>
-      <p>Non. Internet ne sert qu'à envoyer les feuilles de service par mail et à vérifier s'il existe une nouvelle version. Tout le reste marche hors connexion, même au plateau.</p>
-    </details>
-    <details>
-      <summary>Comment brancher les tablettes du plateau ?</summary>
-      <p>Sur l'ordinateur, ouvrez « Accès tablette », choisissez un mot de passe et activez l'accès. Les tablettes et téléphones connectés au même wifi que l'ordinateur scannent le QR code affiché : ils ouvrent CinéLabs dans leur navigateur, sans rien installer. Chaque membre de l'équipe peut avoir son compte, avec seulement les parties qui le concernent.</p>
-    </details>
-    <details>
-      <summary>Windows bloque l'installation, que faire ?</summary>
-      <p>Le message « Windows a protégé votre ordinateur » s'affiche pour les logiciels indépendants récents. Cliquez sur « Informations complémentaires », puis « Exécuter quand même ». L'installation ne demande pas de droits d'administrateur.</p>
-    </details>
-    <details>
-      <summary>Comment mettre CinéLabs à jour ?</summary>
-      <p>Depuis la version 0.24, CinéLabs vous prévient lui-même quand une nouvelle version sort. Téléchargez-la et lancez-la : elle remplace l'ancienne et garde tous vos projets.</p>
-    </details>
-    <details>
-      <summary>Quels scénarios peut-on importer ?</summary>
-      <p>Les PDF (exportés depuis Final Draft, Fade In, WriterDuet, Word…), les fichiers Final Draft (.fdx) et Fountain. Un PDF scanné (une photo de pages) ne peut pas être lu : il faut le fichier d'origine.</p>
-    </details>
-    <details>
-      <summary>J'ai trouvé un problème ou j'ai une idée.</summary>
-      <p>Dans CinéLabs, « Signaler un problème » (en bas de l'accueil) prépare un mail avec tout ce qu'il faut pour comprendre. Pour une question ou une idée, venez en parler sur <a data-lien="communaute" href="#" target="_blank" rel="noopener">le Discord de CinéLabs</a> ou <a data-lien="contact" href="#">écrivez-nous</a> : les retours des équipes décident des prochaines fonctions.</p>
-    </details>
-  </section>
-
-  <section id="communaute" class="communaute" aria-labelledby="titre-communaute">
-    <div>
-      <h2 id="titre-communaute">Rejoindre la communauté</h2>
-      <p>Un serveur Discord pour les équipes qui tournent avec CinéLabs : de l'aide pour l'installer, des réponses à vos questions, vos idées pour les prochaines versions, et vos tournages à montrer. Les nouvelles versions y sont annoncées dès leur sortie.</p>
-    </div>
-    <a class="bouton-communaute" data-lien="communaute" href="#" target="_blank" rel="noopener">Rejoindre le Discord</a>
-  </section>
-
-  <section id="soutenir" class="duo" aria-label="Version Mac et soutien">
-    <div id="mac">
-      <h2>Une version Mac arrive</h2>
-      <p>CinéLabs fonctionne pour l'instant sur Windows. La version Mac est en préparation. Écrivez-nous pour être prévenu de sa sortie, ou pour nous aider à la tester.</p>
-      <a class="bouton-sobre" data-lien="contact-mac" href="#">Être prévenu</a>
-    </div>
-    <div>
-      <h2>Soutenir CinéLabs</h2>
-      <p>CinéLabs est gratuit et le restera. S'il vous rend service sur vos tournages, un don aide à le faire évoluer : nouvelles fonctions, version Mac, temps passé à répondre à vos questions.</p>
-      <a class="bouton-sobre don" data-lien="dons" href="#">Faire un don</a>
+      <div class="reglage" data-reveal>
+        <h3>Envoyée à chacun, la veille.</h3>
+        <p>Chaque membre de l'équipe reçoit sa feuille par mail, avec son heure d'arrivée.</p>
+        <div class="controle"><button type="button" class="envoi" id="r-envoi">Envoyer à l'équipe</button></div>
+      </div>
     </div>
   </section>
 
-  <section class="partage" aria-labelledby="titre-partage">
-    <h2 id="titre-partage">Faire connaître CinéLabs</h2>
-    <p>Vous connaissez une équipe qui prépare un tournage ? Envoyez-lui le lien.</p>
-    <div class="partage-boutons">
-      <button type="button" class="bouton-sobre" id="partage-natif" hidden>Partager…</button>
-      <a class="bouton-sobre" data-partage="facebook" href="#" target="_blank" rel="noopener">Facebook</a>
-      <a class="bouton-sobre" data-partage="whatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
-      <a class="bouton-sobre" data-partage="linkedin" href="#" target="_blank" rel="noopener">LinkedIn</a>
-      <a class="bouton-sobre" data-partage="x" href="#" target="_blank" rel="noopener">X</a>
-      <a class="bouton-sobre" data-partage="mail" href="#">E-mail</a>
-      <button type="button" class="bouton-sobre" id="copier-lien">Copier le lien</button>
+  <section class="section-parcours" aria-labelledby="titre-parcours">
+    <div class="parcours">
+      <div class="champ">
+        <h2 id="titre-parcours" data-reveal>Une séquence, du papier au plateau</h2>
+        <div class="carte-zone"><div data-ui class="carte" data-reveal style="--i:1">
+          <div class="carte-tete"><span>5</span><span>Cuisine de Marie</span><span class="ie">INT · J</span></div>
+          <div class="resume">Marie, en robe à fleurs, fouille un tiroir. Elle en sort une valise en carton.</div>
+          <span class="etat">Importée · 2/8 page</span>
+        </div></div>
+        <p class="phrase">D'abord, le scénario arrive.</p>
+        <p class="note">Chaque en-tête devient une séquence, avec son décor et ses personnages.</p>
+      </div>
+      <div class="champ">
+        <div class="carte-zone"><div data-ui class="carte" data-reveal style="--i:1">
+          <div class="carte-tete"><span>5</span><span>Cuisine de Marie</span><span class="ie">INT · J</span></div>
+          <dl><dt>Costume</dt><dd>Robe à fleurs (Marie)</dd><dt>Accessoire</dt><dd>Valise en carton</dd><dt>Décor</dt><dd>Tiroir de buffet</dd></dl>
+          <span class="etat">Dépouillée</span>
+        </div></div>
+        <p class="phrase">Puis on la dépouille.</p>
+        <p class="note">Costumes, accessoires, véhicules : les listes par poste se remplissent seules.</p>
+      </div>
+      <div class="champ">
+        <div class="carte-zone"><div data-ui class="carte" data-reveal style="--i:1">
+          <div class="carte-tete"><span>5</span><span>Cuisine de Marie</span><span class="ie">INT · J</span></div>
+          <dl><dt>Jour</dt><dd>J3 · mercredi 4 novembre</dd><dt>Prêt</dt><dd>08:30, maison Tixier</dd><dt>Avec</dt><dd>Léa Roux, Hugo Blanc</dd></dl>
+          <span class="etat">Au plan de travail</span>
+        </div></div>
+        <p class="phrase">Elle trouve son jour.</p>
+        <p class="note">Le plan de travail la place avec les autres séquences du même décor.</p>
+      </div>
+      <div class="champ">
+        <div class="carte-zone"><div data-ui class="carte" data-reveal style="--i:1">
+          <div class="carte-tete"><span>5</span><span>Cuisine de Marie</span><span class="ie">INT · J</span></div>
+          <dl><dt>Prises</dt><dd>4, la 3 retenue</dd><dt>Minutage</dt><dd>0:16</dd><dt>Raccords</dt><dd>2 photos (robe, valise)</dd></dl>
+          <span class="etat fait">Tournée</span>
+        </div></div>
+        <p class="phrase">Enfin, on la tourne.</p>
+        <p class="note">La scripte la coche sur tablette, et le rapport du soir part tout seul.</p>
+      </div>
+    </div>
+    <p class="parcours-note">Les quatre couleurs sont celles du plan de travail : jaune pour l'extérieur jour, blanc pour l'intérieur jour, bleu pour l'intérieur nuit, vert pour l'extérieur nuit.</p>
+  </section>
+
+  <section id="questions" class="section questions" aria-labelledby="titre-questions">
+    <div class="questions-tete"><h2 id="titre-questions" data-reveal>Vos questions</h2></div>
+    <div class="questions-liste">
+      <details name="faq" data-reveal>
+        <summary>Pourquoi CinéLabs est-il gratuit ?<span class="plus" aria-hidden="true"></span></summary>
+        <p>Parce qu'il est né pour les tournages associatifs et les premiers films, là où chaque euro compte. Il est développé bénévolement ; si vous le pouvez, <a data-lien="dons" href="#">un don</a> aide à le faire évoluer.</p>
+      </details>
+      <details name="faq" data-reveal style="--i:1">
+        <summary>Comment l'installer ?<span class="plus" aria-hidden="true"></span></summary>
+        <p>Téléchargez l'installateur et lancez-le. Choisissez où ranger vos projets (par défaut Documents\CinéLabs), puis cliquez sur Installer. Il n'y a rien d'autre à installer, ni compte à créer, ni droits d'administrateur à demander. Ouvrez ensuite CinéLabs depuis le bureau : le projet d'exemple permet de tout essayer.</p>
+      </details>
+      <details name="faq" data-reveal style="--i:2">
+        <summary>Windows bloque l'installation, que faire ?<span class="plus" aria-hidden="true"></span></summary>
+        <p>Le message « Windows a protégé votre ordinateur » s'affiche pour les logiciels indépendants récents. Cliquez sur « Informations complémentaires », puis « Exécuter quand même ».</p>
+      </details>
+      <details name="faq" data-reveal style="--i:3">
+        <summary>Où sont rangés mes projets ?<span class="plus" aria-hidden="true"></span></summary>
+        <p>Sur votre ordinateur, dans le dossier choisi à l'installation. Rien n'est envoyé sur internet. CinéLabs fait une sauvegarde automatique chaque jour ; vous pouvez aussi en faire une à la main et la copier sur une clé USB.</p>
+      </details>
+      <details name="faq" data-reveal style="--i:4">
+        <summary>Comment envoyer un projet à l'équipe ?<span class="plus" aria-hidden="true"></span></summary>
+        <p>Dans la fiche du projet, « Exporter le projet » crée un seul fichier .cinelabs avec tout le projet, photos et dessins compris. Sur l'autre ordinateur, « Ouvrir un projet reçu » l'ajoute à côté des autres, sans rien toucher. Les comptes et mots de passe ne sont jamais dans ce fichier.</p>
+      </details>
+      <details name="faq" data-reveal style="--i:5">
+        <summary>Faut-il internet pour s'en servir ?<span class="plus" aria-hidden="true"></span></summary>
+        <p>Non. Internet ne sert qu'à envoyer les feuilles de service par mail et à vérifier s'il existe une nouvelle version. Tout le reste marche hors connexion, même au plateau.</p>
+      </details>
+      <details name="faq" data-reveal style="--i:6">
+        <summary>Comment brancher les tablettes du plateau ?<span class="plus" aria-hidden="true"></span></summary>
+        <p>Sur l'ordinateur, ouvrez « Accès tablette », choisissez un mot de passe et activez l'accès. Les tablettes et téléphones connectés au même wifi scannent le QR code affiché et ouvrent CinéLabs dans leur navigateur, sans rien installer. Chacun peut avoir son compte, avec seulement les parties qui le concernent.</p>
+      </details>
+      <details name="faq" data-reveal style="--i:7">
+        <summary>Quels scénarios peut-on importer ?<span class="plus" aria-hidden="true"></span></summary>
+        <p>Les PDF (exportés depuis Final Draft, Fade In, WriterDuet, Word…), les fichiers Final Draft (.fdx) et Fountain. Un PDF scanné (une photo de pages) ne peut pas être lu : il faut le fichier d'origine.</p>
+      </details>
+      <details name="faq" data-reveal style="--i:8">
+        <summary>Comment mettre CinéLabs à jour ?<span class="plus" aria-hidden="true"></span></summary>
+        <p>CinéLabs vous prévient lui-même quand une nouvelle version sort. Téléchargez-la et lancez-la : elle remplace l'ancienne et garde tous vos projets. Ce qui arrive ensuite est sur la page <a href="feuille-de-route.html">Prochainement</a>.</p>
+      </details>
+      <details name="faq" data-reveal style="--i:9">
+        <summary>J'ai trouvé un problème ou j'ai une idée.<span class="plus" aria-hidden="true"></span></summary>
+        <p>Dans CinéLabs, « Signaler un problème » (en bas de l'accueil) prépare un mail avec tout ce qu'il faut. Pour une question ou une idée, venez en parler sur <a data-lien="communaute" href="#" target="_blank" rel="noopener">le Discord de CinéLabs</a> ou <a data-lien="contact" href="#">écrivez-nous</a>.</p>
+      </details>
     </div>
   </section>
 
-  <footer>
-    <p>CinéLabs est développé par Amaury Giraud.</p>
-    <p><a data-lien="contact" href="#">Nous écrire</a> <span aria-hidden="true">·</span> <a data-lien="communaute" href="#" target="_blank" rel="noopener">Discord</a> <span aria-hidden="true">·</span> <a href="feuille-de-route.html">Prochainement</a> <span aria-hidden="true">·</span> <a href="mentions-legales.html">Mentions légales</a></p>
-  </footer>
-</div>
+  <section id="installer" class="depart" aria-labelledby="titre-depart">
+    <div class="depart-texte">
+      <h2 id="titre-depart" data-reveal>Votre film commence ici</h2>
+      <p data-reveal style="--i:1">Après le téléchargement, lancez l'installateur et choisissez où ranger vos projets. CinéLabs s'ouvre sur cet écran : donnez un titre, importez votre scénario, et la première séquence est déjà là.</p>
+      <p data-reveal style="--i:2">Si Windows affiche « Windows a protégé votre ordinateur », cliquez sur « Informations complémentaires », puis « Exécuter quand même ».</p>
+    </div>
+    <div class="depart-dialogue" data-reveal style="--i:2">
+      <form data-ui class="dialogue" id="dialogue">
+        <h3>Nouveau projet</h3>
+        <p>Vous pourrez tout modifier ensuite dans la fiche du projet.</p>
+        <div class="champ-ui"><label for="d-titre">Titre du film</label><input id="d-titre" value="Le Dernier Été" maxlength="60"></div>
+        <div class="champ-ui"><span class="etiquette" id="d-format-e">Format</span>
+          <div class="segs" role="group" aria-labelledby="d-format-e"><button type="button" aria-pressed="true">Court-métrage</button><button type="button" aria-pressed="false">Long-métrage</button></div>
+        </div>
+        <div class="pied"><a class="app-btn" data-lien="telechargement" href="#" id="d-telecharger">Télécharger CinéLabs</a></div>
+      </form>
+    </div>
+  </section>
+
+  <section id="ensemble" class="section" aria-labelledby="titre-ensemble">
+    <div class="ensemble-tete">
+      <h2 id="titre-ensemble" class="head" data-reveal>La suite se fait avec vous</h2>
+      <p data-reveal style="--i:1">CinéLabs avance une version à la fois, selon ce qui manque sur vos tournages.</p>
+    </div>
+    <ul class="rangees">
+      <li data-reveal><a data-lien="communaute" href="#" target="_blank" rel="noopener"><span class="grand">Rejoindre le Discord</span><span class="detail">De l'aide, des réponses, vos idées et vos tournages.</span></a></li>
+      <li data-reveal><a href="feuille-de-route.html"><span class="grand">Voir ce qui arrive</span><span class="detail">La fiche DCP et la préparation des festivals sont en cours.</span></a></li>
+      <li data-reveal><a data-lien="contact-mac" href="#"><span class="grand">Être prévenu pour Mac</span><span class="detail">Un mail le jour où la version Mac sort.</span></a></li>
+      <li data-reveal><a data-lien="dons" href="#" target="_blank" rel="noopener"><span class="grand">Soutenir CinéLabs</span><span class="detail">Gratuit et sans publicité, un don aide à le faire évoluer.</span></a></li>
+      <li data-reveal><button type="button" id="partager"><span class="grand">Partager le lien</span><span class="detail" id="partager-detail">À une équipe qui prépare un tournage.</span></button></li>
+    </ul>
+  </section>
+</main>
+
+<footer class="pied-page">
+  <p>CinéLabs, développé par Amaury Giraud</p>
+  <nav aria-label="Liens">
+    <a href="feuille-de-route.html">Prochainement</a>
+    <a data-lien="communaute" href="#" target="_blank" rel="noopener">Discord</a>
+    <a data-lien="contact" href="#">Nous écrire</a>
+    <a href="https://github.com/Cinelab-dev/CineLab">GitHub</a>
+  </nav>
+  <p>2026 · <a class="lien" href="mentions-legales.html">Mentions légales</a></p>
+</footer>
 
 <script>
   // Les liens réglés en haut de la page.
@@ -372,49 +705,189 @@
     dons: LIENS.dons,
     communaute: LIENS.communaute,
     contact: mail('CinéLabs'),
-    'contact-mac': mail('CinéLabs pour Mac'),
+    'contact-mac': mail('CinéLabs pour Mac : prévenez-moi'),
   };
   document.querySelectorAll('[data-lien]').forEach(a => { a.href = adresses[a.dataset.lien]; });
 
-  // Les étapes : un clic (ou les flèches du clavier) change l'écran montré.
-  const ETAPES = {
-    casting: { image: 'casting', titre: 'Casting', texte: ["Les candidats, leurs photos et leurs essais, rôle par rôle.", "Convoquez-les par mail avec l'invitation pour leur agenda, puis retenez un comédien : il rejoint la distribution."] },
-    storyboard: { image: 'storyboard', titre: 'Storyboard', texte: ["Dessinez chaque plan du découpage au doigt ou au stylet, ou importez vos croquis et photos de repérage.", "Les cases prennent le format de votre film (1.85, 2.39, 16/9…) et les planches s'impriment."] },
-    plan: { image: 'plan-de-travail', titre: 'Plan de travail', texte: ["Glissez les séquences sur les jours de tournage.", "CinéLabs compte les pages, regroupe les décors et vous prévient quand un comédien ou un lieu n'est pas disponible."] },
-    feuille: { image: 'feuille-de-service', titre: 'Feuilles de service', texte: ["Remplies toutes seules à partir du plan de travail : horaires, comédiens, HMC, équipe, lieux, repas, hôpital le plus proche.", "Vous corrigez ce qu'il faut, puis vous l'envoyez à chacun par mail ou vous l'imprimez."] },
-    plateau: { image: 'tablette', titre: 'Au plateau, sur tablette', texte: ["La scripte remplit ses rapports sur tablette : prises, minutage, photos de raccord, même sans réseau.", "Le soir, le rapport de production part à la production en un clic."] },
-    post: { image: 'post-production', titre: 'Post-production', texte: ["Étapes et planning, versions de montage et retours, musiques et droits, générique, livrables et inscriptions en festival."] },
-  };
-  const onglets = [...document.querySelectorAll('[role="tab"]')];
-  function montrer(bouton, focus) {
-    const e = ETAPES[bouton.dataset.etape];
-    onglets.forEach(o => { const actif = o === bouton; o.setAttribute('aria-selected', actif); o.tabIndex = actif ? 0 : -1; });
-    document.getElementById('ecran').setAttribute('aria-labelledby', bouton.id);
-    const img = document.getElementById('ecran-image');
-    img.src = `images/${e.image}.webp`;
-    img.alt = `Capture d'écran de CinéLabs : ${e.titre.toLowerCase()}`;
-    document.getElementById('ecran-titre').textContent = e.titre;
-    document.getElementById('ecran-texte').replaceChildren(...e.texte.map(t => Object.assign(document.createElement('p'), { textContent: t })));
-    if (focus) bouton.focus();
+  // ——— Le plan de travail de l'ouverture : CinéLabs lit un en-tête de séquence ———
+  const MOMENTS_NUIT = /\b(NUIT|SOIR|CR[ÉE]PUSCULE|AUBE)\b/;
+  function lireEntete(texte) {
+    let t = texte.normalize('NFC').toUpperCase().trim().replace(/\s+/g, ' ');
+    t = t.replace(/^S[ÉE]QUENCE\s*\d+\s*[-–.:]?\s*/, '').replace(/^\d+[A-Z]?\s*[.)-]?\s*/, '');
+    let ie = null;
+    const m = /^(INT\.?\s*\/\s*EXT\.?|EXT\.?\s*\/\s*INT\.?|INT[ÉE]RIEUR|EXT[ÉE]RIEUR|INT\b\.?|EXT\b\.?)\s*/.exec(t);
+    if (m) { ie = m[1].startsWith('E') ? 'EXT' : 'INT'; t = t.slice(m[0].length); }
+    let jn = null;
+    const morceaux = t.split(/\s+[-–]\s+|\s*[-–]\s*(?=(?:JOUR|NUIT|SOIR|MATIN|AUBE|CR[ÉE]PUSCULE)\b)|\.\s+/).map(s => s.trim()).filter(Boolean);
+    const decor = [];
+    for (const p of morceaux) {
+      if (/^(JOUR|MATIN|MIDI|APR[ÈE]S-MIDI)\b/.test(p)) jn = 'J';
+      else if (MOMENTS_NUIT.test(p) && p.split(' ').length <= 2) jn = 'N';
+      else if (/^(INT|EXT)/.test(p) && !ie) ie = p.startsWith('E') ? 'EXT' : 'INT';
+      else decor.push(p);
+    }
+    if (!ie && !jn) return null;
+    const nom = decor.map(d => d.charAt(0) + d.slice(1).toLowerCase()).join(' – ') || 'Décor à préciser';
+    return { ie: ie ?? 'INT', jn: jn ?? '?', decor: nom };
   }
-  onglets.forEach((o, i) => {
-    o.addEventListener('click', () => montrer(o));
-    o.addEventListener('keydown', ev => {
-      const sens = { ArrowRight: 1, ArrowLeft: -1 }[ev.key];
-      if (sens) { ev.preventDefault(); montrer(onglets[(i + sens + onglets.length) % onglets.length], true); }
-    });
+  const bandesInitiales = [
+    { num: 5, ie: 'INT', jn: 'J', decor: 'Cuisine de Marie', resume: 'Marie fouille un tiroir et sort une valise.', huitiemes: 2, roles: [1, 2] },
+    { num: 6, ie: 'INT', jn: 'J', decor: 'Cuisine de Marie', resume: 'Jeanne entre sans frapper.', huitiemes: 3, roles: [1, 3] },
+    { num: 4, ie: 'EXT', jn: 'J', decor: 'Jardin', resume: 'Le jardin envahi par les herbes hautes.', huitiemes: 1, roles: [1] },
+  ];
+  const bandes = [...bandesInitiales];
+  let prochainNumero = 9;
+  const classe = b => b.ie === 'EXT' ? (b.jn === 'N' ? 'ext-nuit' : 'ext-jour') : (b.jn === 'N' ? 'int-nuit' : '');
+  const pages = h => { const p = Math.floor(h / 8), r = h % 8; return (p ? `${p}${r ? ' ' : ''}` : '') + (r ? `${r}/8` : (p ? '' : '0')); };
+  function dessinerBandes(nouvelle) {
+    const ol = document.getElementById('bandes');
+    ol.replaceChildren(...bandes.map((b, i) => {
+      const li = document.createElement('li');
+      li.className = `bande ${classe(b)}${b === nouvelle ? ' nouvelle' : ''}`;
+      li.innerHTML = `<span class="num"></span><span></span><span class="decor"></span><span class="pages"></span><span class="jetons"></span>`;
+      li.children[0].textContent = b.num;
+      li.children[1].textContent = `${b.ie} · ${b.jn}`;
+      li.children[2].textContent = b.decor;
+      const r = document.createElement('span'); r.className = 'resume'; r.textContent = b.resume; li.children[2].append(r);
+      li.children[3].textContent = pages(b.huitiemes);
+      if (b.roles.length) li.children[4].replaceChildren(...b.roles.map(n => Object.assign(document.createElement('span'), { className: 'jeton', textContent: n })));
+      else {
+        const x = document.createElement('button'); x.type = 'button'; x.className = 'ote'; x.textContent = '×';
+        x.setAttribute('aria-label', `Retirer la séquence ${b.num}`);
+        x.addEventListener('click', () => { bandes.splice(i, 1); dessinerBandes(); });
+        li.children[4].replaceWith(x);
+      }
+      return li;
+    }));
+    const total = bandes.reduce((t, b) => t + b.huitiemes, 0);
+    document.getElementById('total').textContent = `${bandes.length} séq. · ${pages(total)} p.`;
+  }
+  document.getElementById('ajout').addEventListener('submit', ev => {
+    ev.preventDefault();
+    const champ = document.getElementById('entete');
+    const message = document.getElementById('demo-message');
+    const lu = lireEntete(champ.value);
+    if (!lu) { message.textContent = "CinéLabs n'a pas reconnu d'en-tête : commencez par INT. ou EXT., et finissez par JOUR ou NUIT."; return; }
+    if (bandes.length >= 7) bandes.splice(3, 1);
+    const b = { num: prochainNumero++, ...lu, resume: 'Ajoutée à l\'instant', huitiemes: 2, roles: [] };
+    bandes.push(b);
+    dessinerBandes(b);
+    const quoi = { 'ext-jour': 'jaune, extérieur jour', 'ext-nuit': 'verte, extérieur nuit', 'int-nuit': 'bleue, intérieur nuit', '': 'blanche, intérieur jour' }[classe(b)];
+    message.textContent = `Séquence ${b.num} : « ${b.decor} », ${b.jn === '?' ? 'moment à préciser' : (b.jn === 'N' ? 'de nuit' : 'de jour')}. Bande ${quoi}.`;
+    champ.select();
   });
-  montrer(onglets[0]);
+  dessinerBandes();
 
-  // Le bouton télécharge directement l'installateur de la dernière version publiée,
-  // et la page affiche le nombre de téléchargements (comptés par GitHub).
+  // ——— Le tour du logiciel : le panneau du centre s'allume ———
+  (() => {
+    const rangee = document.getElementById('rangee');
+    const panneaux = [...rangee.querySelectorAll('.panneau')];
+    let actif = -1;
+    function allumer() {
+      const centre = rangee.scrollLeft + rangee.clientWidth / 2;
+      let i = 0, d = Infinity;
+      panneaux.forEach((p, k) => { const c = p.offsetLeft + p.offsetWidth / 2, e = Math.abs(c - centre); if (e < d) { d = e; i = k; } });
+      if (i === actif) return;
+      actif = i;
+      panneaux.forEach((p, k) => {
+        p.classList.toggle('allume', k === i);
+        const v = p.querySelector('video');
+        if (v) { if (k === i && !matchMedia('(prefers-reduced-motion: reduce)').matches) v.play().catch(() => {}); else v.pause(); }
+      });
+    }
+    const aller = sens => { const i = Math.max(0, Math.min(panneaux.length - 1, actif + sens)); rangee.scrollTo({ left: panneaux[i].offsetLeft + panneaux[i].offsetWidth / 2 - rangee.clientWidth / 2, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); };
+    document.getElementById('tour-prec').addEventListener('click', () => aller(-1));
+    document.getElementById('tour-suiv').addEventListener('click', () => aller(1));
+    rangee.addEventListener('keydown', ev => { const s = { ArrowRight: 1, ArrowLeft: -1 }[ev.key]; if (s) { ev.preventDefault(); aller(s); } });
+    rangee.addEventListener('scroll', () => requestAnimationFrame(allumer), { passive: true });
+    addEventListener('resize', allumer);
+    allumer();
+    // Le premier panneau (la vidéo) se lance quand la rangée arrive à l'écran.
+    new IntersectionObserver(([e]) => { const v = panneaux[actif]?.querySelector('video'); if (!v) return; if (e.isIntersecting && !matchMedia('(prefers-reduced-motion: reduce)').matches) v.play().catch(() => {}); else v.pause(); }, { threshold: 0.4 }).observe(rangee);
+  })();
+
+  // ——— La feuille de service qu'on règle soi-même ———
+  (() => {
+    const JOURS = [
+      { jour: 'J1', date: 'lundi 2 novembre', lieu: 'Gare de Bonson, quai 1', meteo: 'Ciel voilé, 11 °C', fin: 10,
+        seq: [['1', 'Quai de gare', 'EXT · J', '2/8'], ['2', 'Voiture de Paul', 'INT · J', '2/8'], ['3', 'Maison des tilleuls', 'INT · J', '2/8']],
+        com: [['Marie', 'Léa Roux', -45, -30], ['Paul', 'Hugo Blanc', -45, -30]] },
+      { jour: 'J3', date: 'mercredi 4 novembre', lieu: 'Maison Tixier, Saint-Just', meteo: 'Pluie fine, 9 °C', fin: 9,
+        seq: [['5', 'Cuisine de Marie', 'INT · J', '2/8'], ['6', 'Cuisine de Marie', 'INT · J', '3/8']],
+        com: [['Marie', 'Léa Roux', -60, -40], ['Paul', 'Hugo Blanc', 30, 45], ['Jeanne', 'Anne Vidal', 0, 15]] },
+      { jour: 'J4', date: 'jeudi 5 novembre', lieu: 'Maison Tixier, chambre', meteo: 'Nuit claire, 4 °C', fin: 8,
+        seq: [['7', "Chambre d'enfant", 'INT · N', '2/8']],
+        com: [['Marie', 'Léa Roux', -45, -30], ['Jeanne', 'Anne Vidal', -45, -30], ['Lucie', 'Inès Garnier', -15, 0]] },
+    ];
+    const etat = { titre: 'Le Dernier Été', jour: 0, convoc: 7 * 60 + 30, repas: true, envoyee: false };
+    const hh = m => `${String(Math.floor(((m % 1440) + 1440) % 1440 / 60)).padStart(2, '0')}:${String(((m % 60) + 60) % 60).padStart(2, '0')}`;
+    const pose = (id, v) => { const el = document.getElementById(id); if (el.textContent !== v) { el.textContent = v; el.classList.remove('change'); void el.offsetWidth; el.classList.add('change'); } };
+    function rendre() {
+      const j = JOURS[etat.jour], pret = etat.convoc + 60;
+      pose('fs-titre', etat.titre.trim() || 'Sans titre');
+      pose('fs-jour', j.jour); pose('fs-date', j.date); pose('fs-lieu', j.lieu); pose('fs-meteo', j.meteo);
+      pose('fs-convoc', hh(etat.convoc)); pose('fs-pret', hh(pret));
+      pose('fs-repas', etat.repas ? hh(pret + 4 * 60 + 30) : 'Libre');
+      pose('fs-fin', hh(etat.convoc + j.fin * 60));
+      const tr = cells => { const r = document.createElement('tr'); cells.forEach(c => r.append(Object.assign(document.createElement('td'), { textContent: c }))); return r; };
+      document.getElementById('fs-sequences').replaceChildren(...j.seq.map(tr));
+      document.getElementById('fs-comediens').replaceChildren(...j.com.map(([r, n, a, h]) => tr([r, n, hh(etat.convoc + a + 15), hh(etat.convoc + h + 15), hh(pret)])));
+      const pied = document.getElementById('fs-pied');
+      pied.textContent = etat.envoyee ? `Envoyée à 9 personnes, chacune avec son heure d'arrivée.` : 'Brouillon, pas encore envoyée.';
+      pied.classList.toggle('envoyee', etat.envoyee);
+    }
+    const plusEnvoyee = () => { if (etat.envoyee) { etat.envoyee = false; document.getElementById('r-envoi').textContent = "Envoyer à l'équipe"; } };
+    document.getElementById('r-titre').addEventListener('input', e => { etat.titre = e.target.value; plusEnvoyee(); rendre(); });
+    document.querySelectorAll('#r-jour button').forEach(b => b.addEventListener('click', () => {
+      document.querySelectorAll('#r-jour button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+      etat.jour = Number(b.dataset.jour); plusEnvoyee(); rendre();
+    }));
+    const heure = document.getElementById('r-heure');
+    heure.addEventListener('input', () => { etat.convoc = 6 * 60 + Number(heure.value) * 15; document.getElementById('r-heure-val').textContent = hh(etat.convoc); plusEnvoyee(); rendre(); });
+    const repas = document.getElementById('r-repas');
+    repas.addEventListener('click', () => { etat.repas = !etat.repas; repas.setAttribute('aria-checked', String(etat.repas)); plusEnvoyee(); rendre(); });
+    const envoi = document.getElementById('r-envoi');
+    envoi.addEventListener('click', () => { etat.envoyee = !etat.envoyee; envoi.textContent = etat.envoyee ? 'Annuler l\'envoi' : "Envoyer à l'équipe"; rendre(); });
+    rendre();
+  })();
+
+  // ——— Le dialogue « Nouveau projet » ———
+  document.querySelectorAll('.dialogue .segs button').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.dialogue .segs button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  }));
+  document.getElementById('dialogue').addEventListener('submit', e => { e.preventDefault(); document.getElementById('d-telecharger').click(); });
+
+  // ——— Partager ———
+  (() => {
+    const url = 'https://cinelab-dev.github.io/CineLab/';
+    const texte = 'CinéLabs, un logiciel gratuit pour préparer ses courts-métrages : plan de travail, feuilles de service, storyboard…';
+    const detail = document.getElementById('partager-detail');
+    document.getElementById('partager').addEventListener('click', async () => {
+      if (navigator.share) { navigator.share({ title: 'CinéLabs', text: texte, url }).catch(() => {}); return; }
+      try { await navigator.clipboard.writeText(url); detail.textContent = 'Lien copié : collez-le où vous voulez.'; }
+      catch { detail.textContent = url; }
+    });
+  })();
+
+  // ——— Apparitions au défilement (une seule fois ; rien ne reste caché sans script) ———
+  (() => {
+    const cibles = document.querySelectorAll('[data-reveal]');
+    if (!('IntersectionObserver' in window)) { cibles.forEach(el => el.classList.add('is-in')); return; }
+    const io = new IntersectionObserver(entries => {
+      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+    cibles.forEach(el => io.observe(el));
+    addEventListener('load', () => setTimeout(() => cibles.forEach(el => { const r = el.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) el.classList.add('is-in'); }), 2500));
+  })();
+
+  // ——— Le bouton télécharge directement le dernier installateur, et le compteur ———
   (async () => {
     const depot = /github\.com\/([^/]+)\/([^/]+)/.exec(LIENS.telechargement);
     if (!depot) return;
     try {
       const r = await fetch(`https://api.github.com/repos/${depot[1]}/${depot[2]}/releases?per_page=100`);
       if (!r.ok) return;
-      const versions = (await r.json()).filter(v => !v.draft);
+      const versions = (await r.json()).filter(v => !v.draft && !v.prerelease);
       const exe = versions.flatMap(v => v.assets).find(a => /\.exe$/i.test(a.name));
       if (exe) document.querySelectorAll('[data-lien="telechargement"]').forEach(a => { a.href = exe.browser_download_url; });
       const total = versions.reduce((t, v) => t + v.assets.filter(a => /\.exe$/i.test(a.name)).reduce((u, a) => u + a.download_count, 0), 0);
@@ -425,33 +898,6 @@
     } catch { /* pas de réseau : le bouton garde le lien vers la page des versions */ }
   })();
 
-  // Partage : de simples liens vers chaque réseau (aucun script ni cookie de leur part).
-  (() => {
-    const url = 'https://cinelab-dev.github.io/CineLab/';
-    const texte = 'CinéLabs, un logiciel gratuit pour préparer ses courts-métrages : plan de travail, feuilles de service, storyboard…';
-    const u = encodeURIComponent(url), t = encodeURIComponent(texte);
-    const liens = {
-      facebook: `https://www.facebook.com/sharer/sharer.php?u=${u}`,
-      whatsapp: `https://wa.me/?text=${t}%20${u}`,
-      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${u}`,
-      x: `https://twitter.com/intent/tweet?text=${t}&url=${u}`,
-      mail: `mailto:?subject=${encodeURIComponent('Un logiciel pour tes tournages')}&body=${t}%0A%0A${u}`,
-    };
-    document.querySelectorAll('[data-partage]').forEach(a => { a.href = liens[a.dataset.partage]; });
-    // Sur téléphone : le menu de partage du téléphone (Instagram, Messenger, SMS…).
-    const natif = document.getElementById('partage-natif');
-    if (navigator.share) {
-      natif.hidden = false;
-      natif.addEventListener('click', () => navigator.share({ title: 'CinéLabs', text: texte, url }).catch(() => {}));
-    }
-    const copier = document.getElementById('copier-lien');
-    copier.addEventListener('click', async () => {
-      try { await navigator.clipboard.writeText(url); copier.textContent = 'Lien copié'; }
-      catch { copier.textContent = url; }
-      setTimeout(() => { copier.textContent = 'Copier le lien'; }, 2500);
-    });
-  })();
-
   // Visites : GoatCounter (sans cookie, donc sans bandeau de consentement).
   if (LIENS.goatcounter) {
     const g = document.createElement('script');
@@ -460,8 +906,6 @@
     g.dataset.goatcounter = `https://${LIENS.goatcounter}.goatcounter.com/count`;
     document.body.append(g);
   }
-  // Les images des autres étapes se chargent en avance, pour un changement immédiat.
-  addEventListener('load', () => Object.values(ETAPES).forEach(e => { new Image().src = `images/${e.image}.webp`; }));
 </script>
 </body>
 </html>
