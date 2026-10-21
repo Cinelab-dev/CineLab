@@ -3,45 +3,167 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mentions légales – CinéLabs</title>
-<meta name="robots" content="noindex">
+<title>Mentions légales de CinéLabs</title>
+<meta name="description" content="Éditeur, hébergement, données personnelles et cookies du site de CinéLabs.">
 <link rel="icon" href="images/icone.png">
+<link rel="preload" href="polices/archivo.woff" as="font" type="font/woff" crossorigin>
+<script>document.documentElement.classList.add('js')</script>
 <style>
-  :root { --papier: #EEF1EE; --encre: #1C2320; --encre-douce: #4E5A55; --vert: #3D6B5A; }
-  body { margin: 0; background: var(--papier); color: var(--encre); font: 400 17px/1.6 system-ui, sans-serif; }
-  main { width: min(760px, 100% - 32px); margin: 0 auto; padding: 32px 0 64px; }
-  a { color: var(--vert); }
-  h1 { font-size: 34px; line-height: 1.15; margin: 24px 0 8px; }
-  h2 { font-size: 21px; margin: 32px 0 6px; }
-  p { margin: 0 0 10px; color: var(--encre-douce); }
-  p strong { color: var(--encre); }
+  @font-face { font-family: Archivo; src: url("polices/archivo.woff") format("woff"); font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; }
+  :root {
+    --bg: #111110; --surface: #1d1c1a; --ink: #ffffff; --muted: #b3aea6;
+    --accent: #f2b632; --accent-ink: #14110c;
+    --bande-ext-jour: #f6e7a1; --bande-int-jour: #ffffff; --bande-int-nuit: #c9d8f0; --bande-ext-nuit: #c6e3c4; --bande-ink: #16140f;
+    --font: Archivo, system-ui, sans-serif;
+    --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+    --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+    --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+    --step-head: clamp(2.25rem, 1.3rem + 3.4vw, 4.25rem);
+    --step-display: clamp(2.5rem, 0.6rem + 6vw, 6.5rem);
+    --margin: clamp(1rem, 3vw, 2.5rem); --gutter: clamp(1rem, 2vw, 2rem);
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: var(--step-body); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3, p, ul { margin: 0; }
+  h1, h2, h3 { font-weight: 500; letter-spacing: -0.03em; text-wrap: balance; }
+  p { max-width: 62ch; text-wrap: pretty; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+
+  .barre { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.25rem var(--margin); }
+  .marque { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; font-size: var(--step-body); text-decoration: none; }
+  .marque img { width: 30px; height: 30px; }
+  .barre nav { display: flex; align-items: center; gap: 1.75rem; font-size: var(--step-small); }
+  .barre nav a:not(.bouton) { text-decoration: none; }
+  .barre nav a:not(.bouton):hover { color: var(--accent); }
+  .bouton { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1.1rem; background: var(--accent); color: var(--accent-ink); font-weight: 600; text-decoration: none; white-space: nowrap; transition: transform 140ms var(--ease-out), background-color 180ms ease; }
+  .bouton:hover { background: #f7c654; }
+  .bouton:active { transform: scale(0.97); }
+  .bouton.grand { min-height: 3.25rem; padding: 0 1.5rem; font-size: var(--step-body); }
+  .bouton.sombre { background: transparent; color: var(--ink); border: 2px solid var(--ink); }
+  .bouton.sombre:hover { background: #2c2a27; }
+
+  .ouverture { padding: clamp(4rem, 10vw, 8rem) var(--margin) clamp(3rem, 6vw, 5rem); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 2rem; }
+  .ouverture h1 { grid-column: 1 / span 11; font-size: var(--step-display); line-height: 0.98; font-stretch: 82%; }
+  .ouverture p { grid-column: 1 / span 6; font-size: var(--step-lead); line-height: 1.4; }
+
+  /* Les versions à venir, en bandes de plan de travail */
+  .route { list-style: none; padding: 0; }
+  .etape { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); padding: clamp(2.5rem, 5vw, 4.5rem) var(--margin); color: var(--bande-ink); }
+  .etape:nth-child(1) { background: var(--bande-ext-jour); }
+  .etape:nth-child(2) { background: var(--bande-int-jour); }
+  .etape:nth-child(3) { background: var(--bande-int-nuit); }
+  .etape:nth-child(4) { background: var(--bande-ext-nuit); }
+  .quand { grid-column: 1 / span 4; }
+  .quand strong { display: block; font-size: var(--step-head); line-height: 1; font-weight: 500; letter-spacing: -0.035em; font-stretch: 85%; }
+  .quand span { display: block; margin-top: 0.6rem; font-size: var(--step-body); }
+  .contenu { grid-column: 6 / span 7; }
+  .contenu h2 { font-size: var(--step-lead); line-height: 1.15; }
+  .contenu p { margin-top: 0.75rem; }
+  .contenu ul { margin-top: 1.25rem; padding-left: 1.2rem; display: grid; gap: 0.5rem; }
+  .contenu li strong { font-weight: 600; }
+
+  .idee { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: end; padding: clamp(5rem, 10vw, 9rem) var(--margin); }
+  .idee h2 { grid-column: 1 / span 6; font-size: var(--step-head); line-height: 1; font-stretch: 88%; }
+  .idee-texte { grid-column: 8 / span 5; }
+  .idee-texte p { color: var(--ink); }
+  .idee-boutons { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.75rem; }
+
+  .sorties { background: var(--surface); padding: clamp(4rem, 8vw, 7rem) var(--margin); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }
+  .sorties-tete { grid-column: 1 / span 4; }
+  .sorties-tete h2 { position: sticky; top: 2rem; font-size: var(--step-head); line-height: 1; font-stretch: 88%; }
+  .sorties-tete p { margin-top: 1.25rem; color: var(--muted); }
+  #versions { grid-column: 6 / span 7; display: grid; gap: 8px; }
+  .version { background: var(--bg); padding: 1.5rem 1.75rem; }
+  .version h3 { font-size: var(--step-lead); line-height: 1.15; }
+  .version h3 span { display: block; margin-top: 0.3rem; font-size: var(--step-small); font-weight: 400; letter-spacing: 0; color: var(--muted); }
+  .version .notes { margin-top: 0.75rem; white-space: pre-line; }
+
+  .pied-page { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1.5rem; align-items: baseline; padding: 20svh var(--margin) 1.9rem; font-size: var(--step-small); color: var(--muted); }
+  .pied-page nav { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .pied-page nav a { color: var(--ink); text-decoration: none; }
+  .pied-page nav a:hover { color: var(--accent); }
+  .pied-page p:last-child { justify-self: end; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 700ms var(--ease-out), transform 900ms var(--ease-out); transition-delay: calc(var(--i, 0) * 80ms); }
+    .js [data-reveal].is-in { opacity: 1; transform: none; }
+  }
+  @media (max-width: 900px) {
+    .ouverture p { grid-column: 1 / span 12; }
+    .quand, .contenu, .idee h2, .idee-texte, .sorties-tete, #versions { grid-column: 1 / span 12; }
+    .contenu, .idee-texte, #versions { margin-top: 1.5rem; }
+    .sorties-tete h2 { position: static; }
+  }
+  @media (max-width: 720px) {
+    .barre nav a:not(.bouton) { display: none; }
+    .pied-page { display: flex; flex-direction: column; gap: 0.5rem; }
+    .pied-page p:last-child { justify-self: start; }
+  }
+
+  .texte { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); padding: 0 var(--margin) 4rem; }
+  .texte section { grid-column: 4 / span 7; padding: 2.5rem 0; }
+  .texte h2 { font-size: var(--step-lead); line-height: 1.15; margin-bottom: 1rem; }
+  .texte p + p { margin-top: 0.9em; }
+  @media (max-width: 900px) { .texte section { grid-column: 1 / span 12; } }
 </style>
 </head>
 <body>
+<header class="barre">
+  <a class="marque" href="./"><img src="images/icone.png" alt="" width="30" height="30">CinéLabs</a>
+  <nav aria-label="Navigation">
+    <a href="./">Accueil</a>
+    <a href="feuille-de-route.html">Prochainement</a>
+    <a class="bouton" href="./">Télécharger</a>
+  </nav>
+</header>
+
 <main>
-  <p><a href="./">← Retour à CinéLabs</a></p>
-  <h1>Mentions légales</h1>
-  <p>Mise à jour le 18 octobre 2026.</p>
+  <section class="ouverture" aria-labelledby="titre-page">
+    <h1 id="titre-page">Mentions légales</h1>
+    <p>Mise à jour le 21 octobre 2026.</p>
+  </section>
 
-  <h2>Éditeur du site</h2>
-  <p><strong>Amaury Giraud</strong>, à titre non professionnel.</p>
-  <p>Contact : <a href="mailto:contact.astroboys@gmail.com">contact.astroboys@gmail.com</a></p>
-  <p>Directeur de la publication : Amaury Giraud.</p>
-
-  <h2>Hébergement</h2>
-  <p>GitHub, Inc. (GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis — <a href="https://github.com">github.com</a>.</p>
-
-  <h2>Données personnelles et cookies</h2>
-  <p>Ce site ne demande aucune information personnelle et ne dépose aucun cookie.</p>
-  <p>Pour afficher la page, votre navigateur contacte des services extérieurs, qui reçoivent votre adresse IP comme pour toute visite d'un site : GitHub (hébergement, et nombre de téléchargements de CinéLabs) et Google Fonts (polices de caractères). Si une mesure d'audience est activée, elle passe par GoatCounter, qui compte les visites de façon anonyme, sans cookie.</p>
-  <p>Les dons passent par PayPal, selon ses propres conditions : le site ne voit aucune donnée de paiement.</p>
-  <p>Les mails que vous nous envoyez ne servent qu'à vous répondre. Pour toute question sur vos données, écrivez à l'adresse ci-dessus.</p>
-
-  <h2>Le logiciel CinéLabs</h2>
-  <p>CinéLabs est distribué gratuitement. Il fonctionne sur votre ordinateur : vos projets y restent et ne sont jamais envoyés à l'éditeur. Il est fourni tel quel, sans garantie ; pensez à faire des sauvegardes de vos projets (la fonction est incluse dans le logiciel).</p>
-
-  <h2>Propriété</h2>
-  <p>Le logiciel CinéLabs, ce site, leurs textes et leurs images sont la propriété de leur auteur. Les captures d'écran montrent un projet de démonstration fictif.</p>
+  <div class="texte">
+    <section aria-labelledby="t-editeur">
+      <h2 id="t-editeur">Éditeur du site</h2>
+      <p><strong>Amaury Giraud</strong>, à titre non professionnel.</p>
+      <p>Contact : <a href="mailto:contact.astroboys@gmail.com">contact.astroboys@gmail.com</a></p>
+      <p>Directeur de la publication : Amaury Giraud.</p>
+    </section>
+    <section aria-labelledby="t-hebergement">
+      <h2 id="t-hebergement">Hébergement</h2>
+      <p>GitHub, Inc. (GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis : <a href="https://github.com">github.com</a>.</p>
+    </section>
+    <section aria-labelledby="t-donnees">
+      <h2 id="t-donnees">Données personnelles et cookies</h2>
+      <p>Ce site ne demande aucune information personnelle et ne dépose aucun cookie.</p>
+      <p>Pour afficher la page, votre navigateur contacte GitHub (hébergement, et nombre de téléchargements de CinéLabs), qui reçoit votre adresse IP comme pour toute visite d'un site. Les polices de caractères sont hébergées sur le site lui-même. Si une mesure d'audience est activée, elle passe par GoatCounter, qui compte les visites de façon anonyme, sans cookie.</p>
+      <p>Les dons passent par PayPal, et la communauté par Discord, selon leurs propres conditions : le site ne voit aucune donnée de paiement ni de compte.</p>
+      <p>Les mails que vous nous envoyez ne servent qu'à vous répondre. Pour toute question sur vos données, écrivez à l'adresse ci-dessus.</p>
+    </section>
+    <section aria-labelledby="t-logiciel">
+      <h2 id="t-logiciel">Le logiciel CinéLabs</h2>
+      <p>CinéLabs est distribué gratuitement. Il fonctionne sur votre ordinateur : vos projets y restent et ne sont jamais envoyés à l'éditeur. Il est fourni tel quel, sans garantie ; pensez à faire des sauvegardes de vos projets (la fonction est incluse dans le logiciel).</p>
+    </section>
+    <section aria-labelledby="t-propriete">
+      <h2 id="t-propriete">Propriété</h2>
+      <p>Le logiciel CinéLabs, ce site, leurs textes et leurs images sont la propriété de leur auteur. Les captures d'écran et les exemples de la page d'accueil montrent un projet de démonstration fictif.</p>
+      <p>Police de caractères : Archivo (The Archivo Project Authors, Omnibus-Type), sous licence SIL Open Font License 1.1 (<a href="polices/OFL-archivo.txt">texte de la licence</a>).</p>
+    </section>
+  </div>
 </main>
+
+<footer class="pied-page">
+  <p>CinéLabs, développé par Amaury Giraud</p>
+  <nav aria-label="Liens">
+    <a href="./">Accueil</a>
+    <a href="https://discord.gg/65NRAPjamv" target="_blank" rel="noopener">Discord</a>
+    <a href="mailto:contact.astroboys@gmail.com">Nous écrire</a>
+  </nav>
+  <p>2026</p>
+</footer>
 </body>
 </html>
