@@ -42,6 +42,11 @@
   .barre nav { display: flex; align-items: center; gap: 1.75rem; font-size: var(--step-small); }
   .barre nav a:not(.bouton) { text-decoration: none; }
   .barre nav a:not(.bouton):hover { color: var(--accent); }
+  .langues { display: flex; align-items: center; gap: 0.15rem; font-size: var(--step-small); font-weight: 600; }
+  .langues a, .langues span[aria-current] { display: inline-grid; place-items: center; min-width: 2.75rem; min-height: 2.75rem; padding: 0 0.4rem; text-decoration: none; }
+  .langues span[aria-current] { color: var(--accent-ink); background: var(--ink); }
+  .barre nav .langues a { color: var(--muted); }
+  .barre nav .langues a:hover { color: var(--ink); background: var(--surface); }
   .bouton { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1.1rem; background: var(--accent); color: var(--accent-ink); font-weight: 600; text-decoration: none; white-space: nowrap; transition: transform 140ms var(--ease-out), background-color 180ms ease; }
   .bouton:hover { background: #f7c654; }
   .bouton:active { transform: scale(0.97); }
@@ -102,7 +107,8 @@
     .sorties-tete { position: static; }
   }
   @media (max-width: 720px) {
-    .barre nav a:not(.bouton) { display: none; }
+    .barre nav > a:not(.bouton) { display: none; }
+    .barre nav { gap: 0.75rem; }
     .pied-page { display: flex; flex-direction: column; gap: 0.5rem; }
     .pied-page p:last-child { justify-self: start; }
   }
@@ -115,6 +121,7 @@
     <a href="index.html">Accueil</a>
     <a href="#sorties">Déjà sorti</a>
     <a href="https://discord.gg/65NRAPjamv" target="_blank" rel="noopener">Discord</a>
+    <span class="langues" role="group" aria-label="Langue"><span aria-current="true" lang="fr" title="Français">FR</span><a href="en/index.html" hreflang="en" lang="en" title="English">EN</a></span>
     <a class="bouton" href="https://github.com/Cinelab-dev/CineLab/releases/latest">Télécharger</a>
   </nav>
 </header>
