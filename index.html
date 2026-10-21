@@ -461,10 +461,6 @@
     </div>
     <div class="rangee" id="rangee" tabindex="0" aria-label="Les écrans de CinéLabs, à faire défiler">
       <article class="panneau">
-        <figure><video muted loop playsinline preload="none" poster="images/video-affiche.jpg" width="1280" height="720" aria-label="CinéLabs en 30 secondes, présentation animée"><source src="videos/cinelabs-presentation.mp4" type="video/mp4"></video></figure>
-        <div class="panneau-texte"><h3>En 30 secondes</h3><p>Le tour du logiciel, du scénario importé à la feuille de service envoyée.</p></div>
-      </article>
-      <article class="panneau">
         <figure><img src="images/casting.webp" width="1400" height="875" alt="Capture de CinéLabs : le casting, les candidats d'un rôle avec leurs photos" loading="lazy"></figure>
         <div class="panneau-texte"><h3>Casting</h3><p>Les candidats, leurs photos et leurs essais, rôle par rôle. Le comédien retenu rejoint la distribution.</p></div>
       </article>
@@ -802,8 +798,6 @@
     rangee.addEventListener('scroll', () => requestAnimationFrame(allumer), { passive: true });
     addEventListener('resize', allumer);
     allumer();
-    // Le premier panneau (la vidéo) se lance quand la rangée arrive à l'écran.
-    new IntersectionObserver(([e]) => { const v = panneaux[actif]?.querySelector('video'); if (!v) return; if (e.isIntersecting && !matchMedia('(prefers-reduced-motion: reduce)').matches) v.play().catch(() => {}); else v.pause(); }, { threshold: 0.4 }).observe(rangee);
   })();
 
   // ——— La feuille de service qu'on règle soi-même ———
