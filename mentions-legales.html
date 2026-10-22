@@ -5,174 +5,189 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mentions légales de CinéLabs</title>
 <meta name="description" content="Éditeur, hébergement, données personnelles et cookies du site de CinéLabs.">
+<meta name="theme-color" content="#0b0b0a">
 <link rel="icon" href="images/icone.png">
 <link rel="preload" href="polices/archivo.woff" as="font" type="font/woff" crossorigin>
 <script>document.documentElement.classList.add('js')</script>
 <style>
   @font-face { font-family: Archivo; src: url("polices/archivo.woff") format("woff"); font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; }
+
+  /* ——— Les couleurs : les mêmes que l'accueil ——— */
   :root {
-    --bg: #111110; --surface: #1d1c1a; --ink: #ffffff; --muted: #b3aea6;
-    --accent: #f2b632; --accent-ink: #14110c;
-    --bande-ext-jour: #f6e7a1; --bande-int-jour: #ffffff; --bande-int-nuit: #c9d8f0; --bande-ext-nuit: #c6e3c4; --bande-ink: #16140f;
+    --bg: #0b0b0a; --surface: #151513; --surface-2: #1e1d1a; --surface-3: #282622;
+    --line: rgba(255, 255, 255, 0.08); --line-fort: rgba(255, 255, 255, 0.16);
+    --ink: #f5f3ee; --muted: #a9a49a;
+    --accent: #f2b632; --accent-clair: #f7c654; --accent-ink: #17120a;
+    --bande-ext-jour: #f6e7a1; --bande-int-jour: #ffffff; --bande-int-nuit: #c9d8f0; --bande-ext-nuit: #c6e3c4;
     --font: Archivo, system-ui, sans-serif;
     --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
-    --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
-    --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
-    --step-head: clamp(2.25rem, 1.3rem + 3.4vw, 4.25rem);
-    --step-display: clamp(2.5rem, 0.6rem + 6vw, 6.5rem);
-    --margin: clamp(1rem, 3vw, 2.5rem); --gutter: clamp(1rem, 2vw, 2rem);
+    --step-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+    --step-lead: clamp(1.125rem, 1.02rem + 0.5vw, 1.4rem);
+    --step-h3: clamp(1.2rem, 1.1rem + 0.5vw, 1.5rem);
+    --step-head: clamp(2.1rem, 1.4rem + 3vw, 3.75rem);
+    --step-display: clamp(2.6rem, 1rem + 6.2vw, 5.5rem);
+    --margin: clamp(1rem, 4vw, 3rem); --largeur: 76rem;
+    --section: clamp(4.5rem, 8vw, 7.5rem);
+    --r-lg: 28px; --r-md: 18px; --r-sm: 12px;
     --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   }
   *, *::before, *::after { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: var(--step-body); line-height: 1.5; -webkit-font-smoothing: antialiased; }
-  h1, h2, h3, p, ul { margin: 0; }
-  h1, h2, h3 { font-weight: 500; letter-spacing: -0.03em; text-wrap: balance; }
-  p { max-width: 62ch; text-wrap: pretty; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: var(--step-body); line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  h1, h2, h3, p, ul, ol { margin: 0; }
+  h1, h2, h3 { font-weight: 600; letter-spacing: -0.035em; text-wrap: balance; }
+  p { text-wrap: pretty; }
   a { color: inherit; }
-  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   ::selection { background: var(--accent); color: var(--accent-ink); }
+  .conteneur { width: min(100% - 2 * var(--margin), var(--largeur)); margin-inline: auto; }
+  .etiquette-haut { margin-bottom: 1.1rem; color: var(--accent); font-size: var(--step-small); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+  .titre { font-size: var(--step-head); line-height: 1.02; font-stretch: 90%; }
+  .lien { text-decoration: underline; text-underline-offset: 0.22em; text-decoration-thickness: 0.07em; transition: color 200ms ease; }
+  .lien:hover { color: var(--accent); }
 
-  .barre { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.25rem var(--margin); }
-  .marque { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; font-size: var(--step-body); text-decoration: none; }
-  .marque img { width: 30px; height: 30px; }
-  .barre nav { display: flex; align-items: center; gap: 1.75rem; font-size: var(--step-small); }
-  .barre nav a:not(.bouton) { text-decoration: none; }
-  .barre nav a:not(.bouton):hover { color: var(--accent); }
-  .langues { display: flex; align-items: center; gap: 0.15rem; font-size: var(--step-small); font-weight: 600; }
-  .langues a, .langues span[aria-current] { display: inline-grid; place-items: center; min-width: 2.75rem; min-height: 2.75rem; padding: 0 0.4rem; text-decoration: none; }
-  .langues span[aria-current] { color: var(--accent-ink); background: var(--ink); }
-  .barre nav .langues a { color: var(--muted); }
-  .barre nav .langues a:hover { color: var(--ink); background: var(--surface); }
-  .bouton { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1.1rem; background: var(--accent); color: var(--accent-ink); font-weight: 600; text-decoration: none; white-space: nowrap; transition: transform 140ms var(--ease-out), background-color 180ms ease; }
-  .bouton:hover { background: #f7c654; }
+  .bouton { display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; min-height: 3.25rem; padding: 0 1.6rem; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-weight: 600; text-decoration: none; white-space: nowrap; transition: transform 140ms var(--ease-out), background-color 200ms ease; }
+  .bouton:hover { background: var(--accent-clair); }
   .bouton:active { transform: scale(0.97); }
-  .bouton.grand { min-height: 3.25rem; padding: 0 1.5rem; font-size: var(--step-body); }
-  .bouton.sombre { background: transparent; color: var(--ink); border: 2px solid var(--ink); }
-  .bouton.sombre:hover { background: #2c2a27; }
+  .bouton.fantome { background: rgba(255,255,255,.04); color: var(--ink); box-shadow: 0 0 0 1px var(--line-fort) inset; }
+  .bouton.fantome:hover { background: rgba(255,255,255,.09); }
 
-  .ouverture { padding: clamp(4rem, 10vw, 8rem) var(--margin) clamp(3rem, 6vw, 5rem); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 2rem; }
-  .ouverture h1 { grid-column: 1 / span 11; font-size: var(--step-display); line-height: 0.98; font-stretch: 82%; }
-  .ouverture p { grid-column: 1 / span 6; font-size: var(--step-lead); line-height: 1.4; }
+  /* ——— Barre du haut ——— */
+  .barre { position: fixed; inset: 0 0 auto; z-index: 20; border-bottom: 1px solid transparent; transition: background-color 300ms ease, border-color 300ms ease; }
+  .barre.collee { background: rgba(11, 11, 10, 0.72); backdrop-filter: blur(16px) saturate(1.4); -webkit-backdrop-filter: blur(16px) saturate(1.4); border-bottom-color: var(--line); }
+  .barre-dedans { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; height: 4.25rem; }
+  .marque { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; letter-spacing: -0.02em; text-decoration: none; }
+  .marque img { width: 28px; height: 28px; border-radius: 7px; }
+  .barre nav { display: flex; align-items: center; gap: 0.25rem; font-size: var(--step-small); }
+  .barre nav a:not(.bouton) { padding: 0.5rem 0.85rem; border-radius: 999px; text-decoration: none; color: var(--muted); transition: color 200ms ease, background-color 200ms ease; }
+  .barre nav a:not(.bouton):hover { color: var(--ink); background: rgba(255,255,255,.06); }
+  .langues { display: inline-flex; align-items: center; padding: 3px; margin-left: 0.4rem; border-radius: 999px; background: rgba(255,255,255,.06); font-size: var(--step-small); font-weight: 600; }
+  .langues a, .langues span[aria-current] { display: inline-grid; place-items: center; min-width: 2.4rem; min-height: 2.25rem; padding: 0 0.55rem; border-radius: 999px; text-decoration: none; }
+  .langues span[aria-current] { background: var(--ink); color: var(--bg); }
+  .barre nav .langues a { padding: 0 0.55rem; color: var(--muted); }
+  .barre nav .langues a:hover { color: var(--ink); background: rgba(255,255,255,.08); }
+  .barre .bouton { min-height: 2.5rem; padding: 0 1.1rem; margin-left: 0.6rem; font-size: var(--step-small); }
 
-  /* Les versions à venir, en bandes de plan de travail */
-  .route { list-style: none; padding: 0; }
-  .etape { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); padding: clamp(2.5rem, 5vw, 4.5rem) var(--margin); color: var(--bande-ink); }
-  .etape:nth-child(1) { background: var(--bande-ext-jour); }
-  .etape:nth-child(2) { background: var(--bande-int-jour); }
-  .etape:nth-child(3) { background: var(--bande-int-nuit); }
-  .etape:nth-child(4) { background: var(--bande-ext-nuit); }
-  .quand { grid-column: 1 / span 4; }
-  .quand strong { display: block; font-size: var(--step-head); line-height: 1; font-weight: 500; letter-spacing: -0.035em; font-stretch: 85%; }
-  .quand span { display: block; margin-top: 0.6rem; font-size: var(--step-body); }
-  .contenu { grid-column: 6 / span 7; }
-  .contenu h2 { font-size: var(--step-lead); line-height: 1.15; }
-  .contenu p { margin-top: 0.75rem; }
-  .contenu ul { margin-top: 1.25rem; padding-left: 1.2rem; display: grid; gap: 0.5rem; }
-  .contenu li strong { font-weight: 600; }
+  /* ——— Ouverture ——— */
+  .ouverture { position: relative; padding: clamp(8rem, 15vw, 10.5rem) 0 clamp(3rem, 6vw, 4.5rem); isolation: isolate; }
+  .ouverture::before { content: ""; position: absolute; inset: 0 0 auto; height: 40rem; z-index: -1; pointer-events: none; background: radial-gradient(40rem 24rem at 20% 10%, rgba(242,182,50,.14), transparent 70%), radial-gradient(30rem 20rem at 80% 30%, rgba(168,84,28,.16), transparent 70%); }
+  .ouverture h1 { font-size: var(--step-display); line-height: 1; font-stretch: 86%; letter-spacing: -0.045em; max-width: 14ch; }
+  .ouverture p { margin-top: 1.5rem; max-width: 52ch; font-size: var(--step-lead); line-height: 1.5; color: var(--muted); }
 
-  .idee { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: end; padding: clamp(5rem, 10vw, 9rem) var(--margin); }
-  .idee h2 { grid-column: 1 / span 6; font-size: var(--step-head); line-height: 1; font-stretch: 88%; }
-  .idee-texte { grid-column: 8 / span 5; }
-  .idee-texte p { color: var(--ink); }
-  .idee-boutons { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.75rem; }
+  /* ——— Le texte : un sommaire à gauche, les rubriques en cartes à droite ——— */
+  .texte { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 8fr); gap: 2rem clamp(2rem, 5vw, 5rem); }
+  .sommaire { position: sticky; top: 7rem; align-self: start; display: grid; gap: 0.25rem; font-size: var(--step-small); }
+  .sommaire a { padding: 0.45rem 0.8rem; border-radius: 999px; color: var(--muted); text-decoration: none; transition: color 200ms ease, background-color 200ms ease; }
+  .sommaire a:hover { color: var(--ink); background: rgba(255,255,255,.06); }
+  .rubriques { display: grid; gap: 0.75rem; }
+  .texte section { padding: 1.75rem 2rem; border-radius: var(--r-md); background: var(--surface); box-shadow: 0 0 0 1px var(--line) inset; scroll-margin-top: 6rem; }
+  .texte h2 { font-size: var(--step-h3); line-height: 1.15; margin-bottom: 0.9rem; }
+  .texte p { color: var(--muted); max-width: 64ch; }
+  .texte p strong, .texte a { color: var(--ink); }
+  .texte p + p { margin-top: 0.9em; }
 
-  .sorties { background: var(--surface); padding: clamp(4rem, 8vw, 7rem) var(--margin); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }
-  .sorties-tete { grid-column: 1 / span 4; }
-  .sorties-tete h2 { position: sticky; top: 2rem; font-size: var(--step-head); line-height: 1; font-stretch: 88%; }
-  .sorties-tete p { margin-top: 1.25rem; color: var(--muted); }
-  #versions { grid-column: 6 / span 7; display: grid; gap: 8px; }
-  .version { background: var(--bg); padding: 1.5rem 1.75rem; }
-  .version h3 { font-size: var(--step-lead); line-height: 1.15; }
-  .version h3 span { display: block; margin-top: 0.3rem; font-size: var(--step-small); font-weight: 400; letter-spacing: 0; color: var(--muted); }
-  .version .notes { margin-top: 0.75rem; white-space: pre-line; }
-
-  .pied-page { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1.5rem; align-items: baseline; padding: 20svh var(--margin) 1.9rem; font-size: var(--step-small); color: var(--muted); }
-  .pied-page nav { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  /* ——— Le pied ——— */
+  .pied-page { margin-top: var(--section); border-top: 1px solid var(--line); }
+  .pied-dedans { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.25rem 2rem; padding-block: 2.25rem; font-size: var(--step-small); color: var(--muted); }
+  .pied-page nav { display: flex; gap: 0.4rem 1.4rem; flex-wrap: wrap; }
   .pied-page nav a { color: var(--ink); text-decoration: none; }
   .pied-page nav a:hover { color: var(--accent); }
-  .pied-page p:last-child { justify-self: end; }
 
   @media (prefers-reduced-motion: no-preference) {
     .js [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 700ms var(--ease-out), transform 900ms var(--ease-out); transition-delay: calc(var(--i, 0) * 80ms); }
     .js [data-reveal].is-in { opacity: 1; transform: none; }
   }
   @media (max-width: 900px) {
-    .ouverture p { grid-column: 1 / span 12; }
-    .quand, .contenu, .idee h2, .idee-texte, .sorties-tete, #versions { grid-column: 1 / span 12; }
-    .contenu, .idee-texte, #versions { margin-top: 1.5rem; }
-    .sorties-tete h2 { position: static; }
+    .texte { grid-template-columns: 1fr; }
+    .sommaire { position: static; }
   }
   @media (max-width: 720px) {
     .barre nav > a:not(.bouton) { display: none; }
-    .barre nav { gap: 0.75rem; }
-    .pied-page { display: flex; flex-direction: column; gap: 0.5rem; }
-    .pied-page p:last-child { justify-self: start; }
+    .texte section { padding: 1.4rem 1.25rem; }
   }
-
-  .texte { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); padding: 0 var(--margin) 4rem; }
-  .texte section { grid-column: 4 / span 7; padding: 2.5rem 0; }
-  .texte h2 { font-size: var(--step-lead); line-height: 1.15; margin-bottom: 1rem; }
-  .texte p + p { margin-top: 0.9em; }
-  @media (max-width: 900px) { .texte section { grid-column: 1 / span 12; } }
 </style>
 </head>
 <body>
-<header class="barre">
-  <a class="marque" href="index.html"><img src="images/icone.png" alt="" width="30" height="30">CinéLabs</a>
-  <nav aria-label="Navigation">
-    <a href="index.html">Accueil</a>
-    <a href="feuille-de-route.html">Prochainement</a>
-    <span class="langues" role="group" aria-label="Langue"><span aria-current="true" lang="fr" title="Français">FR</span><a href="en/index.html" hreflang="en" lang="en" title="English">EN</a></span>
-    <a class="bouton" href="https://github.com/Cinelab-dev/CineLab/releases/latest">Télécharger</a>
-  </nav>
+<header class="barre" id="barre">
+  <div class="conteneur barre-dedans">
+    <a class="marque" href="index.html"><img src="images/icone.png" alt="" width="28" height="28">CinéLabs</a>
+    <nav aria-label="Navigation">
+      <a href="index.html">Accueil</a>
+      <a href="feuille-de-route.html">Prochainement</a>
+      <span class="langues" role="group" aria-label="Langue"><span aria-current="true" lang="fr" title="Français">FR</span><a href="en/index.html" hreflang="en" lang="en" title="English">EN</a></span>
+      <a class="bouton" href="https://github.com/Cinelab-dev/CineLab/releases/latest">Télécharger</a>
+    </nav>
+  </div>
 </header>
 
 <main>
   <section class="ouverture" aria-labelledby="titre-page">
-    <h1 id="titre-page">Mentions légales</h1>
-    <p>Mise à jour le 21 octobre 2026.</p>
+    <div class="conteneur">
+      <p class="etiquette-haut">Informations</p>
+      <h1 id="titre-page">Mentions légales</h1>
+      <p>Mise à jour le 21 octobre 2026.</p>
+    </div>
   </section>
 
-  <div class="texte">
-    <section aria-labelledby="t-editeur">
-      <h2 id="t-editeur">Éditeur du site</h2>
-      <p><strong>Amaury Giraud</strong>, à titre non professionnel.</p>
-      <p>Contact : <a href="mailto:contact.astroboys@gmail.com">contact.astroboys@gmail.com</a></p>
-      <p>Directeur de la publication : Amaury Giraud.</p>
-    </section>
-    <section aria-labelledby="t-hebergement">
-      <h2 id="t-hebergement">Hébergement</h2>
-      <p>GitHub, Inc. (GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis : <a href="https://github.com">github.com</a>.</p>
-    </section>
-    <section aria-labelledby="t-donnees">
-      <h2 id="t-donnees">Données personnelles et cookies</h2>
-      <p>Ce site ne demande aucune information personnelle et ne dépose aucun cookie.</p>
-      <p>Pour afficher la page, votre navigateur contacte GitHub (hébergement, et nombre de téléchargements de CinéLabs), qui reçoit votre adresse IP comme pour toute visite d'un site. Les polices de caractères sont hébergées sur le site lui-même. La mesure d'audience passe par GoatCounter, qui compte les visites de façon anonyme, sans cookie et sans suivre les visiteurs d'un site à l'autre.</p>
-      <p>Les dons passent par PayPal, et la communauté par Discord et Instagram, selon leurs propres conditions : le site ne voit aucune donnée de paiement ni de compte.</p>
-      <p>Les mails que vous nous envoyez ne servent qu'à vous répondre. Pour toute question sur vos données, écrivez à l'adresse ci-dessus.</p>
-    </section>
-    <section aria-labelledby="t-logiciel">
-      <h2 id="t-logiciel">Le logiciel CinéLabs</h2>
-      <p>CinéLabs est distribué gratuitement. Il fonctionne sur votre ordinateur : vos projets y restent et ne sont jamais envoyés à l'éditeur. Il est fourni tel quel, sans garantie ; pensez à faire des sauvegardes de vos projets (la fonction est incluse dans le logiciel).</p>
-    </section>
-    <section aria-labelledby="t-propriete">
-      <h2 id="t-propriete">Propriété</h2>
-      <p>Le logiciel CinéLabs, ce site, leurs textes et leurs images sont la propriété de leur auteur. Les captures d'écran et les exemples de la page d'accueil montrent un projet de démonstration fictif.</p>
-      <p>Police de caractères : Archivo (The Archivo Project Authors, Omnibus-Type), sous licence SIL Open Font License 1.1 (<a href="polices/OFL-archivo.txt">texte de la licence</a>).</p>
-    </section>
+  <div class="conteneur texte">
+    <nav class="sommaire" aria-label="Sommaire">
+      <a href="#t-editeur">Éditeur du site</a>
+      <a href="#t-hebergement">Hébergement</a>
+      <a href="#t-donnees">Données personnelles et cookies</a>
+      <a href="#t-logiciel">Le logiciel CinéLabs</a>
+      <a href="#t-propriete">Propriété</a>
+    </nav>
+    <div class="rubriques">
+      <section id="t-editeur" aria-labelledby="h-editeur">
+        <h2 id="h-editeur">Éditeur du site</h2>
+        <p><strong>Amaury Giraud</strong>, à titre non professionnel.</p>
+        <p>Contact : <a href="mailto:contact.astroboys@gmail.com">contact.astroboys@gmail.com</a></p>
+        <p>Directeur de la publication : Amaury Giraud.</p>
+      </section>
+      <section id="t-hebergement" aria-labelledby="h-hebergement">
+        <h2 id="h-hebergement">Hébergement</h2>
+        <p>GitHub, Inc. (GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis : <a href="https://github.com">github.com</a>.</p>
+      </section>
+      <section id="t-donnees" aria-labelledby="h-donnees">
+        <h2 id="h-donnees">Données personnelles et cookies</h2>
+        <p>Ce site ne demande aucune information personnelle et ne dépose aucun cookie.</p>
+        <p>Pour afficher la page, votre navigateur contacte GitHub (hébergement, et nombre de téléchargements de CinéLabs), qui reçoit votre adresse IP comme pour toute visite d'un site. Les polices de caractères sont hébergées sur le site lui-même. La mesure d'audience passe par GoatCounter, qui compte les visites de façon anonyme, sans cookie et sans suivre les visiteurs d'un site à l'autre.</p>
+        <p>Les dons passent par PayPal, et la communauté par Discord et Instagram, selon leurs propres conditions : le site ne voit aucune donnée de paiement ni de compte.</p>
+        <p>Les mails que vous nous envoyez ne servent qu'à vous répondre. Pour toute question sur vos données, écrivez à l'adresse ci-dessus.</p>
+      </section>
+      <section id="t-logiciel" aria-labelledby="h-logiciel">
+        <h2 id="h-logiciel">Le logiciel CinéLabs</h2>
+        <p>CinéLabs est distribué gratuitement. Il fonctionne sur votre ordinateur : vos projets y restent et ne sont jamais envoyés à l'éditeur. Il est fourni tel quel, sans garantie ; pensez à faire des sauvegardes de vos projets (la fonction est incluse dans le logiciel).</p>
+      </section>
+      <section id="t-propriete" aria-labelledby="h-propriete">
+        <h2 id="h-propriete">Propriété</h2>
+        <p>Le logiciel CinéLabs, ce site, leurs textes et leurs images sont la propriété de leur auteur. Les captures d'écran et les exemples de la page d'accueil montrent un projet de démonstration fictif.</p>
+        <p>Police de caractères : Archivo (The Archivo Project Authors, Omnibus-Type), sous licence SIL Open Font License 1.1 (<a href="polices/OFL-archivo.txt">texte de la licence</a>).</p>
+      </section>
+    </div>
   </div>
 </main>
 
 <footer class="pied-page">
-  <p>CinéLabs, développé par Amaury Giraud</p>
-  <nav aria-label="Liens">
-    <a href="index.html">Accueil</a>
-    <a href="https://discord.gg/65NRAPjamv" target="_blank" rel="noopener">Discord</a>
-    <a href="https://www.instagram.com/cinelabs.film/" target="_blank" rel="noopener">Instagram</a>
-    <a href="mailto:contact.astroboys@gmail.com">Nous écrire</a>
-  </nav>
-  <p>2026</p>
+  <div class="conteneur pied-dedans">
+    <p>CinéLabs, développé par Amaury Giraud · 2026</p>
+    <nav aria-label="Liens">
+      <a href="index.html">Accueil</a>
+      <a href="https://discord.gg/65NRAPjamv" target="_blank" rel="noopener">Discord</a>
+      <a href="https://www.instagram.com/cinelabs.film/" target="_blank" rel="noopener">Instagram</a>
+      <a href="mailto:contact.astroboys@gmail.com">Nous écrire</a>
+    </nav>
+  </div>
 </footer>
+
+<script>
+  // La barre du haut se pose sur un fond dès qu'on défile.
+  (() => {
+    const barre = document.getElementById('barre');
+    const suivre = () => barre.classList.toggle('collee', scrollY > 12);
+    addEventListener('scroll', suivre, { passive: true });
+    suivre();
+  })();
+</script>
 <script data-goatcounter="https://cinelabs.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>

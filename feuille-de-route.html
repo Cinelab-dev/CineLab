@@ -9,203 +9,254 @@
 <meta property="og:description" content="Les prochaines versions du logiciel de production pour les courts-métrages.">
 <meta property="og:image" content="https://cinelab-dev.github.io/CineLab/images/apercu.jpg">
 <meta property="og:url" content="https://cinelab-dev.github.io/CineLab/feuille-de-route.html">
+<meta name="theme-color" content="#0b0b0a">
 <link rel="icon" href="images/icone.png">
 <link rel="preload" href="polices/archivo.woff" as="font" type="font/woff" crossorigin>
 <script>document.documentElement.classList.add('js')</script>
 <style>
   @font-face { font-family: Archivo; src: url("polices/archivo.woff") format("woff"); font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; }
+
+  /* ——— Les couleurs : les mêmes que l'accueil ——— */
   :root {
-    --bg: #111110; --surface: #1d1c1a; --ink: #ffffff; --muted: #b3aea6;
-    --accent: #f2b632; --accent-ink: #14110c;
-    --bande-ext-jour: #f6e7a1; --bande-int-jour: #ffffff; --bande-int-nuit: #c9d8f0; --bande-ext-nuit: #c6e3c4; --bande-ink: #16140f;
+    --bg: #0b0b0a; --surface: #151513; --surface-2: #1e1d1a; --surface-3: #282622;
+    --line: rgba(255, 255, 255, 0.08); --line-fort: rgba(255, 255, 255, 0.16);
+    --ink: #f5f3ee; --muted: #a9a49a;
+    --accent: #f2b632; --accent-clair: #f7c654; --accent-ink: #17120a;
+    --bande-ext-jour: #f6e7a1; --bande-int-jour: #ffffff; --bande-int-nuit: #c9d8f0; --bande-ext-nuit: #c6e3c4;
     --font: Archivo, system-ui, sans-serif;
     --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
-    --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
-    --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
-    --step-head: clamp(2.25rem, 1.3rem + 3.4vw, 4.25rem);
-    --step-display: clamp(2.5rem, 0.6rem + 6vw, 6.5rem);
-    --margin: clamp(1rem, 3vw, 2.5rem); --gutter: clamp(1rem, 2vw, 2rem);
+    --step-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+    --step-lead: clamp(1.125rem, 1.02rem + 0.5vw, 1.4rem);
+    --step-h3: clamp(1.2rem, 1.1rem + 0.5vw, 1.5rem);
+    --step-head: clamp(2.1rem, 1.4rem + 3vw, 3.75rem);
+    --step-display: clamp(2.6rem, 1rem + 6.2vw, 5.5rem);
+    --margin: clamp(1rem, 4vw, 3rem); --largeur: 76rem;
+    --section: clamp(4.5rem, 8vw, 7.5rem);
+    --r-lg: 28px; --r-md: 18px; --r-sm: 12px;
     --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   }
   *, *::before, *::after { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: var(--step-body); line-height: 1.5; -webkit-font-smoothing: antialiased; }
-  h1, h2, h3, p, ul { margin: 0; }
-  h1, h2, h3 { font-weight: 500; letter-spacing: -0.03em; text-wrap: balance; }
-  p { max-width: 62ch; text-wrap: pretty; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: var(--step-body); line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  h1, h2, h3, p, ul, ol { margin: 0; }
+  h1, h2, h3 { font-weight: 600; letter-spacing: -0.035em; text-wrap: balance; }
+  p { text-wrap: pretty; }
   a { color: inherit; }
-  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   ::selection { background: var(--accent); color: var(--accent-ink); }
+  .conteneur { width: min(100% - 2 * var(--margin), var(--largeur)); margin-inline: auto; }
+  .etiquette-haut { margin-bottom: 1.1rem; color: var(--accent); font-size: var(--step-small); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+  .titre { font-size: var(--step-head); line-height: 1.02; font-stretch: 90%; }
+  .lien { text-decoration: underline; text-underline-offset: 0.22em; text-decoration-thickness: 0.07em; transition: color 200ms ease; }
+  .lien:hover { color: var(--accent); }
 
-  .barre { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.25rem var(--margin); }
-  .marque { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; font-size: var(--step-body); text-decoration: none; }
-  .marque img { width: 30px; height: 30px; }
-  .barre nav { display: flex; align-items: center; gap: 1.75rem; font-size: var(--step-small); }
-  .barre nav a:not(.bouton) { text-decoration: none; }
-  .barre nav a:not(.bouton):hover { color: var(--accent); }
-  .langues { display: flex; align-items: center; gap: 0.15rem; font-size: var(--step-small); font-weight: 600; }
-  .langues a, .langues span[aria-current] { display: inline-grid; place-items: center; min-width: 2.75rem; min-height: 2.75rem; padding: 0 0.4rem; text-decoration: none; }
-  .langues span[aria-current] { color: var(--accent-ink); background: var(--ink); }
-  .barre nav .langues a { color: var(--muted); }
-  .barre nav .langues a:hover { color: var(--ink); background: var(--surface); }
-  .bouton { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1.1rem; background: var(--accent); color: var(--accent-ink); font-weight: 600; text-decoration: none; white-space: nowrap; transition: transform 140ms var(--ease-out), background-color 180ms ease; }
-  .bouton:hover { background: #f7c654; }
+  .bouton { display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; min-height: 3.25rem; padding: 0 1.6rem; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-weight: 600; text-decoration: none; white-space: nowrap; transition: transform 140ms var(--ease-out), background-color 200ms ease; }
+  .bouton:hover { background: var(--accent-clair); }
   .bouton:active { transform: scale(0.97); }
-  .bouton.grand { min-height: 3.25rem; padding: 0 1.5rem; font-size: var(--step-body); }
-  .bouton.sombre { background: transparent; color: var(--ink); border: 2px solid var(--ink); }
-  .bouton.sombre:hover { background: #2c2a27; }
+  .bouton.fantome { background: rgba(255,255,255,.04); color: var(--ink); box-shadow: 0 0 0 1px var(--line-fort) inset; }
+  .bouton.fantome:hover { background: rgba(255,255,255,.09); }
 
-  .ouverture { padding: clamp(4rem, 10vw, 8rem) var(--margin) clamp(3rem, 6vw, 5rem); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 2rem; }
-  .ouverture h1 { grid-column: 1 / span 11; font-size: var(--step-display); line-height: 0.98; font-stretch: 82%; }
-  .ouverture p { grid-column: 1 / span 6; font-size: var(--step-lead); line-height: 1.4; }
+  /* ——— Barre du haut ——— */
+  .barre { position: fixed; inset: 0 0 auto; z-index: 20; border-bottom: 1px solid transparent; transition: background-color 300ms ease, border-color 300ms ease; }
+  .barre.collee { background: rgba(11, 11, 10, 0.72); backdrop-filter: blur(16px) saturate(1.4); -webkit-backdrop-filter: blur(16px) saturate(1.4); border-bottom-color: var(--line); }
+  .barre-dedans { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; height: 4.25rem; }
+  .marque { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; letter-spacing: -0.02em; text-decoration: none; }
+  .marque img { width: 28px; height: 28px; border-radius: 7px; }
+  .barre nav { display: flex; align-items: center; gap: 0.25rem; font-size: var(--step-small); }
+  .barre nav a:not(.bouton) { padding: 0.5rem 0.85rem; border-radius: 999px; text-decoration: none; color: var(--muted); transition: color 200ms ease, background-color 200ms ease; }
+  .barre nav a:not(.bouton):hover { color: var(--ink); background: rgba(255,255,255,.06); }
+  .langues { display: inline-flex; align-items: center; padding: 3px; margin-left: 0.4rem; border-radius: 999px; background: rgba(255,255,255,.06); font-size: var(--step-small); font-weight: 600; }
+  .langues a, .langues span[aria-current] { display: inline-grid; place-items: center; min-width: 2.4rem; min-height: 2.25rem; padding: 0 0.55rem; border-radius: 999px; text-decoration: none; }
+  .langues span[aria-current] { background: var(--ink); color: var(--bg); }
+  .barre nav .langues a { padding: 0 0.55rem; color: var(--muted); }
+  .barre nav .langues a:hover { color: var(--ink); background: rgba(255,255,255,.08); }
+  .barre .bouton { min-height: 2.5rem; padding: 0 1.1rem; margin-left: 0.6rem; font-size: var(--step-small); }
 
-  /* Les versions à venir, en bandes de plan de travail */
-  .route { list-style: none; padding: 0; }
-  .etape { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); padding: clamp(2.5rem, 5vw, 4.5rem) var(--margin); color: var(--bande-ink); }
-  .etape:nth-child(1) { background: var(--bande-ext-jour); }
-  .etape:nth-child(2) { background: var(--bande-int-jour); }
-  .etape:nth-child(3) { background: var(--bande-int-nuit); }
-  .etape:nth-child(4) { background: var(--bande-ext-nuit); }
-  .quand { grid-column: 1 / span 4; }
-  .quand strong { display: block; font-size: var(--step-head); line-height: 1; font-weight: 500; letter-spacing: -0.035em; font-stretch: 85%; }
-  .quand span { display: block; margin-top: 0.6rem; font-size: var(--step-body); }
-  .contenu { grid-column: 6 / span 7; }
-  .contenu h2 { font-size: var(--step-lead); line-height: 1.15; }
-  .contenu p { margin-top: 0.75rem; }
-  .contenu ul { margin-top: 1.25rem; padding-left: 1.2rem; display: grid; gap: 0.5rem; }
-  .contenu li strong { font-weight: 600; }
+  /* ——— Ouverture ——— */
+  .ouverture { position: relative; padding: clamp(8rem, 15vw, 10.5rem) 0 clamp(3rem, 6vw, 4.5rem); isolation: isolate; }
+  .ouverture::before { content: ""; position: absolute; inset: 0 0 auto; height: 40rem; z-index: -1; pointer-events: none; background: radial-gradient(40rem 24rem at 20% 10%, rgba(242,182,50,.14), transparent 70%), radial-gradient(30rem 20rem at 80% 30%, rgba(168,84,28,.16), transparent 70%); }
+  .ouverture h1 { font-size: var(--step-display); line-height: 1; font-stretch: 86%; letter-spacing: -0.045em; max-width: 14ch; }
+  .ouverture p { margin-top: 1.5rem; max-width: 52ch; font-size: var(--step-lead); line-height: 1.5; color: var(--muted); }
 
-  .idee { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: end; padding: clamp(5rem, 10vw, 9rem) var(--margin); }
-  .idee h2 { grid-column: 1 / span 6; font-size: var(--step-head); line-height: 1; font-stretch: 88%; }
-  .idee-texte { grid-column: 8 / span 5; }
-  .idee-texte p { color: var(--ink); }
+  /* ——— Les versions à venir : une ligne de temps, chaque étape à la couleur d'une bande ——— */
+  .route { list-style: none; padding: 0; position: relative; display: grid; gap: 1rem; }
+  .route::before { content: ""; position: absolute; left: 11px; top: 1.5rem; bottom: 1.5rem; width: 2px; background: linear-gradient(var(--bande-ext-jour), var(--bande-int-jour), var(--bande-int-nuit), var(--bande-ext-nuit)); opacity: .35; }
+  .etape { --couleur: var(--bande-ext-jour); position: relative; display: grid; grid-template-columns: 24px minmax(0, 4fr) minmax(0, 8fr); gap: 0 clamp(1rem, 3vw, 2.5rem); }
+  .etape:nth-child(2) { --couleur: var(--bande-int-jour); }
+  .etape:nth-child(3) { --couleur: var(--bande-int-nuit); }
+  .etape:nth-child(4) { --couleur: var(--bande-ext-nuit); }
+  .point { margin-top: 1.9rem; width: 24px; height: 24px; border-radius: 50%; background: var(--bg); box-shadow: 0 0 0 2px var(--couleur) inset; display: grid; place-items: center; }
+  .point::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--couleur); }
+  .etape:first-child .point { box-shadow: 0 0 0 2px var(--couleur) inset, 0 0 0 6px color-mix(in srgb, var(--couleur) 18%, transparent); }
+  .quand { padding-top: 1.5rem; }
+  .quand strong { display: block; font-size: var(--step-h3); font-weight: 600; letter-spacing: -0.03em; }
+  .quand span { display: inline-block; margin-top: 0.5rem; padding: 0.2rem 0.65rem; border-radius: 999px; background: color-mix(in srgb, var(--couleur) 14%, transparent); color: var(--couleur); font-size: var(--step-small); font-weight: 600; }
+  .contenu { position: relative; padding: 1.6rem 1.75rem; border-radius: var(--r-md); background: var(--surface); box-shadow: 0 0 0 1px var(--line) inset; overflow: hidden; }
+  .contenu::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--couleur); }
+  .contenu h2 { font-size: var(--step-h3); line-height: 1.15; }
+  .contenu p { margin-top: 0.6rem; color: var(--muted); }
+  .contenu ul { margin-top: 1.25rem; padding: 0; list-style: none; display: grid; gap: 0.6rem; }
+  .contenu li { position: relative; padding-left: 1.6rem; color: var(--muted); }
+  .contenu li::before { content: ""; position: absolute; left: 0; top: 0.45em; width: 14px; height: 8px; border-left: 2px solid var(--couleur); border-bottom: 2px solid var(--couleur); transform: rotate(-45deg); }
+  .contenu li strong { color: var(--ink); font-weight: 600; }
+
+  /* ——— Une idée ——— */
+  .idee { margin-top: var(--section); display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 2rem 4rem; align-items: center; padding: clamp(2.5rem, 6vw, 4.5rem); border-radius: var(--r-lg); background: radial-gradient(40rem 30rem at 100% 0%, rgba(242,182,50,.3), transparent 60%), radial-gradient(40rem 30rem at 0% 100%, rgba(80,30,8,.9), transparent 70%), #a8541c; }
+  .idee h2 { font-size: var(--step-head); line-height: 1; font-stretch: 86%; }
+  .idee p { color: rgba(255,255,255,.85); }
   .idee-boutons { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.75rem; }
+  .idee .bouton:not(.fantome) { background: #fff; }
+  .idee .bouton:not(.fantome):hover { background: var(--accent-clair); }
+  .idee .bouton.fantome { box-shadow: 0 0 0 1px rgba(255,255,255,.45) inset; }
 
-  .sorties { background: var(--surface); padding: clamp(4rem, 8vw, 7rem) var(--margin); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }
-  .sorties-tete { grid-column: 1 / span 4; align-self: start; position: sticky; top: 2rem; }
-  .sorties-tete h2 { font-size: var(--step-head); line-height: 1; font-stretch: 88%; }
-  .sorties-tete p { margin-top: 1.25rem; color: var(--muted); }
-  #versions { grid-column: 6 / span 7; display: grid; gap: 8px; }
-  .version { background: var(--bg); padding: 1.5rem 1.75rem; }
-  .version h3 { font-size: var(--step-lead); line-height: 1.15; }
+  /* ——— Déjà sorti ——— */
+  .sorties { margin-top: var(--section); display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 2rem clamp(2rem, 5vw, 5rem); }
+  .sorties-tete { position: sticky; top: 7rem; align-self: start; }
+  .sorties-tete p { margin-top: 1.1rem; color: var(--muted); }
+  #versions { display: grid; gap: 0.75rem; }
+  .version { padding: 1.5rem 1.75rem; border-radius: var(--r-md); background: var(--surface); box-shadow: 0 0 0 1px var(--line) inset; }
+  .version:first-child { box-shadow: 0 0 0 1px rgba(242,182,50,.45) inset; }
+  .version h3 { font-size: 1.2rem; line-height: 1.15; letter-spacing: -0.02em; }
   .version h3 span { display: block; margin-top: 0.3rem; font-size: var(--step-small); font-weight: 400; letter-spacing: 0; color: var(--muted); }
-  .version .notes { margin-top: 0.75rem; white-space: pre-line; }
+  .version .notes { margin-top: 0.75rem; white-space: pre-line; color: var(--muted); }
 
-  .pied-page { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1.5rem; align-items: baseline; padding: 20svh var(--margin) 1.9rem; font-size: var(--step-small); color: var(--muted); }
-  .pied-page nav { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  /* ——— Le pied ——— */
+  .pied-page { margin-top: var(--section); border-top: 1px solid var(--line); }
+  .pied-dedans { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.25rem 2rem; padding-block: 2.25rem; font-size: var(--step-small); color: var(--muted); }
+  .pied-page nav { display: flex; gap: 0.4rem 1.4rem; flex-wrap: wrap; }
   .pied-page nav a { color: var(--ink); text-decoration: none; }
   .pied-page nav a:hover { color: var(--accent); }
-  .pied-page p:last-child { justify-self: end; }
 
   @media (prefers-reduced-motion: no-preference) {
     .js [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 700ms var(--ease-out), transform 900ms var(--ease-out); transition-delay: calc(var(--i, 0) * 80ms); }
     .js [data-reveal].is-in { opacity: 1; transform: none; }
   }
   @media (max-width: 900px) {
-    .ouverture p { grid-column: 1 / span 12; }
-    .quand, .contenu, .idee h2, .idee-texte, .sorties-tete, #versions { grid-column: 1 / span 12; }
-    .contenu, .idee-texte, #versions { margin-top: 1.5rem; }
+    .etape { grid-template-columns: 24px minmax(0, 1fr); }
+    .quand { padding-top: 1.75rem; padding-bottom: 0.9rem; }
+    .contenu { grid-column: 2; }
+    .idee, .sorties { grid-template-columns: 1fr; }
     .sorties-tete { position: static; }
   }
   @media (max-width: 720px) {
     .barre nav > a:not(.bouton) { display: none; }
-    .barre nav { gap: 0.75rem; }
-    .pied-page { display: flex; flex-direction: column; gap: 0.5rem; }
-    .pied-page p:last-child { justify-self: start; }
+    .contenu { padding: 1.25rem 1.25rem 1.25rem 1.5rem; }
+    .idee { padding: 2rem 1.25rem; border-radius: var(--r-md); }
+    .idee-boutons .bouton { width: 100%; }
   }
 </style>
 </head>
 <body>
-<header class="barre">
-  <a class="marque" href="index.html"><img src="images/icone.png" alt="" width="30" height="30">CinéLabs</a>
-  <nav aria-label="Navigation">
-    <a href="index.html">Accueil</a>
-    <a href="#sorties">Déjà sorti</a>
-    <a href="https://discord.gg/65NRAPjamv" target="_blank" rel="noopener">Discord</a>
-    <span class="langues" role="group" aria-label="Langue"><span aria-current="true" lang="fr" title="Français">FR</span><a href="en/index.html" hreflang="en" lang="en" title="English">EN</a></span>
-    <a class="bouton" href="https://github.com/Cinelab-dev/CineLab/releases/latest">Télécharger</a>
-  </nav>
+<header class="barre" id="barre">
+  <div class="conteneur barre-dedans">
+    <a class="marque" href="index.html"><img src="images/icone.png" alt="" width="28" height="28">CinéLabs</a>
+    <nav aria-label="Navigation">
+      <a href="index.html">Accueil</a>
+      <a href="#sorties">Déjà sorti</a>
+      <a href="https://discord.gg/65NRAPjamv" target="_blank" rel="noopener">Discord</a>
+      <span class="langues" role="group" aria-label="Langue"><span aria-current="true" lang="fr" title="Français">FR</span><a href="en/index.html" hreflang="en" lang="en" title="English">EN</a></span>
+      <a class="bouton" href="https://github.com/Cinelab-dev/CineLab/releases/latest">Télécharger</a>
+    </nav>
+  </div>
 </header>
 
 <main>
   <section class="ouverture" aria-labelledby="titre-page">
-    <h1 id="titre-page">Prochainement dans CinéLabs</h1>
-    <p>CinéLabs avance par petites versions, une nouveauté importante à la fois. L'ordre peut changer selon vos retours : ce qui bloque un tournage passe toujours en premier. Le logiciel vous prévient lui-même quand une nouvelle version sort.</p>
-  </section>
-
-  <ol class="route" aria-label="Les prochaines versions">
-    <li class="etape">
-      <div class="quand" data-reveal><strong>En préparation</strong><span>Version 0.26</span></div>
-      <div class="contenu" data-reveal style="--i:1">
-        <h2>Préparer la sortie du film</h2>
-        <p>Tout ce qu'il faut pour le DCP et les festivals, sans imposer de logiciel.</p>
-        <ul>
-          <li><strong>Une fiche DCP</strong> : titre, durée, format d'image et de son, cadence, langue, sous-titres.</li>
-          <li><strong>Une liste de vérifications</strong> avant la projection en salle.</li>
-          <li><strong>Un lien facultatif avec DCP-o-matic</strong>, pour ceux qui l'utilisent.</li>
-          <li><strong>Vérifier un DCP terminé</strong>, quel que soit le logiciel qui l'a fabriqué.</li>
-        </ul>
-      </div>
-    </li>
-    <li class="etape">
-      <div class="quand" data-reveal><strong>Ensuite</strong><span>Version 0.27</span></div>
-      <div class="contenu" data-reveal style="--i:1">
-        <h2>Vos retours</h2>
-        <p>Une version réservée aux corrections et aux demandes des équipes qui utilisent CinéLabs en tournage. Elle passe avant les autres si un problème bloque un tournage.</p>
-      </div>
-    </li>
-    <li class="etape">
-      <div class="quand" data-reveal><strong>Plus tard</strong><span>Les grands chantiers</span></div>
-      <div class="contenu" data-reveal style="--i:1">
-        <h2>Une version pour Mac</h2>
-        <p>CinéLabs fonctionne aujourd'hui sous Windows 10 et 11. La version Mac viendra ensuite, avec les mêmes projets.</p>
-      </div>
-    </li>
-    <li class="etape">
-      <div class="quand" data-reveal><strong>Plus tard</strong><span>Les grands chantiers</span></div>
-      <div class="contenu" data-reveal style="--i:1">
-        <h2>Travailler à plusieurs en même temps</h2>
-        <p>Chacun depuis chez soi, sur le même projet. En attendant, un projet s'envoie déjà en un seul fichier .cinelabs.</p>
-      </div>
-    </li>
-  </ol>
-
-  <section class="idee" aria-labelledby="titre-idee">
-    <h2 id="titre-idee" data-reveal>Une idée, un besoin ?</h2>
-    <div class="idee-texte" data-reveal style="--i:1">
-      <p>Dites-nous ce qui vous manque sur vos tournages : ce sont vos retours qui décident des prochaines versions. Venez en parler dans le salon #idées du Discord, ou écrivez-nous.</p>
-      <div class="idee-boutons">
-        <a class="bouton grand" href="https://discord.gg/65NRAPjamv" target="_blank" rel="noopener">Rejoindre le Discord</a>
-        <a class="bouton grand sombre" href="mailto:contact.astroboys@gmail.com?subject=CinéLabs%20:%20une%20idée">Écrire un mail</a>
-      </div>
+    <div class="conteneur">
+      <p class="etiquette-haut">Feuille de route</p>
+      <h1 id="titre-page">Prochainement dans CinéLabs</h1>
+      <p>CinéLabs avance par petites versions, une nouveauté importante à la fois. L'ordre peut changer selon vos retours : ce qui bloque un tournage passe toujours en premier. Le logiciel vous prévient lui-même quand une nouvelle version sort.</p>
     </div>
   </section>
 
-  <section class="sorties" id="sorties" aria-labelledby="titre-sorties">
-    <div class="sorties-tete">
-      <h2 id="titre-sorties">Déjà sorti</h2>
-      <p>Chaque version, avec ce qu'elle a apporté. Pour mettre à jour, téléchargez la dernière depuis <a href="index.html">l'accueil</a> : vos projets sont conservés.</p>
-    </div>
-    <div id="versions">
-      <article class="version"><h3>CinéLabs 0.25</h3><p class="notes">Un premier lancement guidé, avec un projet d'exemple pour tout essayer sans risque. « Premiers pas » dans chaque projet. Envoyer un projet complet dans un seul fichier .cinelabs et l'ouvrir sur un autre ordinateur.</p></article>
-      <article class="version"><h3>CinéLabs 0.24.1</h3><p class="notes">Un lien vers le serveur Discord de CinéLabs.</p></article>
-      <article class="version"><h3>CinéLabs 0.24</h3><p class="notes">CinéLabs prévient quand une nouvelle version sort. Nouveau bouton « Signaler un problème ». Liens vers le site et la page de soutien.</p></article>
-      <article class="version"><h3>CinéLabs 0.23</h3><p class="notes">Première version publique et gratuite. Format d'image et de son du film, storyboard au format du film.</p></article>
-    </div>
-  </section>
+  <div class="conteneur">
+    <ol class="route" aria-label="Les prochaines versions">
+      <li class="etape" data-reveal>
+        <span class="point" aria-hidden="true"></span>
+        <div class="quand"><strong>En préparation</strong><span>Version 0.26</span></div>
+        <div class="contenu">
+          <h2>Préparer la sortie du film</h2>
+          <p>Tout ce qu'il faut pour le DCP et les festivals, sans imposer de logiciel.</p>
+          <ul>
+            <li><strong>Une fiche DCP</strong> : titre, durée, format d'image et de son, cadence, langue, sous-titres.</li>
+            <li><strong>Une liste de vérifications</strong> avant la projection en salle.</li>
+            <li><strong>Un lien facultatif avec DCP-o-matic</strong>, pour ceux qui l'utilisent.</li>
+            <li><strong>Vérifier un DCP terminé</strong>, quel que soit le logiciel qui l'a fabriqué.</li>
+          </ul>
+        </div>
+      </li>
+      <li class="etape" data-reveal>
+        <span class="point" aria-hidden="true"></span>
+        <div class="quand"><strong>Ensuite</strong><span>Version 0.27</span></div>
+        <div class="contenu">
+          <h2>Vos retours</h2>
+          <p>Une version réservée aux corrections et aux demandes des équipes qui utilisent CinéLabs en tournage. Elle passe avant les autres si un problème bloque un tournage.</p>
+        </div>
+      </li>
+      <li class="etape" data-reveal>
+        <span class="point" aria-hidden="true"></span>
+        <div class="quand"><strong>Plus tard</strong><span>Les grands chantiers</span></div>
+        <div class="contenu">
+          <h2>Une version pour Mac</h2>
+          <p>CinéLabs fonctionne aujourd'hui sous Windows 10 et 11. La version Mac viendra ensuite, avec les mêmes projets.</p>
+        </div>
+      </li>
+      <li class="etape" data-reveal>
+        <span class="point" aria-hidden="true"></span>
+        <div class="quand"><strong>Plus tard</strong><span>Les grands chantiers</span></div>
+        <div class="contenu">
+          <h2>Travailler à plusieurs en même temps</h2>
+          <p>Chacun depuis chez soi, sur le même projet. En attendant, un projet s'envoie déjà en un seul fichier .cinelabs.</p>
+        </div>
+      </li>
+    </ol>
+
+    <section class="idee" aria-labelledby="titre-idee" data-reveal>
+      <h2 id="titre-idee">Une idée, un besoin ?</h2>
+      <div>
+        <p>Dites-nous ce qui vous manque sur vos tournages : ce sont vos retours qui décident des prochaines versions. Venez en parler dans le salon #idées du Discord, ou écrivez-nous.</p>
+        <div class="idee-boutons">
+          <a class="bouton" href="https://discord.gg/65NRAPjamv" target="_blank" rel="noopener">Rejoindre le Discord</a>
+          <a class="bouton fantome" href="mailto:contact.astroboys@gmail.com?subject=CinéLabs%20:%20une%20idée">Écrire un mail</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="sorties" id="sorties" aria-labelledby="titre-sorties">
+      <div class="sorties-tete">
+        <p class="etiquette-haut">Historique</p>
+        <h2 id="titre-sorties" class="titre">Déjà sorti</h2>
+        <p>Chaque version, avec ce qu'elle a apporté. Pour mettre à jour, téléchargez la dernière depuis <a class="lien" href="index.html">l'accueil</a> : vos projets sont conservés.</p>
+      </div>
+      <div id="versions">
+        <article class="version"><h3>CinéLabs 0.25</h3><p class="notes">Un premier lancement guidé, avec un projet d'exemple pour tout essayer sans risque. « Premiers pas » dans chaque projet. Envoyer un projet complet dans un seul fichier .cinelabs et l'ouvrir sur un autre ordinateur.</p></article>
+        <article class="version"><h3>CinéLabs 0.24.1</h3><p class="notes">Un lien vers le serveur Discord de CinéLabs.</p></article>
+        <article class="version"><h3>CinéLabs 0.24</h3><p class="notes">CinéLabs prévient quand une nouvelle version sort. Nouveau bouton « Signaler un problème ». Liens vers le site et la page de soutien.</p></article>
+        <article class="version"><h3>CinéLabs 0.23</h3><p class="notes">Première version publique et gratuite. Format d'image et de son du film, storyboard au format du film.</p></article>
+      </div>
+    </section>
+  </div>
 </main>
 
 <footer class="pied-page">
-  <p>CinéLabs, développé par Amaury Giraud</p>
-  <nav aria-label="Liens">
-    <a href="index.html">Accueil</a>
-    <a href="https://discord.gg/65NRAPjamv" target="_blank" rel="noopener">Discord</a>
-    <a href="https://www.instagram.com/cinelabs.film/" target="_blank" rel="noopener">Instagram</a>
-    <a href="mailto:contact.astroboys@gmail.com">Nous écrire</a>
-  </nav>
-  <p><a href="mentions-legales.html">Mentions légales</a></p>
+  <div class="conteneur pied-dedans">
+    <p>CinéLabs, développé par Amaury Giraud · 2026 · <a class="lien" href="mentions-legales.html">Mentions légales</a></p>
+    <nav aria-label="Liens">
+      <a href="index.html">Accueil</a>
+      <a href="https://discord.gg/65NRAPjamv" target="_blank" rel="noopener">Discord</a>
+      <a href="https://www.instagram.com/cinelabs.film/" target="_blank" rel="noopener">Instagram</a>
+      <a href="mailto:contact.astroboys@gmail.com">Nous écrire</a>
+    </nav>
+  </div>
 </footer>
 
 <script>
+  // La barre du haut se pose sur un fond dès qu'on défile.
+  (() => {
+    const barre = document.getElementById('barre');
+    const suivre = () => barre.classList.toggle('collee', scrollY > 12);
+    addEventListener('scroll', suivre, { passive: true });
+    suivre();
+  })();
   // « Déjà sorti » se remplit tout seul avec les versions publiées sur GitHub (le texte ci-dessus sert si GitHub ne répond pas).
   (async () => {
     try {
@@ -228,7 +279,7 @@
   (() => {
     const cibles = document.querySelectorAll('[data-reveal]');
     if (!('IntersectionObserver' in window)) { cibles.forEach(el => el.classList.add('is-in')); return; }
-    const io = new IntersectionObserver(es => { for (const e of es) if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+    const io = new IntersectionObserver(es => { for (const e of es) if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
     cibles.forEach(el => io.observe(el));
     addEventListener('load', () => setTimeout(() => cibles.forEach(el => { const r = el.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) el.classList.add('is-in'); }), 2500));
   })();
