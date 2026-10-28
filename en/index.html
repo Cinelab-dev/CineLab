@@ -217,6 +217,7 @@
   .ecran .fenetre img { aspect-ratio: 16 / 10; object-fit: cover; object-position: left top; }
   .ecran h3 { font-size: var(--step-h3); line-height: 1.15; }
   .ecran p { margin-top: 0.75rem; color: var(--muted); }
+  .ecran-nouveau { display: inline-block; margin-top: 0.75rem; padding: 0.2rem 0.65rem; border-radius: 999px; background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent); font-size: var(--step-small); font-weight: 600; }
   .ecran-num { display: block; margin-bottom: 0.9rem; color: var(--accent); font-size: var(--step-small); font-weight: 600; font-variant-numeric: tabular-nums; }
   .js .ecran:not([hidden]) .fenetre { animation: fondu 500ms var(--ease-out); }
   @keyframes fondu { from { opacity: 0; transform: translateY(10px) scale(0.99); } }
@@ -556,32 +557,37 @@
         <button type="button" role="tab" id="o-4" aria-controls="e-4" aria-selected="false" tabindex="-1">Call sheets</button>
         <button type="button" role="tab" id="o-5" aria-controls="e-5" aria-selected="false" tabindex="-1">On set</button>
         <button type="button" role="tab" id="o-6" aria-controls="e-6" aria-selected="false" tabindex="-1">Post-production</button>
+        <button type="button" role="tab" id="o-7" aria-controls="e-7" aria-selected="false" tabindex="-1">Floor plans</button>
       </div>
 
       <div data-reveal style="--i:1">
         <div class="ecran" role="tabpanel" id="e-1" aria-labelledby="o-1">
           <figure class="fenetre"><div class="fenetre-barre" aria-hidden="true"><i></i><i></i><i></i><span>Casting</span></div><img src="../images/casting.webp" width="1400" height="875" alt="CinéLabs screenshot: casting, the candidates for a part with their photos" loading="lazy"></figure>
-          <div><span class="ecran-num">01 / 06</span><h3>Casting</h3><p>Candidates, photos and auditions, part by part. The actor you pick joins the cast list.</p></div>
+          <div><span class="ecran-num">01 / 07</span><h3>Casting</h3><p>Candidates, photos and auditions, part by part. The actor you pick joins the cast list.</p></div>
         </div>
         <div class="ecran" role="tabpanel" id="e-2" aria-labelledby="o-2" hidden>
-          <figure class="fenetre"><div class="fenetre-barre" aria-hidden="true"><i></i><i></i><i></i><span>Storyboard</span></div><img src="../images/storyboard.webp" width="1400" height="875" alt="CinéLabs screenshot: storyboard panels drawn in the film's aspect ratio" loading="lazy"></figure>
-          <div><span class="ecran-num">02 / 06</span><h3>Storyboard</h3><p>Draw each shot with a finger or a stylus. Panels take your film's aspect ratio.</p></div>
+          <figure class="fenetre"><div class="fenetre-barre" aria-hidden="true"><i></i><i></i><i></i><span>Storyboard</span></div><img src="../images/storyboard-planches.webp" width="1400" height="875" alt="CinéLabs screenshot: storyboard panels, one composed panel per shot of the shot list" loading="lazy"></figure>
+          <div><span class="ecran-num">02 / 07</span><h3>Storyboard</h3><p>One panel per shot of your shot list. Compose it with your characters, ready-made props and sets, or draw it with your finger. Shot/reverse shot in one go, photographed paper boards, animatic. <span class="ecran-nouveau">Coming in 0.27</span></p></div>
         </div>
         <div class="ecran" role="tabpanel" id="e-3" aria-labelledby="o-3" hidden>
           <figure class="fenetre"><div class="fenetre-barre" aria-hidden="true"><i></i><i></i><i></i><span>Stripboard</span></div><img src="../images/plan-de-travail.webp" width="1400" height="875" alt="CinéLabs screenshot: the stripboard, scenes as coloured strips by shooting day" loading="lazy"></figure>
-          <div><span class="ecran-num">03 / 06</span><h3>Stripboard</h3><p>Drag scenes onto days. CinéLabs counts the eighths and warns you when someone is unavailable.</p></div>
+          <div><span class="ecran-num">03 / 07</span><h3>Stripboard</h3><p>Drag scenes onto days. CinéLabs counts the eighths and warns you when someone is unavailable.</p></div>
         </div>
         <div class="ecran" role="tabpanel" id="e-4" aria-labelledby="o-4" hidden>
           <figure class="fenetre"><div class="fenetre-barre" aria-hidden="true"><i></i><i></i><i></i><span>Call sheets</span></div><img src="../images/feuille-de-service.webp" width="1400" height="875" alt="CinéLabs screenshot: a call sheet with times, location, weather and cast" loading="lazy"></figure>
-          <div><span class="ecran-num">04 / 06</span><h3>Call sheets</h3><p>Filled in from the stripboard, then emailed to everyone or printed.</p></div>
+          <div><span class="ecran-num">04 / 07</span><h3>Call sheets</h3><p>Filled in from the stripboard, then emailed to everyone or printed.</p></div>
         </div>
         <div class="ecran" role="tabpanel" id="e-5" aria-labelledby="o-5" hidden>
           <figure class="fenetre"><div class="fenetre-barre" aria-hidden="true"><i></i><i></i><i></i><span>On set · tablet</span></div><img src="../images/tablette.webp" width="1400" height="978" alt="CinéLabs on a tablet: the script supervisor report on set" loading="lazy"></figure>
-          <div><span class="ecran-num">05 / 06</span><h3>On set</h3><p>The script supervisor logs takes and timings on a tablet, even with no signal. The report goes out that evening.</p></div>
+          <div><span class="ecran-num">05 / 07</span><h3>On set</h3><p>The script supervisor logs takes and timings on a tablet, even with no signal. The report goes out that evening.</p></div>
         </div>
         <div class="ecran" role="tabpanel" id="e-6" aria-labelledby="o-6" hidden>
           <figure class="fenetre"><div class="fenetre-barre" aria-hidden="true"><i></i><i></i><i></i><span>Post-production</span></div><img src="../images/post-production.webp" width="1400" height="875" alt="CinéLabs screenshot: post-production steps and edit versions" loading="lazy"></figure>
-          <div><span class="ecran-num">06 / 06</span><h3>Post-production</h3><p>Edit versions, music and rights, credits, deliverables and festival submissions.</p></div>
+          <div><span class="ecran-num">06 / 07</span><h3>Post-production</h3><p>Edit versions, music and rights, credits, deliverables and festival submissions.</p></div>
+        </div>
+        <div class="ecran" role="tabpanel" id="e-7" aria-labelledby="o-7" hidden>
+          <figure class="fenetre"><div class="fenetre-barre" aria-hidden="true"><i></i><i></i><i></i><span>Floor plans</span></div><img src="../images/plateau-soleil.webp" width="1400" height="875" alt="CinéLabs screenshot: technical floor plan of a kitchen seen from above, with camera, lights, grip and the sun coming through the windows" loading="lazy"></figure>
+          <div><span class="ecran-num">07 / 07</span><h3>Floor plans</h3><p>The set seen from above: camera, lights, flags and grip at their real size, and the sun (or the moon) coming through the windows at shooting time. <span class="ecran-nouveau">Coming in 0.27</span></p></div>
         </div>
       </div>
 
