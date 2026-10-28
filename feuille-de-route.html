@@ -84,6 +84,7 @@
   .etape:nth-child(2) { --couleur: var(--bande-int-jour); }
   .etape:nth-child(3) { --couleur: var(--bande-int-nuit); }
   .etape:nth-child(4) { --couleur: var(--bande-ext-nuit); }
+  .etape:nth-child(5) { --couleur: var(--bande-ext-jour); }
   .point { margin-top: 1.9rem; width: 24px; height: 24px; border-radius: 50%; background: var(--bg); box-shadow: 0 0 0 2px var(--couleur) inset; display: grid; place-items: center; }
   .point::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--couleur); }
   .etape:first-child .point { box-shadow: 0 0 0 2px var(--couleur) inset, 0 0 0 6px color-mix(in srgb, var(--couleur) 18%, transparent); }
@@ -98,6 +99,17 @@
   .contenu li { position: relative; padding-left: 1.6rem; color: var(--muted); }
   .contenu li::before { content: ""; position: absolute; left: 0; top: 0.45em; width: 14px; height: 8px; border-left: 2px solid var(--couleur); border-bottom: 2px solid var(--couleur); transform: rotate(-45deg); }
   .contenu li strong { color: var(--ink); font-weight: 600; }
+
+  /* ——— Captures d'écran d'une version à venir ——— */
+  .captures { margin-top: 1.5rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .captures figure { margin: 0; }
+  .captures a { display: block; border-radius: var(--r-md); overflow: hidden; box-shadow: 0 0 0 1px var(--line-fort, var(--line)), 0 18px 50px -24px rgba(0,0,0,.8); transition: transform 200ms ease; }
+  .captures a:hover, .captures a:focus-visible { transform: translateY(-2px); }
+  .captures img { display: block; width: 100%; height: auto; aspect-ratio: 1400 / 875; object-fit: cover; object-position: left top; }
+  .captures figcaption { margin-top: 0.5rem; font-size: var(--step-small); color: var(--muted); }
+  .captures .large { grid-column: 1 / -1; }
+  @media (max-width: 640px) { .captures { grid-template-columns: minmax(0, 1fr); } }
+  @media (prefers-reduced-motion: reduce) { .captures a { transition: none; } }
 
   /* ——— Une idée ——— */
   .idee { margin-top: var(--section); display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 2rem 4rem; align-items: center; padding: clamp(2.5rem, 6vw, 4.5rem); border-radius: var(--r-lg); background: radial-gradient(40rem 30rem at 100% 0%, rgba(242,182,50,.3), transparent 60%), radial-gradient(40rem 30rem at 0% 100%, rgba(80,30,8,.9), transparent 70%), #a8541c; }
@@ -187,7 +199,32 @@
       </li>
       <li class="etape" data-reveal>
         <span class="point" aria-hidden="true"></span>
-        <div class="quand"><strong>Ensuite</strong><span>Version 0.27</span></div>
+        <div class="quand"><strong>Bientôt</strong><span>Version 0.27</span></div>
+        <div class="contenu">
+          <h2>Storyboard et plans du plateau</h2>
+          <p>Dessiner ses plans sans savoir dessiner, puis voir comment tout tient dans le décor.</p>
+          <ul>
+            <li><strong>Un vrai storyboard</strong> : une case par plan du découpage. Le texte, la durée et la valeur de plan restent d'accord avec le découpage, et le dessin devient l'image du plan partout dans CinéLabs.</li>
+            <li><strong>L'atelier</strong> : vos personnages en silhouettes articulées (poses, taille, peau, cheveux, vêtements), une quarantaine d'objets, des décors tout prêts ou construits, ou la photo du décor réel. Du plan d'ensemble au très gros plan, plongée, contre-plongée, amorce floue, flèches de mouvement.</li>
+            <li><strong>Le champ-contrechamp en un geste</strong> : les deux plans d'un coup, chacun en amorce de l'autre, avec une alerte si l'axe est franchi.</li>
+            <li><strong>Vos planches papier</strong> : photographiez une planche dessinée à la main, CinéLabs la redresse et la découpe en cases. Et l'animatique fait défiler le film au rythme des plans.</li>
+            <li><strong>Le plan du lieu vu du dessus</strong> : murs tracés bien droits, portes, fenêtres, balcons, prises électriques et tableau, meubles, le nord.</li>
+            <li><strong>Le plan technique de chaque séquence</strong> : caméra et son champ selon la focale, comédiens, projecteurs, drapeaux, borgnols, réflos, cadres de diffusion à leur taille, et un catalogue de machinerie relevé chez les loueurs (dollies, rails, grues, télescopiques) avec l'encombrement réel. Les câbles disent si un circuit électrique est trop chargé.</li>
+            <li><strong>La lumière naturelle</strong> : le soleil qui entre par chaque fenêtre selon le lieu, la date du tournage et l'heure, l'heure dorée et l'heure bleue. La nuit : la lune et sa phase, et les lampadaires de la rue.</li>
+          </ul>
+          <div class="captures">
+            <figure class="large"><a href="images/storyboard-planches.webp" target="_blank" rel="noopener"><img src="images/storyboard-planches.webp" width="1400" height="875" loading="lazy" alt="Capture de CinéLabs : les planches du storyboard, une case dessinée par plan du découpage"></a><figcaption>Les planches : une case par plan, avec le texte et la durée du découpage.</figcaption></figure>
+            <figure><a href="images/storyboard-atelier.webp" target="_blank" rel="noopener"><img src="images/storyboard-atelier.webp" width="1400" height="875" loading="lazy" alt="Capture de CinéLabs : l'atelier du storyboard, un plan rapproché de Marie avec Paul en amorce floue"></a><figcaption>L'atelier : un champ-contrechamp, Paul en amorce floue.</figcaption></figure>
+            <figure><a href="images/storyboard-champ-contrechamp.webp" target="_blank" rel="noopener"><img src="images/storyboard-champ-contrechamp.webp" width="1400" height="875" loading="lazy" alt="Capture de CinéLabs : une séquence du storyboard dans une cuisine, avec un champ-contrechamp"></a><figcaption>Une séquence complète, décor de la cuisine compris.</figcaption></figure>
+            <figure class="large"><a href="images/plateau-soleil.webp" target="_blank" rel="noopener"><img src="images/plateau-soleil.webp" width="1400" height="875" loading="lazy" alt="Capture de CinéLabs : le plan technique d'une cuisine vue du dessus, avec caméra, comédiens, projecteurs et le soleil qui entre par les fenêtres"></a><figcaption>Le plan technique : caméra, comédiens, lumière, et le soleil d'un après-midi de novembre.</figcaption></figure>
+            <figure><a href="images/plateau-machinerie.webp" target="_blank" rel="noopener"><img src="images/plateau-machinerie.webp" width="1400" height="875" loading="lazy" alt="Capture de CinéLabs : une grue posée sur le plan du plateau, avec la zone balayée par son bras"></a><figcaption>La machinerie à sa vraie taille : ici un jib et la zone que balaie son bras.</figcaption></figure>
+            <figure><a href="images/plateau-nuit.webp" target="_blank" rel="noopener"><img src="images/plateau-nuit.webp" width="1400" height="875" loading="lazy" alt="Capture de CinéLabs : le même plan la nuit, éclairé par la pleine lune et un lampadaire"></a><figcaption>La nuit : pleine lune par la porte-fenêtre et lampadaire de la rue.</figcaption></figure>
+          </div>
+        </div>
+      </li>
+      <li class="etape" data-reveal>
+        <span class="point" aria-hidden="true"></span>
+        <div class="quand"><strong>Ensuite</strong><span>Version 0.28</span></div>
         <div class="contenu">
           <h2>Préparer la sortie du film</h2>
           <p>Tout ce qu'il faut pour le DCP et les festivals, sans imposer de logiciel.</p>
