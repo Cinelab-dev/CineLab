@@ -85,6 +85,9 @@
   .etape:nth-child(3) { --couleur: var(--bande-int-nuit); }
   .etape:nth-child(4) { --couleur: var(--bande-ext-nuit); }
   .etape:nth-child(5) { --couleur: var(--bande-ext-jour); }
+  .etape:nth-child(6) { --couleur: var(--bande-int-jour); }
+  .etape:nth-child(7) { --couleur: var(--bande-int-nuit); }
+  .etape:nth-child(8) { --couleur: var(--bande-ext-nuit); }
   .point { margin-top: 1.9rem; width: 24px; height: 24px; border-radius: 50%; background: var(--bg); box-shadow: 0 0 0 2px var(--couleur) inset; display: grid; place-items: center; }
   .point::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--couleur); }
   .etape:first-child .point { box-shadow: 0 0 0 2px var(--couleur) inset, 0 0 0 6px color-mix(in srgb, var(--couleur) 18%, transparent); }
@@ -176,7 +179,7 @@
     <div class="conteneur">
       <p class="etiquette-haut">Feuille de route</p>
       <h1 id="titre-page">Prochainement dans CinéLabs</h1>
-      <p>CinéLabs avance par petites versions, une nouveauté importante à la fois. L'ordre peut changer selon vos retours : ce qui bloque un tournage passe toujours en premier. Le logiciel vous prévient lui-même quand une nouvelle version sort.</p>
+      <p>Tout ce qui est marqué « En test » est déjà développé : nous l'essayons en conditions réelles avant de vous le confier. Ces nouveautés arriveront au fil des prochaines mises à jour, gratuites comme toujours. L'ordre peut changer selon vos retours : ce qui bloque un tournage passe toujours en premier. Le logiciel vous prévient lui-même quand une mise à jour sort.</p>
     </div>
   </section>
 
@@ -184,7 +187,7 @@
     <ol class="route" aria-label="Les prochaines versions">
       <li class="etape" data-reveal>
         <span class="point" aria-hidden="true"></span>
-        <div class="quand"><strong>Bientôt</strong><span>Version 0.26</span></div>
+        <div class="quand"><strong>En test</strong><span>Déjà développé</span></div>
         <div class="contenu">
           <h2>Production et repérages techniques</h2>
           <p>Les démarches avant le tournage, réunies au même endroit.</p>
@@ -199,7 +202,7 @@
       </li>
       <li class="etape" data-reveal>
         <span class="point" aria-hidden="true"></span>
-        <div class="quand"><strong>Bientôt</strong><span>Version 0.27</span></div>
+        <div class="quand"><strong>En test</strong><span>Déjà développé</span></div>
         <div class="contenu">
           <h2>Storyboard et plans du plateau</h2>
           <p>Dessiner ses plans sans savoir dessiner, puis voir comment tout tient dans le décor.</p>
@@ -224,15 +227,55 @@
       </li>
       <li class="etape" data-reveal>
         <span class="point" aria-hidden="true"></span>
-        <div class="quand"><strong>Ensuite</strong><span>Version 0.28</span></div>
+        <div class="quand"><strong>En test</strong><span>Déjà développé</span></div>
         <div class="contenu">
-          <h2>Préparer la sortie du film</h2>
-          <p>Tout ce qu'il faut pour le DCP et les festivals, sans imposer de logiciel.</p>
+          <h2>Rushes : copie des cartes et rapports caméra et son</h2>
+          <p>Décharger les cartes sans rien perdre, et tenir les rapports du plateau sur la tablette.</p>
           <ul>
-            <li><strong>Une fiche DCP</strong> : titre, durée, format d'image et de son, cadence, langue, sous-titres.</li>
-            <li><strong>Une liste de vérifications</strong> avant la projection en salle.</li>
-            <li><strong>Un lien facultatif avec DCP-o-matic</strong>, pour ceux qui l'utilisent.</li>
-            <li><strong>Vérifier un DCP terminé</strong>, quel que soit le logiciel qui l'a fabriqué.</li>
+            <li><strong>La copie vérifiée des cartes</strong> vers deux ou trois disques en même temps. Chaque copie est relue et comparée à la carte, fichier par fichier : on n'efface une carte que lorsqu'elle est marquée « prête à effacer ».</li>
+            <li><strong>La copie automatique</strong> : branchez une carte, CinéLabs la reconnaît, la copie, la range dans le bon jour de tournage sous le nom suivant (A003, A004…), puis l'éjecte une fois vérifiée. Une carte déjà copiée n'est jamais recopiée.</li>
+            <li><strong>Un rapport de copie</strong> à imprimer, et la liste d'empreintes (MHL) que le monteur ou le labo peuvent revérifier avec leur propre logiciel.</li>
+            <li><strong>Les rapports caméra et son</strong>, pensés pour la tablette : les prises saisies par la scripte arrivent toutes seules ; l'assistant caméra complète carte, clip, objectif, diaph, ISO, filtres, et l'ingénieur du son son timecode et ses pistes.</li>
+            <li><strong>Tout est relié</strong> : chaque carte du rapport dit si elle a été copiée et vérifiée, et les clips remontent dans le rapport de la scripte pour le montage.</li>
+            <li><strong>Le suivi depuis le téléphone</strong> : avancement de la copie, cartes détectées, rapports imprimables ou à ouvrir dans un tableur.</li>
+          </ul>
+          <div class="captures">
+            <figure class="large"><a href="images/rapport-camera.webp" target="_blank" rel="noopener"><img src="images/rapport-camera.webp" width="1400" height="875" loading="lazy" alt="Capture de CinéLabs : le rapport caméra d'une journée, une ligne par prise avec carte, clip, objectif, diaph et ISO"></a><figcaption>Le rapport caméra : les prises de la scripte, complétées par l'assistant caméra.</figcaption></figure>
+            <figure class="large"><a href="images/rushes-copie-auto.webp" target="_blank" rel="noopener"><img src="images/rushes-copie-auto.webp" width="1400" height="875" loading="lazy" alt="Capture de CinéLabs : une carte détectée à l'insertion et copiée automatiquement vers deux disques"></a><figcaption>La copie automatique : la carte est détectée dès qu'on la branche, copiée vers deux disques puis vérifiée.</figcaption></figure>
+          </div>
+        </div>
+      </li>
+      <li class="etape" data-reveal>
+        <span class="point" aria-hidden="true"></span>
+        <div class="quand"><strong>En test</strong><span>Déjà développé</span></div>
+        <div class="contenu">
+          <h2>Préparer la sortie du film : le DCP</h2>
+          <p>Tout ce qu'il faut pour la copie des salles et des festivals, sans imposer de logiciel.</p>
+          <ul>
+            <li><strong>Le nom du DCP écrit pour vous</strong>, selon la convention que lisent les projectionnistes : titre, type, format d'image et de son, langues et sous-titres, résolution, norme. Chaque partie est expliquée.</li>
+            <li><strong>Une liste de vérifications</strong> avant de fabriquer le DCP et avant la projection en salle : montage verrouillé, étalonnage, mixage, sous-titres, générique, droits, essai en salle.</li>
+            <li><strong>Un lien facultatif avec DCP-o-matic</strong>, logiciel gratuit : CinéLabs lui transmet tous les réglages de la fiche.</li>
+            <li><strong>Vérifier un DCP terminé</strong>, quel que soit le logiciel qui l'a fabriqué : fichiers manquants, durées des bobines, chiffrement, norme, et contrôle complet des empreintes.</li>
+          </ul>
+          <div class="captures">
+            <figure><a href="images/dcp-fiche.webp" target="_blank" rel="noopener"><img src="images/dcp-fiche.webp" width="1400" height="875" loading="lazy" alt="Capture de CinéLabs : la fiche DCP, avec le nom du DCP découpé et expliqué partie par partie"></a><figcaption>La fiche : le nom du DCP, expliqué partie par partie.</figcaption></figure>
+            <figure><a href="images/dcp-verifications.webp" target="_blank" rel="noopener"><img src="images/dcp-verifications.webp" width="1400" height="875" loading="lazy" alt="Capture de CinéLabs : la liste des vérifications avant de fabriquer le DCP"></a><figcaption>Les vérifications avant la fabrication et la projection.</figcaption></figure>
+          </div>
+        </div>
+      </li>
+      <li class="etape" data-reveal>
+        <span class="point" aria-hidden="true"></span>
+        <div class="quand"><strong>Ensuite</strong><span>En préparation</span></div>
+        <div class="contenu">
+          <h2>Les prochaines pistes</h2>
+          <p>Des idées retenues avec les équipes, qui seront développées puis testées à leur tour.</p>
+          <ul>
+            <li><strong>L'agenda du tournage</strong> à ajouter dans le calendrier du téléphone de chacun.</li>
+            <li><strong>Le matériel loué</strong> : ce qui est réservé chez quel loueur, les dates d'enlèvement et de retour, les cautions.</li>
+            <li><strong>Les dossiers de demande d'aide</strong>, préparés à partir du projet : résumé, budget, plan de financement, équipe.</li>
+            <li><strong>Les sous-titres</strong> du film, à écrire et caler dans CinéLabs.</li>
+            <li><strong>Le relevé des musiques</strong> du film pour la SACEM.</li>
+            <li><strong>Le dossier de presse</strong>, mis en page à partir de la fiche du film.</li>
           </ul>
         </div>
       </li>
@@ -257,7 +300,7 @@
         <div class="quand"><strong>Plus tard</strong><span>Les grands chantiers</span></div>
         <div class="contenu">
           <h2>Travailler à plusieurs en même temps</h2>
-          <p>Chacun depuis chez soi, sur le même projet. En attendant, un projet s'envoie déjà en un seul fichier .cinelabs.</p>
+          <p>Chacun depuis chez soi, sur le même projet, avec une version en ligne. En attendant, un projet s'envoie déjà en un seul fichier .cinelabs.</p>
         </div>
       </li>
     </ol>
